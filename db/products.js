@@ -112,8 +112,6 @@ async function getProductById(productId){
   
   // export
   module.exports = {
-    client,
-    // db methods
     getProductById, 
     getAllProducts, 
     createProduct, 

@@ -1,7 +1,11 @@
 
 
 const productDbAdapters = require('./products');
+// const userDbAdapters = require('./user');
+// const ordersDbAdapters = require('./orders')
 
 module.exports = {
-  ...productDbAdapters,
+  ...productDbAdapters
+  // ...userDbAdapters,
+  // ...ordersDbAdapters
 }
