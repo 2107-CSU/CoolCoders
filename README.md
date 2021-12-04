@@ -1,3 +1,5 @@
+// jenny's change to test my branch
+
 # The Smallest Starting Point
 
 So, you want to build a full-stack JavaScript application with:
@@ -5,6 +7,7 @@ So, you want to build a full-stack JavaScript application with:
 - An Express web server
 - A PostgreSQL database
 - A React front-end
+- A Tailwind UI?
 
 And you want it to work locally as well as be easy to deploy?
 
@@ -20,7 +23,7 @@ First, clone this repo locally, then remove the current `.git` folder. Follow th
 rm -rf .git
 
 git init
-```
+```git@github.com:2107-CSU/CoolCoders.git
 
 Then go to GitHub, create a new repository, and add that remote to this local repo.
 
@@ -32,7 +35,7 @@ Once you decide on that name, make sure to run `createdb` from your command line
 
 Finally you can run `npm run server:dev` to start the web server.
 
-In a second terminal navigate back to the local repo and run `npm run client:dev` to start the react server. 
+In a second terminal navigate back to the local repo and run `npm run client:dev` to start the react server.
 
 This is set up to run on a proxy, so that you can make calls back to your `api` without needing absolute paths. You can instead `axios.get('/api/posts')` or whatever without needing to know the root URL.
 
@@ -84,7 +87,6 @@ heroku addons:create heroku-postgresql:hobby-dev
 This creates a heroku project which will live at https://hopeful-project-name.herokuapp.com (note, you should change this to be relevant to your project).
 
 It will also create a postgres database for you, on the free tier.
-
 
 ### Deploying
 
