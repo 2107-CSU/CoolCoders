@@ -2,7 +2,7 @@
 const {
   client
   // other db methods 
-} = require('./index');
+} = require('./client');
 
 async function buildTables() {
   try {
