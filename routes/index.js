@@ -50,10 +50,11 @@ apiRouter.get('/health', (req, res, next) => {
       message: "API Online" });
 })
 
-apiRouter.get("/", (req, res, next) => {
-  res.send({
-    message: "API is under construction!"
-  });
-});
+//PRODUCTS ROUTER
+const productsRouter = require('./products');
+apiRouter.use()
+
+//test comment
+
 
 module.exports = apiRouter;
