@@ -8,7 +8,7 @@ const productsRouter = express.Router();
 const {} = require('../db');
 
 //import helper functions
-const requireUser = require('./utils');
+const {requireUser, requireAdmin} = require('./utils');
 
 /**
  * GET
@@ -24,13 +24,24 @@ productsRouter.get('/', async (req, res, next) => {
     }
 })
 
+//returns a product with a specific id
+productsRouter.get('/:productId', async (req, res, next) => {
+    console.log("Under construction...");
+    try {
+
+    }
+    catch (error) {
+
+    }
+})
+
 
 /**
  * POST
  */
-//add a new product and return it
-//this route will require an active user
- productsRouter.post('/', requireUser, async (req, res, next) => {
+//adds a new product and returns it
+//this route requires admin privileges
+ productsRouter.post('/', requireUser, requireAdmin, async (req, res, next) => {
     console.log("Under construction...");
     try {
 
@@ -44,11 +55,34 @@ productsRouter.get('/', async (req, res, next) => {
 /**
  * PATCH
  */
+//edits a product and returns it
+//this route requires admin privileges
+productsRouter.patch('/:productId', requireUser, requireAdmin, async (req, res, next) => {
+    console.log("Under construction...");
+    try {
+
+    }
+    catch (error) {
+
+    }
+})
 
 
 /**
  * DELETE
  */
+//deletes a product
+//this route requires admin privileges
+productsRouter.delete('/:productId', requireUser, requireAdmin, async (req, res, next) => {
+    console.log("Under construction...");
+    try {
+
+    }
+    catch (error) {
+
+    }
+
+})
 
 
 module.exports = productsRouter;
