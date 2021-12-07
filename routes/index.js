@@ -52,9 +52,6 @@ apiRouter.get('/health', (req, res, next) => {
 
 //PRODUCTS ROUTER
 const productsRouter = require('./products');
-apiRouter.use()
-
-//test comment
-
+apiRouter.use('/products', productsRouter);
 
 module.exports = apiRouter;

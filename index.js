@@ -28,6 +28,17 @@ server.use((req, res, next) => {
 // bring in the DB connection
 const { client } = require('./db');
 
+//404 handler
+server.use((req, res, next) => {
+  res.status(404).send('Page not found');
+})
+
+//Error handler that sets the status code to 500
+//and returns the error as an object
+server.use((error, req, res, next) => {
+  res.status(500).send(error);
+})
+
 // connect to the server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, async () => {
