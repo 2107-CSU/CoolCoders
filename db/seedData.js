@@ -1,4 +1,4 @@
-const { client } = require(".");
+const client = require('./client');
 
 const {
     mockUsers,
@@ -15,7 +15,7 @@ async function dropTables() {
         await client.query(`
             DROP TABLE IF EXISTS reviews;
             DROP TABLE IF EXISTS products_orders;
-            DROP TABLE IF EXISTS products
+            DROP TABLE IF EXISTS products;
             DROP TABLE IF EXISTS categories;
             DROP TABLE IF EXISTS orders;
             DROP TABLE IF EXISTS users;
@@ -115,8 +115,9 @@ async function createMockUser() {
 
 async function rebuildDB() {
     try {
+        client.connect();
         await dropTables();
-        await createTables()
+        // await createTables()
     }
     catch (error) {
         console.log('Error during rebuildDB');
