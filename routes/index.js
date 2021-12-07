@@ -47,7 +47,7 @@ apiRouter.use(async (req, res, next) => {
 //respond to requests made to /api/health
 apiRouter.get('/health', (req, res, next) => {
   res.status(200).send({
-      message: "API Online" });
+      message: "api online!" });
 })
 
 //PRODUCTS ROUTER
