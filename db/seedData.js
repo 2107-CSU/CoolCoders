@@ -49,7 +49,7 @@ async function createTables() {
             CREATE TYPE status_type AS ENUM(
                 wishlist,
                 cart,
-                processing, 
+                processing,
                 in_transit,
                 delivered
             );
@@ -75,7 +75,7 @@ async function createTables() {
                 photo NOT NULL UNIQUE VARCHAR (255)
             );
             CREATE TABLE products_orders(
-                id SERIAL PRIMARY KEY, 
+                id SERIAL PRIMARY KEY,
                 "productId" NOT NULL INTEGER REFERENCES  product.id,
                 "orderId" NOT NULL INTEGER REFERENCES order.id
                 quantity NOT NULL INTEGER,
@@ -105,8 +105,11 @@ BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
 
 async function createMockUser() {
     console.log('Starting to create mock users...')
-    try{
-        
+    try {
+
+    }
+    catch (error) {
+
     }
 }
 
@@ -114,7 +117,8 @@ async function rebuildDB() {
     try {
         await dropTables();
         await createTables()
-    }   catch (error) {
+    }
+    catch (error) {
         console.log('Error during rebuildDB');
         throw (error);
     }
