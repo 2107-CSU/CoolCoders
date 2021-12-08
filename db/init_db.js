@@ -1,7 +1,7 @@
 // code to build and initialize DB goes here
 const { client } = require("./index");
 
-const { createInitialUsers } = require("./seedData");
+const { createInitialUsers, createInitialCategories } = require("./seedData");
 
 async function dropTables() {
   try {
@@ -117,7 +117,7 @@ async function populateInitialData() {
   try {
     // create useful starting data
     await createInitialUsers();
-    // categories
+    await createInitialCategories();
     // products
     // orders
     // reviews

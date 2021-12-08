@@ -3,11 +3,12 @@ const client = require("./client");
 const {
   mockUsers,
   mockProducts,
-  // mockCategories,
+  mockCategories,
   mockOrders,
-  // mockReviews
+  mockReviews,
 } = require("./mockData");
 const { createUser } = require("./user");
+const { createCategory } = require("./categories");
 
 /*
 BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
@@ -27,6 +28,24 @@ async function createInitialUsers() {
   }
 }
 
+async function createInitialCategories() {
+  try {
+    console.log("Starting to create categories...");
+
+    const categories = await Promise.all(
+      mockCategories.map((category) => createCategory(category))
+    );
+
+    console.log("Categories created:");
+    console.log(categories);
+
+    console.log("Finished creating categories!");
+  } catch (error) {
+    console.error("Error creating categories!");
+    throw error;
+  }
+}
+
 // async function createInitialProducts() {
 //   try {
 //     console.log("Starting to create products...");
@@ -42,22 +61,6 @@ async function createInitialUsers() {
 //     throw error;
 //   }
 // }
-
-// async function createInitialCategories() {
-//     try {
-//         console.log('Starting to create categories...');
-
-//         const categories = await Promise.all(mockCategories.map(createCategories));
-
-//         console.log('Categories created:');
-//         console.log(categories);
-
-//         console.log('Finished creating categories!');
-//     }   catch (error) {
-//         console.error('Error creating categories!');
-//         throw error;
-//     }
-// };
 
 // async function createInitialOrders() {
 //   try {
@@ -93,4 +96,5 @@ async function createInitialUsers() {
 
 module.exports = {
   createInitialUsers,
+  createInitialCategories,
 };
