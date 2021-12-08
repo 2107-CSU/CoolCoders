@@ -1,7 +1,5 @@
 // code to build and initialize DB goes here
-const client =
-  // other db methods
-  require("./client");
+const { client } = require("./index");
 
 async function dropTables() {
   try {
@@ -105,8 +103,6 @@ async function createTables() {
 
 async function buildTables() {
   try {
-    client.connect();
-
     await dropTables();
 
     await createTables();
@@ -123,7 +119,21 @@ async function populateInitialData() {
   }
 }
 
-const { rebuildDB } = require("./seedData");
+async function rebuildDB() {
+  try {
+    client.connect();
+    await buildTables();
+    // await createInitialUsers();
+    // await createInitialProducts();
+    // await createInitialCategories();
+    // await createInitialOrders();
+    // await createInitialReviews();
+  } catch (error) {
+    console.log("Error during rebuildDB");
+    throw error;
+  }
+}
+
 rebuildDB()
   .catch(console.error)
   .finally(() => client.end());

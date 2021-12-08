@@ -12,35 +12,35 @@ const {
 BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
 */
 
-async function createInitialUsers() {
-  console.log("Starting to create mock users...");
-  try {
-    const users = await Promise.all(mockUsers.map(createUser));
+// async function createInitialUsers() {
+//   console.log("Starting to create mock users...");
+//   try {
+//     const users = await Promise.all(mockUsers.map(createUser));
 
-    console.log("Users created:");
-    console.log(users);
-    console.log("Finished creating users!");
-  } catch (error) {
-    console.error("Error ceating users!");
-  }
-  throw error;
-}
+//     console.log("Users created:");
+//     console.log(users);
+//     console.log("Finished creating users!");
+//   } catch (error) {
+//     console.error("Error ceating users!");
+//   }
+//   throw error;
+// }
 
-async function createInitialProducts() {
-  try {
-    console.log("Starting to create products...");
+// async function createInitialProducts() {
+//   try {
+//     console.log("Starting to create products...");
 
-    const products = await Promise.all(mockProducts.map(createProduct));
+//     const products = await Promise.all(mockProducts.map(createProduct));
 
-    console.log("Products created:");
-    console.log(products);
+//     console.log("Products created:");
+//     console.log(products);
 
-    console.log("Finished creating products!");
-  } catch (error) {
-    console.error("Error creating products!");
-    throw error;
-  }
-}
+//     console.log("Finished creating products!");
+//   } catch (error) {
+//     console.error("Error creating products!");
+//     throw error;
+//   }
+// }
 
 // async function createInitialCategories() {
 //     try {
@@ -58,21 +58,21 @@ async function createInitialProducts() {
 //     }
 // };
 
-async function createInitialOrders() {
-  try {
-    console.log("Starting to create orders...");
+// async function createInitialOrders() {
+//   try {
+//     console.log("Starting to create orders...");
 
-    const orders = await Promise.all(mockOrders.map(getAllOrders));
+//     const orders = await Promise.all(mockOrders.map(getAllOrders));
 
-    console.log("Orders created:");
-    console.log(orders);
+//     console.log("Orders created:");
+//     console.log(orders);
 
-    console.log("Finished creating orders!");
-  } catch (error) {
-    console.error("Error creating orders!");
-    throw error;
-  }
-}
+//     console.log("Finished creating orders!");
+//   } catch (error) {
+//     console.error("Error creating orders!");
+//     throw error;
+//   }
+// }
 
 // async function createInitialReviews() {
 //     try {
@@ -89,23 +89,3 @@ async function createInitialOrders() {
 //         throw error;
 //     }
 // };
-
-async function rebuildDB() {
-  try {
-    client.connect();
-    await dropTables();
-    await createTables();
-    // await createInitialUsers();
-    // await createInitialProducts();
-    // await createInitialCategories();
-    // await createInitialOrders();
-    // await createInitialReviews();
-  } catch (error) {
-    console.log("Error during rebuildDB");
-    throw error;
-  }
-}
-
-module.exports = {
-  rebuildDB,
-};
