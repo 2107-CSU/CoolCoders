@@ -5,7 +5,7 @@ const express = require('express');
 const productsRouter = express.Router();
 
 //import db adapters for products
-const { getAllActiveProducts } = require('../db');
+const { getAllActiveProducts, getProductById, createProduct, destroyProduct } = require('../db');
 
 //import helper functions
 const {requireUser, requireAdmin} = require('./utils');
@@ -16,6 +16,7 @@ const {requireUser, requireAdmin} = require('./utils');
 //returns a list of all active products
 productsRouter.get('/', async (req, res, next) => {
     console.log("Under construction...");
+
     try {
         const products = await getAllActiveProducts();
 
@@ -29,11 +30,18 @@ productsRouter.get('/', async (req, res, next) => {
 //returns a product with a specific id
 productsRouter.get('/:productId', async (req, res, next) => {
     console.log("Under construction...");
-    try {
 
+    //destructure fields
+    const productId = req.params.productId;
+    console.log(productId);
+
+    try {
+        const product = await getProductById(productId);
+
+        res.send(product);
     }
     catch (error) {
-
+        next(error);
     }
 })
 
@@ -43,13 +51,24 @@ productsRouter.get('/:productId', async (req, res, next) => {
  */
 //adds a new product and returns it
 //this route requires admin privileges
- productsRouter.post('/', requireUser, requireAdmin, async (req, res, next) => {
+
+/** for testing purposes, remove requireUser, and requireAdmin
+ *  will add these functions again once users table is populated
+ */
+ productsRouter.post('/', async (req, res, next) => {
     console.log("Under construction...");
+
+    //destructure fields
+    const {title, desc, price, qty, categoryId, photo} = req.body;
+
     try {
+        const newProduct = await createProduct({title, desc, price, qty, categoryId, photo})
+
+        res.send(newProduct);
 
     }
     catch (error) {
-
+        next(error);
     }
 })
 
@@ -59,13 +78,24 @@ productsRouter.get('/:productId', async (req, res, next) => {
  */
 //edits a product and returns it
 //this route requires admin privileges
-productsRouter.patch('/:productId', requireUser, requireAdmin, async (req, res, next) => {
-    console.log("Under construction...");
-    try {
 
+/** for testing purposes, remove requireUser, and requireAdmin
+ *  will add these functions again once users table is populated
+ */
+productsRouter.patch('/:productId', async (req, res, next) => {
+    console.log("Under construction...");
+
+    const productId = req.params.productId;
+
+    const updateObj = req.body;
+
+    try {
+        const updatedProduct = await updatedProduct(productId, updateObj);
+
+        res.send(updatedProduct);
     }
     catch (error) {
-
+        next(error);
     }
 })
 
@@ -75,13 +105,22 @@ productsRouter.patch('/:productId', requireUser, requireAdmin, async (req, res, 
  */
 //deletes a product
 //this route requires admin privileges
-productsRouter.delete('/:productId', requireUser, requireAdmin, async (req, res, next) => {
-    console.log("Under construction...");
-    try {
 
+/** for testing purposes, remove requireUser, and requireAdmin
+ *  will add these functions again once users table is populated
+ */
+productsRouter.delete('/:productId', async (req, res, next) => {
+    console.log("Under construction...");
+
+    const productId = req.params.productId;
+
+    try {
+        const deletedProduct = await destroyProduct(productId);
+
+        res.send(deletedProduct);
     }
     catch (error) {
-
+        next(error);
     }
 
 })
