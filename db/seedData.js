@@ -3,9 +3,9 @@ const client = require('./client');
 const {
     mockUsers,
     mockProducts,
-    mockCategories,
+    // mockCategories,
     mockOrders,
-    mockReviews
+    // mockReviews
 } = require('./mockData');
 
 async function dropTables() {
@@ -20,6 +20,8 @@ async function dropTables() {
             DROP TABLE IF EXISTS orders;
             DROP TABLE IF EXISTS users;
         `);
+
+
 
         //also need to drop types otherwise you'll get an error message saying the type already exists
         await client.query(`
@@ -59,8 +61,10 @@ async function createTables() {
         console.error('Error creating tables');
 
         throw error;
-    }
+    };
 };
+
+
 
 /*
 BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
