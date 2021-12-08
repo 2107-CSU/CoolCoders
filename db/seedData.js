@@ -11,6 +11,7 @@ const {
 const { createUser } = require("./user");
 const { createCategory } = require("./categories");
 const { createProduct } = require("./products");
+const { createOrder } = require("./orders");
 
 /*
 BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
@@ -66,21 +67,23 @@ async function createInitialProducts() {
   }
 }
 
-// async function createInitialOrders() {
-//   try {
-//     console.log("Starting to create orders...");
+async function createInitialOrders() {
+  try {
+    console.log("Starting to create orders...");
 
-//     const orders = await Promise.all(mockOrders.map(getAllOrders));
+    const orders = await Promise.all(
+      mockOrders.map((order) => createOrder(order))
+    );
 
-//     console.log("Orders created:");
-//     console.log(orders);
+    console.log("Orders created:");
+    console.log(orders);
 
-//     console.log("Finished creating orders!");
-//   } catch (error) {
-//     console.error("Error creating orders!");
-//     throw error;
-//   }
-// }
+    console.log("Finished creating orders!");
+  } catch (error) {
+    console.error("Error creating orders!");
+    throw error;
+  }
+}
 
 // async function createInitialReviews() {
 //     try {
@@ -102,4 +105,5 @@ module.exports = {
   createInitialUsers,
   createInitialCategories,
   createInitialProducts,
+  createInitialOrders,
 };

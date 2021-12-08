@@ -5,6 +5,7 @@ const {
   createInitialUsers,
   createInitialCategories,
   createInitialProducts,
+  createInitialOrders,
 } = require("./seedData");
 
 async function dropTables() {
@@ -122,9 +123,9 @@ async function populateInitialData() {
     // create useful starting data
     await createInitialUsers();
     await createInitialCategories();
-    // products
     await createInitialProducts();
     // orders
+    await createInitialOrders();
     // reviews
   } catch (error) {
     throw error;
