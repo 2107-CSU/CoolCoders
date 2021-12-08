@@ -35,6 +35,21 @@ async function getProductById(productId){
     }
   }
 
+
+  async function getAllActiveProducts(){
+    try {
+      const { rows: allProducts } = await client.query(`
+        SELECT *
+        FROM products
+        WHERE active=true;
+      `)
+
+      return allProducts;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async function createProduct({ title, desc, price, qty, categoryId, photo }){
     try {
       const { rows: [product] } = await client.query(`
@@ -91,7 +106,7 @@ async function getProductById(productId){
 
   async function getProductsByCategory(categoryId){
     try {
-      const { rows: [products] } = await client.query(`
+      const { rows: products } = await client.query(`
       SELECT *
       FROM products
       WHERE "categoryId"=$1;
@@ -114,6 +129,7 @@ async function getProductById(productId){
   module.exports = {
     getProductById,
     getAllProducts,
+    getAllActiveProducts,
     createProduct,
     updateProduct,
     destroyProduct,

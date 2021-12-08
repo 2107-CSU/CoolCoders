@@ -5,7 +5,7 @@ const express = require('express');
 const productsRouter = express.Router();
 
 //import db adapters for products
-const { getAllProducts } = require('../db');
+const { getAllActiveProducts } = require('../db');
 
 //import helper functions
 const {requireUser, requireAdmin} = require('./utils');
@@ -13,11 +13,11 @@ const {requireUser, requireAdmin} = require('./utils');
 /**
  * GET
  */
-//returns a list of products
+//returns a list of all active products
 productsRouter.get('/', async (req, res, next) => {
     console.log("Under construction...");
     try {
-        const products = await getAllProducts();
+        const products = await getAllActiveProducts();
 
         res.send(products);
     }
