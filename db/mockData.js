@@ -157,7 +157,7 @@ const mockProducts = [
     description: "A really great sword.",
     price: 1000,
     quantity: 100,
-    categoryId: 0,
+    categoryId: 1,
     photo: "https://via.placeholder.com/150",
   },
   {
@@ -165,7 +165,7 @@ const mockProducts = [
     description: "It makes you feel, like, really powerful, dude.",
     price: 1000000,
     quantity: 1,
-    categoryId: 0,
+    categoryId: 4,
     photo: "https://via.placeholder.com/150",
   },
   {
