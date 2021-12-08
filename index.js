@@ -25,7 +25,7 @@ server.use('/api', apiRouter);
 // });
 
 // bring in the DB connection
-const { client } = require('./client');
+const {client} = require('./db');
 
 //404 handler
 server.use((req, res, next) => {
