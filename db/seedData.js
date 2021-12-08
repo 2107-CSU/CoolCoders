@@ -1,5 +1,3 @@
-const client = require("./client");
-
 const {
   mockUsers,
   mockProducts,
@@ -12,6 +10,7 @@ const { createUser } = require("./user");
 const { createCategory } = require("./categories");
 const { createProduct } = require("./products");
 const { createOrder } = require("./orders");
+const { createReview } = require("./reviews");
 
 /*
 BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
@@ -85,25 +84,28 @@ async function createInitialOrders() {
   }
 }
 
-// async function createInitialReviews() {
-//     try {
-//         console.log('Starting to create reviews...');
+async function createInitialReviews() {
+  try {
+    console.log("Starting to create reviews...");
 
-//         const reviews = await Promise.all(mockReviews.map(createReviews));
+    const reviews = await Promise.all(
+      mockReviews.map((review) => createReview(review))
+    );
 
-//         console.log('Reviews created:');
-//         console.log(reviews);
+    console.log("Reviews created:");
+    console.log(reviews);
 
-//         console.log('Finished creating reviews!');
-//     }   catch (error) {
-//         console.error('Error creating reviews!');
-//         throw error;
-//     }
-// };
+    console.log("Finished creating reviews!");
+  } catch (error) {
+    console.error("Error creating reviews!");
+    throw error;
+  }
+}
 
 module.exports = {
   createInitialUsers,
   createInitialCategories,
   createInitialProducts,
   createInitialOrders,
+  createInitialReviews,
 };
