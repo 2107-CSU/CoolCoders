@@ -18,15 +18,9 @@ async function dropTables() {
             DROP TABLE IF EXISTS orders;
             DROP TABLE IF EXISTS products;
             DROP TABLE IF EXISTS categories;
-            DROP TABLE IF EXISTS users; 
+            DROP TABLE IF EXISTS users;
         `);
 
-<<<<<<< HEAD
-
-
-        //also need to drop types otherwise you'll get an error message saying the type already exists
-=======
->>>>>>> 83a8962aeb83eda57ca30ef09662d0f5d8f72bd4
         await client.query(`
             DROP TYPE IF EXISTS user_type;
             DROP TYPE IF EXISTS status_type;
@@ -60,13 +54,13 @@ async function createTables() {
             CREATE TYPE status_type AS ENUM(
                 'wishlist',
                 'cart',
-                'processing', 
+                'processing',
                 'in_transit',
                 'delivered'
             );
             CREATE TABLE orders(
                 id SERIAL PRIMARY KEY,
-                "userId" INTEGER, 
+                "userId" INTEGER,
                 FOREIGN KEY ("userId") REFERENCES users(id),
                 "totalPrice" INTEGER NOT NULL,
                 "orderDate" DATE NOT NULL,
@@ -74,32 +68,32 @@ async function createTables() {
             );
             CREATE TABLE categories(
                 id SERIAL PRIMARY KEY,
-                name VARCHAR(255) UNIQUE NOT NULL 
+                name VARCHAR(255) UNIQUE NOT NULL
             );
             CREATE TABLE products(
                 id SERIAL PRIMARY KEY,
                 title VARCHAR(255) UNIQUE NOT NULL,
                 description VARCHAR(255) NOT NULL,
-                price INTEGER NOT NULL, 
+                price INTEGER NOT NULL,
                 quantity INTEGER NOT NULL,
                 active BOOLEAN DEFAULT true,
-                "categoryId" INTEGER NOT NULL, 
+                "categoryId" INTEGER NOT NULL,
                 FOREIGN KEY ("categoryId") REFERENCES categories(id),
                 photo VARCHAR(255) NOT NULL
             );
             CREATE TABLE products_orders(
-                id SERIAL PRIMARY KEY, 
+                id SERIAL PRIMARY KEY,
                 "productId" INTEGER REFERENCES products(id) UNIQUE NOT NULL,
-                "orderId" INTEGER REFERENCES orders(id) NOT NULL, 
+                "orderId" INTEGER REFERENCES orders(id) NOT NULL,
                 quantity INTEGER NOT NULL,
                 "productPrice" INTEGER NOT NULL,
-                "totalPrice" INTEGER NOT NULL 
+                "totalPrice" INTEGER NOT NULL
             );
             CREATE TABLE reviews(
                 id SERIAL PRIMARY KEY,
-                "productId" INTEGER, 
+                "productId" INTEGER,
                 FOREIGN KEY ("productId") REFERENCES products(id),
-                "userId" INTEGER, 
+                "userId" INTEGER,
                 FOREIGN KEY ("userId") REFERENCES users(id),
                 rating INTEGER NOT NULL,
                 test VARCHAR(255) NOT NULL,
@@ -122,7 +116,7 @@ BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
 
 async function createInitialUsers() {
    console.log('Starting to create mock users...');
-   try { 
+   try {
        const users = await Promise.all(mockUsers.map(createUser));
 
        console.log('Users created:');
@@ -146,7 +140,7 @@ async function createInitialProducts() {
     }   catch (error) {
         console.error('Error creating products!');
         throw error;
-    }   
+    }
 };
 
 // async function createInitialCategories() {
@@ -162,7 +156,7 @@ async function createInitialProducts() {
 //     }   catch (error) {
 //         console.error('Error creating categories!');
 //         throw error;
-//     }   
+//     }
 // };
 
 async function createInitialOrders() {
@@ -178,7 +172,7 @@ async function createInitialOrders() {
     }   catch (error) {
         console.error('Error creating orders!');
         throw error;
-    }   
+    }
 };
 
 // async function createInitialReviews() {
@@ -194,7 +188,7 @@ async function createInitialOrders() {
 //     }   catch (error) {
 //         console.error('Error creating reviews!');
 //         throw error;
-//     }   
+//     }
 // };
 
 
