@@ -18,7 +18,6 @@ server.use(express.static(path.join(__dirname, 'build')));
 const apiRouter = require('./routes');
 //this will handle all routes made to the /api/... URL
 server.use('/api', apiRouter);
-// server.use('/api', require('./routes'));
 
 // by default serve up the react app if we don't recognize the route
 // server.use((req, res, next) => {

@@ -5,7 +5,7 @@ const express = require('express');
 const productsRouter = express.Router();
 
 //import db adapters for products
-const {} = require('../db');
+const { getAllProducts } = require('../db');
 
 //import helper functions
 const {requireUser, requireAdmin} = require('./utils');
@@ -17,10 +17,12 @@ const {requireUser, requireAdmin} = require('./utils');
 productsRouter.get('/', async (req, res, next) => {
     console.log("Under construction...");
     try {
+        const products = await getAllProducts();
 
+        res.send(products);
     }
     catch (error) {
-
+        next(error);
     }
 })
 

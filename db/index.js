@@ -5,6 +5,7 @@ const productDbAdapters = require('./products');
 // const ordersDbAdapters = require('./orders')
 
 module.exports = {
+  client,
   ...productDbAdapters
   // ...userDbAdapters,
   // ...ordersDbAdapters
