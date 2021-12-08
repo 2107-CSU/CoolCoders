@@ -117,6 +117,10 @@ async function populateInitialData() {
   try {
     // create useful starting data
     await createInitialUsers();
+    // categories
+    // products
+    // orders
+    // reviews
   } catch (error) {
     throw error;
   }
