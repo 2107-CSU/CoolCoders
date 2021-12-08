@@ -1,8 +1,7 @@
 // code to build and initialize DB goes here
-const {
-  client
+const client
   // other db methods 
-} = require('./client');
+ = require('./client');
 
 async function buildTables() {
   try {
@@ -25,7 +24,9 @@ async function populateInitialData() {
   }
 }
 
-buildTables()
-  .then(populateInitialData)
+const { 
+  rebuildDB,
+ } = require('./seedData');
+  rebuildDB()
   .catch(console.error)
   .finally(() => client.end());

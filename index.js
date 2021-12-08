@@ -21,12 +21,12 @@ server.use('/api', apiRouter);
 // server.use('/api', require('./routes'));
 
 // by default serve up the react app if we don't recognize the route
-server.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
-});
+// server.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'))
+// });
 
 // bring in the DB connection
-const { client } = require('./db');
+const { client } = require('./client');
 
 //404 handler
 server.use((req, res, next) => {
