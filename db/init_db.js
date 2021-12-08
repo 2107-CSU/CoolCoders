@@ -1,6 +1,8 @@
 // code to build and initialize DB goes here
 const { client } = require("./index");
 
+const { createInitialUsers } = require("./seedData");
+
 async function dropTables() {
   try {
     console.log("Starting to drop tables...");
@@ -42,7 +44,7 @@ async function createTables() {
                 name VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 active BOOLEAN DEFAULT true,
-                "userStatus" user_type NOT NULL
+                "userStatus" user_type DEFAULT 'user' NOT NULL
             );
             CREATE TYPE status_type AS ENUM(
                 'wishlist',
@@ -114,6 +116,7 @@ async function buildTables() {
 async function populateInitialData() {
   try {
     // create useful starting data
+    await createInitialUsers();
   } catch (error) {
     throw error;
   }
@@ -123,11 +126,8 @@ async function rebuildDB() {
   try {
     client.connect();
     await buildTables();
-    // await createInitialUsers();
-    // await createInitialProducts();
-    // await createInitialCategories();
-    // await createInitialOrders();
-    // await createInitialReviews();
+    await populateInitialData();
+    console.log("Finished rebuilding db!");
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

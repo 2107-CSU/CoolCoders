@@ -7,24 +7,25 @@ const {
   mockOrders,
   // mockReviews
 } = require("./mockData");
+const { createUser } = require("./user");
 
 /*
 BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
 */
 
-// async function createInitialUsers() {
-//   console.log("Starting to create mock users...");
-//   try {
-//     const users = await Promise.all(mockUsers.map(createUser));
+async function createInitialUsers() {
+  console.log("Starting to create mock users...");
+  try {
+    const users = await Promise.all(mockUsers.map((user) => createUser(user)));
 
-//     console.log("Users created:");
-//     console.log(users);
-//     console.log("Finished creating users!");
-//   } catch (error) {
-//     console.error("Error ceating users!");
-//   }
-//   throw error;
-// }
+    console.log("Users created:");
+    console.log(users);
+    console.log("Finished creating users!");
+  } catch (error) {
+    console.error("Error creating users!");
+    throw error;
+  }
+}
 
 // async function createInitialProducts() {
 //   try {
@@ -89,3 +90,7 @@ BUILDING FUNCTIONS USING MOCK DATA FROM mockData.js
 //         throw error;
 //     }
 // };
+
+module.exports = {
+  createInitialUsers,
+};
