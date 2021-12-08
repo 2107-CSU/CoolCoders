@@ -109,15 +109,15 @@ async function createTables() {
   }
 }
 
-async function buildTables() {
-  try {
-    await dropTables();
+// async function buildTables() {
+//   try {
+//     await dropTables();
 
-    await createTables();
-  } catch (error) {
-    throw error;
-  }
-}
+//     await createTables();
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 async function populateInitialData() {
   try {
@@ -135,8 +135,9 @@ async function populateInitialData() {
 
 async function rebuildDB() {
   try {
-    client.connect();
-    await buildTables();
+    await client.connect();
+    await dropTables();
+    await createTables();
     await populateInitialData();
     console.log("Finished rebuilding db!");
   } catch (error) {
@@ -148,3 +149,5 @@ async function rebuildDB() {
 rebuildDB()
   .catch(console.error)
   .finally(() => client.end());
+
+module.exports = { rebuildDB };
