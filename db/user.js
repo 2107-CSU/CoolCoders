@@ -66,7 +66,7 @@ async function getUserById(userId) {
         `,
       [userId]
     );
-
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -85,7 +85,7 @@ async function getUserByEmail(email) {
         `,
       [email]
     );
-
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -113,6 +113,6 @@ module.exports = {
   createUser,
   getUser,
   getUserById,
-  getUserByUsername,
+  getUserByEmail,
   deactivateUser,
 };
