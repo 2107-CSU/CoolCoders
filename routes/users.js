@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 const usersRouter = express.Router();
-const {  createUser, getUser, getUserById, getUserByEmail, deactivateUser, getAllUsers} = require('../db');
+const {  createUser, getUser, getUserById, getUserByEmail, deactivateUser, getAllUsers, updateUser} = require('../db');
 const { requireUser, requireAdmin } = require('./utils');
 
 usersRouter.use((req, res, next) => {
@@ -107,6 +107,21 @@ usersRouter.delete('/:userId', async (req, res, next) => {
         } else {
             res.send({msg: `something went wrong trying to delete user #${userId}`})
         }
+    } catch (error) {
+        next(error);
+    }
+})
+
+usersRouter.patch('/:userId', async (req, res, next) => {
+    // Should a user be allowed to change anything other than their name?
+
+    const { userId } = req.params;
+    const { name } = req.body;
+
+    try {
+        const user = await updateUser(userId, name);
+        console.log('the user = ', user);
+        res.send(user);
     } catch (error) {
         next(error);
     }

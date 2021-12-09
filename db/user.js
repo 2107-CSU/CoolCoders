@@ -124,11 +124,27 @@ async function getAllUsers() {
   }
 }
 
+async function updateUser(userId, name){
+  try {
+     await client.query(`
+      UPDATE users
+      SET name=$1
+      WHERE id=$2
+      RETURNING *;
+    `, [name, userId])
+
+    return await getUserById(userId);
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   getUser,
   getUserById,
   getUserByEmail,
   deactivateUser,
-  getAllUsers
+  getAllUsers,
+  updateUser
 };
