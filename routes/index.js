@@ -8,7 +8,7 @@ const apiRouter = require('express').Router();
 
 //import db adapter to retrieve user.
 //this function is used to verify the JWT
-// const { getUserById } = require('../db');
+const { getUserById } = require('../db');
 
 //JWT verifier
 apiRouter.use(async (req, res, next) => {
@@ -25,11 +25,11 @@ apiRouter.use(async (req, res, next) => {
 
       try {
           //attempt to verify token and destructure the id from the return data
-          const {id} = await jwt.verify(token, JWT_SECRET);
+          const {id} = jwt.verify(token, JWT_SECRET);
 
           if (id) {
               //if a valid user is returned, add it to the request object
-              // req.user = await getUserById(id);
+              req.user = await getUserById(id);
 
               //then move to the next middleware
               next();
@@ -53,5 +53,8 @@ apiRouter.get('/health', (req, res, next) => {
 //PRODUCTS ROUTER
 const productsRouter = require('./products');
 apiRouter.use('/products', productsRouter);
+
+const usersRouter = require('./users');
+apiRouter.use('/users', usersRouter);
 
 module.exports = apiRouter;
