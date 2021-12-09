@@ -34,16 +34,49 @@ usersRouter.post('/login', async (req, res, next) => {
         if (user && user.password === password) {
             // create token and return it
             const { email, id } = user;
-            res.send({email, id});
-            const token = jwt.sign({ email, id }, process.env.JWT_SECRET);
-            console.log(token);
-            // res.send({ message: 'you are logged in', token });
+            const token = jwt.sign({
+                email, id
+                }, process.env.JWT_SECRET, {
+                expiresIn: '1w'
+            });
+            res.send({ message: 'you are logged in', token });
         } else {
             next({
                 name: 'IncorrectCredentialsError',
                 message: 'Username or password is incorrect'
             });
         }
+    } catch (error) {
+        next(error)
+    }
+})
+
+usersRouter.post('/register', async (req, res, next) => {
+    const { email, name, password } = req.body;
+
+    try {
+        const _user = await getUserByEmail(email);
+
+        if (_user) {
+            next({
+                name: 'UserExistsError',
+                message: 'A user with that email address already exists'
+            })
+        }
+
+        const user = await createUser({ email, name, password});
+
+        const token = jwt.sign({
+            email, id: user.id
+            }, process.env.JWT_SECRET, {
+            expiresIn: '1w'
+        });
+
+        res.send({
+            message: 'thank you for signing up with us',
+            token
+        });
+        
     } catch (error) {
         next(error)
     }
