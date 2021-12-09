@@ -1,15 +1,11 @@
-/* 
-id SERIAL PRIMARY KEY,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                active BOOLEAN DEFAULT true,
-                "userStatus" user_type NOT NULL
-*/
+const bcrypt = require("bcrypt");
 const client = require("./client");
 
 async function createUser({ email, name, password, userStatus = "user" }) {
   try {
+    const SALT_COUNT = 13;
+    const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
     const {
       rows: [user],
     } = await client.query(
@@ -19,7 +15,7 @@ async function createUser({ email, name, password, userStatus = "user" }) {
             ON CONFLICT (email) DO NOTHING
             RETURNING *;
         `,
-      [email, name, password, userStatus]
+      [email, name, hashedPassword, userStatus]
     );
 
     delete user.password;
@@ -33,7 +29,7 @@ async function createUser({ email, name, password, userStatus = "user" }) {
 async function getUser({ email, password }) {
   try {
     const {
-      rows: [validUser],
+      rows: [user],
     } = await client.query(
       `
             SELECT *
@@ -43,11 +39,14 @@ async function getUser({ email, password }) {
       [email]
     );
 
-    if (validUser.password === password) {
-      delete validUser.password;
-      return validUser;
-    } else {
-      throw new Error("Incorrect password.");
+    if (user) {
+      const isValid = await bcrypt.compare(password, user.password);
+      if (isValid) {
+        delete user.password;
+        return user;
+      } else {
+        throw new Error("Incorrect password.");
+      }
     }
   } catch (error) {
     throw error;

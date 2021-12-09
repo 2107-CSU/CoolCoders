@@ -10,13 +10,13 @@
     "server:dev": "nodemon index.js",
     "start": "node index.js",
     "db:build": "node ./db/init_db"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
