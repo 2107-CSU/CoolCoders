@@ -76,9 +76,39 @@ usersRouter.post('/register', async (req, res, next) => {
             message: 'thank you for signing up with us',
             token
         });
-        
+
     } catch (error) {
         next(error)
+    }
+})
+
+usersRouter.get('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+
+        const user = await getUserById(userId);
+        res.send(user);
+
+    } catch (error) {
+        next(error)
+    }
+    
+})
+
+usersRouter.delete('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+        const response = await deactivateUser(userId);
+        
+        if (response) {
+            res.send({msg: `user #${userId} has been successfully deactivated`})
+        } else {
+            res.send({msg: `something went wrong trying to delete user #${userId}`})
+        }
+    } catch (error) {
+        next(error);
     }
 })
 

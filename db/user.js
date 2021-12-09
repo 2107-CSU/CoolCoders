@@ -113,7 +113,8 @@ async function getAllUsers() {
   try {
     const { rows } = await client.query(`
       SELECT id, email, name, "userStatus", password
-      FROM users;
+      FROM users
+      WHERE active=true;
     `)
 
     return rows;
