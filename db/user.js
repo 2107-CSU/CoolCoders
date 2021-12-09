@@ -85,7 +85,7 @@ async function getUserByEmail(email) {
         `,
       [email]
     );
-    delete user.password;
+    // delete user.password;
     return user;
   } catch (error) {
     throw error;
