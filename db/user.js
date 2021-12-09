@@ -8,13 +8,13 @@ id SERIAL PRIMARY KEY,
 */
 const client = require("./client");
 
-async function createUser({ email, name, password, userStatus }) {
+async function createUser({ email, name, password, userStatus = "user" }) {
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-            INSERT INTO users(email, name, password, userStatus)
+            INSERT INTO users(email, name, password, "userStatus")
             VALUES($1, $2, $3, $4)
             ON CONFLICT (email) DO NOTHING
             RETURNING *;
@@ -66,7 +66,7 @@ async function getUserById(userId) {
         `,
       [userId]
     );
-
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -85,7 +85,7 @@ async function getUserByEmail(email) {
         `,
       [email]
     );
-
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -113,6 +113,6 @@ module.exports = {
   createUser,
   getUser,
   getUserById,
-  getUserByUsername,
+  getUserByEmail,
   deactivateUser,
 };
