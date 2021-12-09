@@ -9,7 +9,9 @@
     "client:build": "react-scripts build",
     "server:dev": "nodemon index.js",
     "start": "node index.js",
-    "db:build": "node ./db/init_db"
+    "db:build": "node ./db/init_db",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:watch": "jest --watchAll --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +31,7 @@
     "react-scripts": "^3.4.1"
   },
   "devDependencies": {
+    "jest": "^27.4.3",
     "nodemon": "^2.0.15"
   },
   "proxy": "http://localhost:5000",
