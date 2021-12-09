@@ -1,4 +1,6 @@
 const express = require('express');
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
 const usersRouter = express.Router();
 const {  createUser, getUser, getUserById, getUserByEmail, deactivateUser, getAllUsers} = require('../db');
 const { requireUser, requireAdmin } = require('./utils');
@@ -16,6 +18,7 @@ usersRouter.get('/', async (req, res, next) => {
 })
 
 usersRouter.post('/login', async (req, res, next) => {
+    console.log('***', process.env.JWT_SECRET)
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -31,8 +34,10 @@ usersRouter.post('/login', async (req, res, next) => {
         if (user && user.password === password) {
             // create token and return it
             const { email, id } = user;
+            res.send({email, id});
             const token = jwt.sign({ email, id }, process.env.JWT_SECRET);
-            res.send({ message: 'you are logged in', token });
+            console.log(token);
+            // res.send({ message: 'you are logged in', token });
         } else {
             next({
                 name: 'IncorrectCredentialsError',
