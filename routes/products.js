@@ -5,7 +5,7 @@ const express = require('express');
 const productsRouter = express.Router();
 
 //import db adapters for products
-const { getAllActiveProducts, getProductById, createProduct, destroyProduct } = require('../db');
+const { getAllProducts, getProductById, createProduct, destroyProduct, updateProduct } = require('../db');
 
 //import helper functions
 const {requireUser, requireAdmin} = require('./utils');
@@ -15,10 +15,8 @@ const {requireUser, requireAdmin} = require('./utils');
  */
 //returns a list of all active products
 productsRouter.get('/', async (req, res, next) => {
-    console.log("Under construction...");
-
     try {
-        const products = await getAllActiveProducts();
+        const products = await getAllProducts();
 
         res.send(products);
     }
@@ -29,8 +27,6 @@ productsRouter.get('/', async (req, res, next) => {
 
 //returns a product with a specific id
 productsRouter.get('/:productId', async (req, res, next) => {
-    console.log("Under construction...");
-
     //destructure fields
     const productId = req.params.productId;
     console.log(productId);
@@ -56,13 +52,10 @@ productsRouter.get('/:productId', async (req, res, next) => {
  *  will add these functions again once users table is populated
  */
  productsRouter.post('/', async (req, res, next) => {
-    console.log("Under construction...");
-
-    //destructure fields
-    const {title, desc, price, qty, categoryId, photo} = req.body;
+    const fieldsObj = req.body;
 
     try {
-        const newProduct = await createProduct({title, desc, price, qty, categoryId, photo})
+        const newProduct = await createProduct(fieldsObj);
 
         res.send(newProduct);
 
@@ -83,16 +76,15 @@ productsRouter.get('/:productId', async (req, res, next) => {
  *  will add these functions again once users table is populated
  */
 productsRouter.patch('/:productId', async (req, res, next) => {
-    console.log("Under construction...");
-
     const productId = req.params.productId;
 
-    const updateObj = req.body;
+    //copy the fields to update into a new object
+    const updateObj = {...req.body};
 
     try {
-        const updatedProduct = await updatedProduct(productId, updateObj);
+        const updated = await updateProduct(productId, updateObj);
 
-        res.send(updatedProduct);
+        res.send(updated);
     }
     catch (error) {
         next(error);
@@ -110,8 +102,6 @@ productsRouter.patch('/:productId', async (req, res, next) => {
  *  will add these functions again once users table is populated
  */
 productsRouter.delete('/:productId', async (req, res, next) => {
-    console.log("Under construction...");
-
     const productId = req.params.productId;
 
     try {
@@ -122,8 +112,6 @@ productsRouter.delete('/:productId', async (req, res, next) => {
     catch (error) {
         next(error);
     }
-
 })
-
 
 module.exports = productsRouter;

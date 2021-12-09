@@ -66,11 +66,13 @@ async function getProductById(productId) {
   }
 }
 
+//returns all active products
 async function getAllProducts() {
   try {
     const { rows: allProducts } = await client.query(`
         SELECT *
-        FROM products;
+        FROM products
+        WHERE active=true;
       `);
 
     return allProducts;
