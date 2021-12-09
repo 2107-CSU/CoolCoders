@@ -4,6 +4,8 @@ import {
   getSomething
 } from '../api';
 
+import Products from './Products';
+
 const App = () => {
   const [message, setMessage] = useState('');
 
@@ -21,6 +23,7 @@ const App = () => {
     <div className="App">
       <h1>Hello, World!</h1>
       <h2>{ message }</h2>
+      <Products />
     </div>
   );
 }
