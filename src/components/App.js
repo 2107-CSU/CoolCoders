@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-  getSomething
-} from '../api';
-
 import Products from './Products';
 
 const App = () => {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    getSomething()
-      .then(response => {
-        setMessage(response.message);
-      })
-      .catch(error => {
-        setMessage(error.message);
-      });
-  });
 
   return (
     <div className="App">
-      <h1>Hello, World!</h1>
-      <h2>{ message }</h2>
+      <h1>Welcome to Products!</h1>
       <Products />
     </div>
   );
