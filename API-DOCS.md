@@ -1,8 +1,8 @@
 # AUTHENTICATION WITH JSON WEB TOKENS
 
-- When using the API, many calls are made in the context of a registered user. The API protects itself by requiring a token string passed in the Header for requests made in that context.
+When using the API, many calls are made in the context of a registered user. The API protects itself by requiring a token string passed in the Header for requests made in that context.
 
-* A sample request with an authorization token looks like this:
+A sample request with an authorization token looks like this:
 
 ```
 fetch('https://deployedapi.com/api/users/register', {
@@ -23,10 +23,10 @@ fetch('https://deployedapi.com/api/users/register', {
 # ORDERS ENDPOINTS
 
 ## GET /api/orders:
-- Just returns a list of all orders in the database
+Just returns a list of all orders in the database
 
 ### Request Parameters:
-- No request parameters
+No request parameters
 
 ### Return Parameters:
 (array of object)
