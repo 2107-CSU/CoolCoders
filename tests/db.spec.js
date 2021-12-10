@@ -2,14 +2,14 @@ const bcrypt = require("bcrypt");
 const SALT_COUNT = 13;
 
 const rebuildDB = require("../db/init_db");
-// const { client } = require("../db");
+const { client } = require("../db");
 
-const { Client } = require("pg");
+/* const { Client } = require("pg");
 
 const DB_NAME = "capstone-dev";
 const DB_URL = `postgres://localhost:5432/${DB_NAME}`;
 
-const client = new Client(DB_URL);
+const client = new Client(DB_URL); */
 
 // USERS FUNCTIONS TO TEST
 const {
@@ -26,7 +26,7 @@ jest.setTimeout(10000);
 
 describe("Database", () => {
   beforeAll(() => {
-    return rebuildDB().then(client.connect());
+    return rebuildDB();
   });
   afterAll(() => {
     return client.end();
