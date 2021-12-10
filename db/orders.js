@@ -1,4 +1,4 @@
-/* 
+/*
 CREATE TYPE status_type AS ENUM(
                 'wishlist',
                 'cart',
@@ -39,7 +39,7 @@ async function createOrder({ userId, totalPrice, orderDate, orderStatus }) {
 async function getAllOrders() {
   try {
     const {
-      rows: [allOrders],
+      rows: allOrders
     } = await client.query(`
             SELECT *
             FROM orders;

@@ -8,15 +8,19 @@ const ordersRouter = express.Router();
 const {} = require('./utils');
 
 //import db adapters
-const {} = require('../db');
+const {getAllOrders} = require('../db');
 
 /**
  * GET REQUESTS
  */
+
+//returns a list of all orders
 ordersRouter.get('/', async (req, res, next) => {
     console.log("Under Construction...");
     try {
+        const orders = await getAllOrders();
 
+        res.send(orders);
     }
     catch (error) {
         next(error);
