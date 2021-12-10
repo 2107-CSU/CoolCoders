@@ -72,10 +72,10 @@ async function getOrderByProductId(productId) {
   }
 }
 
-async function getOrderByUsername(userId) {
+async function getOrderByUserId(userId) {
   try {
     const {
-      rows: [ordersByUserId],
+      rows: ordersByUserId
     } = await client.query(
       `
             SELECT *
@@ -94,6 +94,6 @@ async function getOrderByUsername(userId) {
 module.exports = {
   getAllOrders,
   getOrderByProductId,
-  getOrderByUsername,
+  getOrderByUserId,
   createOrder,
 };

@@ -8,7 +8,7 @@ const ordersRouter = express.Router();
 const {} = require('./utils');
 
 //import db adapters
-const {getAllOrders} = require('../db');
+const {getAllOrders, getOrderByUserId} = require('../db');
 
 /**
  * GET REQUESTS
@@ -16,7 +16,6 @@ const {getAllOrders} = require('../db');
 
 //returns a list of all orders
 ordersRouter.get('/', async (req, res, next) => {
-    console.log("Under Construction...");
     try {
         const orders = await getAllOrders();
 
@@ -25,6 +24,21 @@ ordersRouter.get('/', async (req, res, next) => {
     catch (error) {
         next(error);
     }
+})
+
+//returns a list of orders for a given user id
+ordersRouter.get('/:userId', async (req, res, next) => {
+    const userId = req.params.userId;
+
+    try {
+        const orders = await getOrderByUserId(userId);
+
+        res.send(orders);
+    }
+    catch (error) {
+        next(error);
+    }
+
 })
 
 

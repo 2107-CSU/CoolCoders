@@ -22,21 +22,21 @@ fetch('https://deployedapi.com/api/users/register', {
 
 # ORDERS ENDPOINTS
 
-## GET /api/orders:
-Just returns a list of all orders in the database
+## GET /api/orders
+Returns a list of all orders in the database
 
-### Request Parameters:
+### Request Parameters
 No request parameters
 
-### Return Parameters:
-(array of object)
+### Return Parameters
+(array of objects)
 - id
 - userId
 - totalPrice
 - orderDate
 - orderStatus
 
-### Sample Call:
+### Sample Call
 ```
 try {
         const response = await fetch (`${BASEURL}/orders`, {
@@ -56,7 +56,7 @@ try {
 
 ```
 
-### Sample Response:
+### Sample Response
 ```
 [
     {
@@ -79,7 +79,69 @@ try {
         "totalPrice": 156,
         "orderDate": "2021-01-13T07:00:00.000Z",
         "orderStatus": "cart"
+    }
+]
+
+```
+
+## GET /api/order/:userId (**)
+Returns a list of orders for a given user id
+
+### Request Parameters
+No request parameters
+
+### Return Parameters
+(array of objects)
+- id
+- userId
+- totalPrice
+- orderDate
+- orderStatus
+
+### Sample Call
+```
+try {
+        const response = await fetch (`${BASEURL}/orders/19`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        const data = await response.json();
+
+        console.log("all routines: ", data);
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```
+[
+    {
+        "id": 6,
+        "userId": 19,
+        "totalPrice": 106,
+        "orderDate": "2020-12-09T07:00:00.000Z",
+        "orderStatus": "in_transit"
     },
+    {
+        "id": 13,
+        "userId": 19,
+        "totalPrice": 28,
+        "orderDate": "2021-06-15T06:00:00.000Z",
+        "orderStatus": "cart"
+    },
+    {
+        "id": 15,
+        "userId": 19,
+        "totalPrice": 125,
+        "orderDate": "2021-10-25T06:00:00.000Z",
+        "orderStatus": "processing"
+    }
 ]
 
 ```
