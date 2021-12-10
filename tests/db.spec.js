@@ -23,40 +23,49 @@ const {
 jest.setTimeout(10000);
 
 describe("Database", () => {
-  beforeAll(async () => {
-    await rebuildDB();
-    await client.end();
+  beforeAll(() => {
+    return rebuildDB().then(client.connect());
   });
-  // afterEach(async () => {
-  //   await client.end();
-  // });
+  afterAll(() => {
+    return client.end();
+  });
   describe("Users", () => {
-    test("it works", () => {
-      expect(1).toEqual(1);
+    let userToCreate, queriedUser;
+    let userCredentials = {
+      email: "example@example.com",
+      name: "Test Jones",
+      password: "test1234",
+    };
+    describe("createUser", () => {
+      beforeAll(async () => {
+        userToCreate = await createUser(userCredentials);
+        const {
+          rows: [testUser],
+        } = await client.query(
+          `
+          SELECT * FROM users WHERE email=$1;
+        `,
+          [userToCreate.email]
+        );
+        queriedUser = testUser;
+      });
+      it("Creates the user", async () => {
+        expect(userToCreate.email).toBe(userCredentials.email);
+        expect(queriedUser.email).toBe(userCredentials.email);
+      });
+      it("Does not store plaintext password", async () => {
+        expect(queriedUser.password).not.toBe(userCredentials.password);
+      });
+      it("Hashes the password before storing it", async () => {
+        const hashedPwd = bcrypt.compareSync(
+          userCredentials.password,
+          queriedUser.password
+        );
+        expect(hashedPwd).toBe(true);
+      });
+      it("Does NOT return the password", async () => {
+        expect(userToCreate.password).toBeFalsy();
+      });
     });
-    // let userToCreate, queriedUser;
-    // let userInfo = {
-    //   email: "example@example.com",
-    //   name: "Test Jones",
-    //   password: "test1234",
-    // };
-    // describe("createUser", () => {
-    // beforeAll(async () => {
-    //     userToCreate = await createUser(userInfo);
-    //     const {
-    //       rows: [testUser],
-    //     } = await client.query(
-    //       `
-    //                 SELECT * FROM users
-    //                 WHERE email=$1;
-    //             `,
-    //       [userInfo.email]
-    //     );
-    //     queriedUser = testUser;
-    //   });
-    // test("Creates the user", async () => {
-    //   expect(userToCreate.email).toBe(userInfo.email);
-    //   expect(queriedUser.email).toBe(userInfo.email);
-    // });
   });
 });

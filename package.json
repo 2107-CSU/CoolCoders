@@ -10,7 +10,7 @@
     "server:dev": "nodemon index.js",
     "start": "node index.js",
     "db:build": "node ./db/seed",
-    "test": "jest --runInBand --detectOpenHandles",
+    "test": "jest --runInBand",
     "test:watch": "jest --watchAll --runInBand"
   },
   "keywords": [],

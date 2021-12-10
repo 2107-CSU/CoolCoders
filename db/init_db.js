@@ -139,7 +139,6 @@ async function rebuildDB() {
     await dropTables();
     await createTables();
     await populateInitialData();
-    client.end();
     console.log("Finished rebuilding db!");
   } catch (error) {
     console.log("Error during rebuildDB");
