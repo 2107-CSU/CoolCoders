@@ -45,9 +45,9 @@ async function getUser({ email, password }) {
       if (isValid) {
         delete user.password;
         return user;
-      } else {
+      } /* else {
         throw new Error("Incorrect password.");
-      }
+      } */ // replace with a return? Throwing error causes tests to fail unnecessarily
     }
   } catch (error) {
     throw error;
@@ -115,23 +115,25 @@ async function getAllUsers() {
       SELECT id, email, name, "userStatus", password
       FROM users
       WHERE active=true;
-    `)
+    `);
 
     return rows;
-
   } catch (error) {
     throw error;
   }
 }
 
-async function updateUser(userId, name){
+async function updateUser(userId, name) {
   try {
-     await client.query(`
+    await client.query(
+      `
       UPDATE users
       SET name=$1
       WHERE id=$2
       RETURNING *;
-    `, [name, userId])
+    `,
+      [name, userId]
+    );
 
     return await getUserById(userId);
   } catch (error) {
@@ -146,5 +148,5 @@ module.exports = {
   getUserByEmail,
   deactivateUser,
   getAllUsers,
-  updateUser
+  updateUser,
 };

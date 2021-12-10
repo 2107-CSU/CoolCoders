@@ -18,6 +18,8 @@ const {
   getUserById,
   getUserByEmail,
   deactivateUser,
+  getAllUsers,
+  updateUser,
 } = require("../db");
 
 jest.setTimeout(10000);
@@ -65,6 +67,48 @@ describe("Database", () => {
       });
       it("Does NOT return the password", async () => {
         expect(userToCreate.password).toBeFalsy();
+      });
+    });
+    describe("getUser", () => {
+      let verifiedUser;
+      beforeAll(async () => {
+        verifiedUser = await getUser(userCredentials);
+      });
+      it("Verifies plaintext password against hashed password in database", async () => {
+        const unVerifiedUser = await getUser({
+          email: userCredentials.email,
+          password: "badPassword",
+        });
+        expect(verifiedUser).toBeTruthy();
+        expect(verifiedUser.email).toBe(userCredentials.email);
+        expect(unVerifiedUser).toBeFalsy();
+      });
+      it("Does NOT return the password", async () => {
+        expect(verifiedUser.password).toBeFalsy();
+      });
+    });
+    describe("getUserById", () => {
+      it("Gets a user based on user ID and does NOT return password", async () => {
+        const user = await getUserById(userToCreate.id);
+        expect(user).toBeTruthy();
+        expect(user.id).toBe(userToCreate.id);
+        expect(user.password).toBeFalsy();
+      });
+    });
+    describe("getUserByEmail", () => {
+      it("Gets a user based on email and does NOT return password", async () => {
+        const user = await getUserByEmail(userCredentials.email);
+        expect(user).toBeTruthy();
+        expect(user.email).toBe(userCredentials.email);
+        expect(user.password).toBeFalsy();
+      });
+    });
+    describe("deactivateUser", () => {
+      it("Successfully deactivates a user", async () => {
+        const deactivatedUser = await deactivateUser(userToCreate.id);
+        expect(deactivatedUser).toBeTruthy();
+        const user = await getUserById(userToCreate.id);
+        expect(user.active).toBeFalsy();
       });
     });
   });
