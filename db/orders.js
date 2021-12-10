@@ -91,9 +91,24 @@ async function getOrderByUserId(userId) {
   }
 }
 
+async function getOrderByOrderId(orderId) {
+  try {
+    const {rows: [order]} = await client.query(`
+      SELECT * FROM orders
+      WHERE id = $1;
+    `, [orderId]);
+
+    return order;
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   getAllOrders,
   getOrderByProductId,
   getOrderByUserId,
   createOrder,
+  getOrderByOrderId
 };

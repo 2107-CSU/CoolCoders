@@ -39,6 +39,7 @@ const {client} = require('./db');
 //Error handler that sets the status code to 500
 //and returns the error as an object
 server.use((error, req, res, next) => {
+  console.log(error);
   res.status(500).send(error);
 })
 

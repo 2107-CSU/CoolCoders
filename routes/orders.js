@@ -8,7 +8,7 @@ const ordersRouter = express.Router();
 const {} = require('./utils');
 
 //import db adapters
-const {getAllOrders, getOrderByUserId} = require('../db');
+const {getAllOrders, getOrderByUserId, getOrderByOrderId} = require('../db');
 
 /**
  * GET REQUESTS
@@ -27,7 +27,8 @@ ordersRouter.get('/', async (req, res, next) => {
 })
 
 //returns a list of orders for a given user id
-ordersRouter.get('/:userId', async (req, res, next) => {
+ordersRouter.get('/:userId/users', async (req, res, next) => {
+    console.log("RETURN A LIST OF A USERS ORDERS")
     const userId = req.params.userId;
 
     try {
@@ -39,6 +40,20 @@ ordersRouter.get('/:userId', async (req, res, next) => {
         next(error);
     }
 
+})
+
+//returns an order with a matching id
+ordersRouter.get('/:orderId', async (req, res, next) => {
+    const orderId = req.params.orderId;
+
+    try {
+        const order = await getOrderByOrderId(orderId);
+
+        res.send(order);
+    }
+    catch (error) {
+        next(error);
+    }
 })
 
 

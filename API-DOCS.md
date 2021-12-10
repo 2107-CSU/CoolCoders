@@ -84,7 +84,7 @@ try {
 
 ```
 
-## GET /api/order/:userId (**)
+## GET /api/orders/:userId/users (**)
 Returns a list of orders for a given user id
 
 ### Request Parameters
@@ -101,7 +101,7 @@ No request parameters
 ### Sample Call
 ```
 try {
-        const response = await fetch (`${BASEURL}/orders/19`, {
+        const response = await fetch (`${BASEURL}/orders/19/users`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json'
@@ -143,5 +143,50 @@ try {
         "orderStatus": "processing"
     }
 ]
+
+```
+
+## GET /api/orders/:orderId (**)
+Returns an order with a matching id
+
+### Request Parameters
+No request parameters
+
+### Return Parameters
+- id
+- userId
+- totalPrice
+- orderDate
+- orderStatus
+
+### Sample Call
+```
+try {
+        const response = await fetch (`${BASEURL}/orders/13`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        const data = await response.json();
+
+        console.log("all routines: ", data);
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```
+{
+    "id": 13,
+    "userId": 19,
+    "totalPrice": 28,
+    "orderDate": "2021-06-15T06:00:00.000Z",
+    "orderStatus": "cart"
+}
 
 ```
