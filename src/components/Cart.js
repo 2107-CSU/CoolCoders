@@ -39,26 +39,38 @@ const Cart = () => {
         setTotalPrice(total);
     }, [cartItems])
 
+    function removeAllItems(){
+      setCartItems([]);
+    }
+
+
     return (
-        <div>
-            <h1>Shopping Cart</h1>
-            <table style={{border: 1 + 'px solid black'}}>
-                <thead>
-                  <tr>
-                    <th scope='col'>Item:</th>
-                    <th scope='col'>Quantity:</th>
-                    <th scope='col'>Price:</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {cartItems.map(item => (
-                        // change the value of the key! Just using title for testing out
-                        <SingleCartItem key={item.title} item={item} />
-                    ))}
-                </tbody>
-            </table>
-            <h3>Cart Total: $ {totalPrice}</h3>
+      <div className='cartBody'>
+        <div className='marginTop cartContainer'>
+          <div className='Header'>
+            <h3 className='Heading'>Shopping Cart</h3>
+            <h5 className='Action' onClick={() => removeAllItems()}>Remove all</h5>
+          </div>
+          <div >
+            {
+              cartItems.map(item => (
+                // change the value of the key! Just using title for testing out
+                <SingleCartItem key={item.title} item={item} setCartItems={setCartItems} cartItems={cartItems} />
+              ))
+            }
+          </div>
+          <div className='checkout'>
+            <div className='total'>
+              <div>
+                <div className='Subtotal'>Sub-Total</div>
+                <div className='items'>{cartItems.length} items</div>
+              </div>
+              <div className='total-amount'>${totalPrice}.00</div>
+            </div>
+            <button className='button'>Checkout</button>
+          </div>
         </div>
+      </div>
     )
 }
 
