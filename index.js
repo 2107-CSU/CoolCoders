@@ -28,9 +28,9 @@ server.use('/api', apiRouter);
 const {client} = require('./db');
 
 //404 handler
-server.use((req, res, next) => {
-  res.status(404).send('Page not found');
-})
+// server.use((req, res, next) => {
+//   res.status(404).send('Page not found');
+// })
 
 //Error handler that sets the status code to 500
 //and returns the error as an object
