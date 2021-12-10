@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { rows } = require("pg/lib/defaults");
 const client = require("./client");
 
 async function createUser({ email, name, password, userStatus = "user" }) {
@@ -84,8 +85,10 @@ async function getUserByEmail(email) {
         `,
       [email]
     );
-    delete user.password;
-    return user;
+    if (user) {
+      delete user.password;
+      return user;
+    }
   } catch (error) {
     throw error;
   }
@@ -108,10 +111,42 @@ async function deactivateUser(userId) {
   }
 }
 
+async function getAllUsers() {
+  try {
+    const { rows } = await client.query(`
+      SELECT id, email, name, "userStatus", password
+      FROM users
+      WHERE active=true;
+    `)
+
+    return rows;
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateUser(userId, name){
+  try {
+     await client.query(`
+      UPDATE users
+      SET name=$1
+      WHERE id=$2
+      RETURNING *;
+    `, [name, userId])
+
+    return await getUserById(userId);
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   getUser,
   getUserById,
   getUserByEmail,
   deactivateUser,
+  getAllUsers,
+  updateUser
 };

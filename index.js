@@ -13,6 +13,10 @@ server.use(express.json());
 const path = require('path');
 server.use(express.static(path.join(__dirname, 'build')));
 
+//Import and use cors middleware
+const cors = require('cors');
+server.use(cors());
+
 // here's our API
 //import and use api router
 const apiRouter = require('./routes');
@@ -28,9 +32,9 @@ server.use('/api', apiRouter);
 const {client} = require('./db');
 
 //404 handler
-server.use((req, res, next) => {
-  res.status(404).send('Page not found');
-})
+// server.use((req, res, next) => {
+//   res.status(404).send('Page not found');
+// })
 
 //Error handler that sets the status code to 500
 //and returns the error as an object
@@ -39,7 +43,7 @@ server.use((error, req, res, next) => {
 })
 
 // connect to the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 2345;
 server.listen(PORT, async () => {
   console.log(`Server is running on ${ PORT }!`);
 

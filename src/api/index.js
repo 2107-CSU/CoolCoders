@@ -1,10 +1,20 @@
-import axios from 'axios';
+import BASE_URL from './constant';
 
-export async function getSomething() {
+export const getProducts = async () => {
   try {
-    const { data } = await axios.get('/api');
-    return data;
-  } catch (error) {
+      const response = await fetch (`${BASE_URL}/products`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json();
+    console.log(data);
+    return data
+  }
+    catch (error) {
+    console.log(error)
     throw error;
   }
 }
+
