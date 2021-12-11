@@ -116,12 +116,4 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
     }
 })
 
-
-/**
- * DELETE REQUESTS
- */
-
-//delete an order
-
-
 module.exports = ordersRouter;
