@@ -189,12 +189,24 @@ describe("Database", () => {
     });
     describe("updateProduct", () => {
       it("Updates product information with passed-in fields", async () => {
-        expect(1).toEqual(1);
+        let id = queriedProduct.id;
+        let fields = {
+          title: "Updated Product Title",
+          description: "Updated description.",
+          price: 101,
+        };
+        const updatedProduct = await updateProduct(id, fields);
+        console.log("Updated product:", updatedProduct);
+        expect(updatedProduct).not.toEqual(queriedProduct);
       });
     });
     describe("destroyProduct", () => {
       it("Changes a product's active status to false, without deleting from DB", async () => {
-        expect(1).toEqual(1);
+        let id = queriedProduct.id;
+        const deleteProduct = await destroyProduct(id);
+        const product = await getProductById(id);
+        expect(deleteProduct).toBeTruthy();
+        expect(product.active).toBeFalsy();
       });
     });
   });
