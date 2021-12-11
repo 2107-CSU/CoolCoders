@@ -248,6 +248,54 @@ try {
 
 ## PATCH /api/orders/:orderId (**)
 Updates and returns an order. You must pass a valid token with this request.
-The user must be the owner of this order
+The user must be the owner of this order, or use an admin account
 
 ### Request Parameters
+- order id (int, required)
+- total price (number, optional): total price for the given order
+- order date (string, optional): date the order was submitted
+- order status (string, optional)
+
+### Return Parameters
+- id (number): order id
+- userId (number)
+- totalPrice (number)
+- orderDate (string)
+- orderStatus (string)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/orders/28`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            },
+            body: JSON.stringify(
+                {
+                    totalPrice: 856.00,
+                })
+        })
+        const data = await response.json();
+
+        console.log("all routines: ", data);
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+{
+    "id": 28,
+    "userId": 31,
+    "totalPrice": "856",
+    "orderDate": "2021-12-01T07:00:00.000Z",
+    "orderStatus": "cart"
+}
+
+```
