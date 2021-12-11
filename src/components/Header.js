@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
 
-    
-
-
-
     return (
         <header className='navbar navbar-expand-sm navbar-light bg-light fixed-top'>
         <button 
@@ -24,7 +20,7 @@ const Header = () => {
             <Link to='/products' className='nav-link' >Products</Link>
             <Link to='/cart' className='nav-link'>Cart</Link>
             <Link to='/login' className='nav-link'> Login </Link>
-
+            {/* // --------------- TODO ----------------- */}
             {/* only show these last two if you are signed in */}
             <Link to='/orders' className='nav-link'>My Orders</Link>
             <Link to='/logout' className='nav-link'>Logout</Link>
