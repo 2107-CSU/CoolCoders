@@ -126,7 +126,7 @@ describe("Database", () => {
       it("Fetches an array of all active users", async () => {
         const users = await getAllUsers();
         const testUser = await getUserById(1);
-        testUser.active ? delete testUser.active : null;
+        testUser.active ? delete testUser.active : null; // fetched users are supposed to be active
         expect(users).toContainEqual(testUser);
       });
     });
@@ -149,23 +149,42 @@ describe("Database", () => {
       photo: "Placeholder URL",
     };
     describe("createProduct", () => {
+      beforeAll(async () => {
+        productToCreate = await createProduct(productInfo);
+        const {
+          rows: [testProduct],
+        } = await client.query(
+          `
+          SELECT * FROM products
+          WHERE title=$1;
+        `,
+          [productInfo.title]
+        );
+        queriedProduct = testProduct;
+      });
       it("Creates a new product in the database", async () => {
-        expect(1).toEqual(1);
+        expect(productToCreate.title).toBe(productInfo.title);
+        expect(queriedProduct.title).toBe(productInfo.title);
       });
     });
     describe("getProductById", () => {
       it("Fetches a product by its passed-in ID", async () => {
-        expect(1).toEqual(1);
+        let id = queriedProduct.id;
+        const product = await getProductById(id);
+        expect(product).toEqual(queriedProduct);
       });
     });
     describe("getAllProducts", () => {
       it("Retrieves all existing products from the database", async () => {
-        expect(1).toEqual(1);
+        let products = await getAllProducts();
+        let sampleProduct = await getProductById(1);
+        expect(products).toContainEqual(sampleProduct);
       });
     });
     describe("getProductsByCategory", () => {
       it("Retrieves products by category, according to passed-in category ID", async () => {
-        expect(1).toEqual(1);
+        let filteredProducts = await getProductsByCategory(1);
+        expect(filteredProducts).toContainEqual(queriedProduct);
       });
     });
     describe("updateProduct", () => {

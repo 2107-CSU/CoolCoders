@@ -126,9 +126,7 @@ async function destroyProduct(productId) {
 
 async function getProductsByCategory(categoryId) {
   try {
-    const {
-      rows: [products],
-    } = await client.query(
+    const { rows: products } = await client.query(
       `
       SELECT *
       FROM products
