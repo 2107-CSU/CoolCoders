@@ -84,11 +84,23 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
 
 //edit an order
 ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
+    const userId = req.user.id;
+
     const orderId = req.params.orderId;
 
     const objFields = {...req.body};
 
+    //determine if order status will allow edits
+
     try {
+        //determine if logged in user is the owner of an order
+        const orderToUpdate = await getOrderByOrderId(orderId);
+        if(orderToUpdate) {
+            if (orderToUpdate.userId !== userId) {
+                throw new Error('You must be the owner of an order to edit');
+            }
+        }
+
         const order = await updateOrder(orderId, objFields);
 
         res.send(order);
