@@ -105,10 +105,37 @@ async function getOrderByOrderId(orderId) {
   }
 }
 
+async function updateOrder(orderId, fields={}) {
+  // map over the object's keys, output ===> columnOne=$1, columnTwo=$2, columnThree=$3
+  // then use Object.values(fields) to reference updated values inside the SQL query
+  const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
+
+    try {
+      if (setString.length > 0) {
+        const {rows: [order]} = await client.query(
+          `
+          UPDATE orders
+          SET ${setString}
+          WHERE id=${orderId}
+          RETURNING *;
+         `,
+          Object.values(fields)
+        );
+
+        return order;
+      }
+    } catch (error) {
+      throw error;
+    }
+}
+
 module.exports = {
   getAllOrders,
   getOrderByProductId,
   getOrderByUserId,
   createOrder,
-  getOrderByOrderId
+  getOrderByOrderId,
+  updateOrder
 };

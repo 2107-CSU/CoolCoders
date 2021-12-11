@@ -192,7 +192,7 @@ try {
 ```
 
 ## POST /api/orders/ (*)
-Creates an returns an order. You must pass a valid token with this request
+Creates and returns an order. You must pass a valid token with this request
 
 ### Request Parameters
 - user id (int, required): the id for the user placing the order
@@ -245,3 +245,9 @@ try {
 }
 
 ```
+
+## PATCH /api/orders/:orderId (**)
+Updates and returns an order. You must pass a valid token with this request.
+The user must be the owner of this order
+
+### Request Parameters

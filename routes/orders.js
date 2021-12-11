@@ -8,7 +8,7 @@ const ordersRouter = express.Router();
 const {requireUser} = require('./utils');
 
 //import db adapters
-const {getAllOrders, getOrderByUserId, getOrderByOrderId, createOrder} = require('../db');
+const {getAllOrders, getOrderByUserId, getOrderByOrderId, createOrder, updateOrder} = require('../db');
 
 /**
  * GET REQUESTS
@@ -67,11 +67,6 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
 
     const objFields = {userId, ...req.body};
 
-    console.log(objFields);
-
-    const {orderDate} = objFields;
-    console.log(typeof orderDate);
-
     try {
         const order = await createOrder(objFields);
 
@@ -88,6 +83,20 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
  */
 
 //edit an order
+ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
+    const orderId = req.params.orderId;
+
+    const objFields = {...req.body};
+
+    try {
+        const order = await updateOrder(orderId, objFields);
+
+        res.send(order);
+    }
+    catch (error) {
+        next(error);
+    }
+})
 
 
 /**
