@@ -3,6 +3,7 @@ const SALT_COUNT = 13;
 
 const rebuildDB = require("../db/init_db");
 const { client } = require("../db");
+const { mockUsers } = require("../db/mockData");
 
 /* const { Client } = require("pg");
 
@@ -21,6 +22,7 @@ const {
   getAllUsers,
   updateUser,
 } = require("../db");
+const { user } = require("pg/lib/defaults");
 
 jest.setTimeout(10000);
 
@@ -109,6 +111,14 @@ describe("Database", () => {
         expect(deactivatedUser).toBeTruthy();
         const user = await getUserById(userToCreate.id);
         expect(user.active).toBeFalsy();
+      });
+    });
+    describe("getAllUsers", () => {
+      it("Fetches an array of all active users", async () => {
+        const users = await getAllUsers();
+        const testUser = await getUserById(1);
+        testUser.active ? delete testUser.active : null;
+        expect(users).toContainEqual(testUser);
       });
     });
   });

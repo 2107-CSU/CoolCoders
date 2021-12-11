@@ -111,8 +111,9 @@ async function deactivateUser(userId) {
 
 async function getAllUsers() {
   try {
+    // Refactored to not return password, as it's a security risk
     const { rows } = await client.query(`
-      SELECT id, email, name, "userStatus", password
+      SELECT id, email, name, "userStatus"
       FROM users
       WHERE active=true;
     `);
