@@ -21,9 +21,10 @@ async function createInitialUsers() {
   try {
     const users = await Promise.all(mockUsers.map((user) => createUser(user)));
 
-    console.log("Users created:");
-    console.log(users);
+    // console.log("Users created:");
+    // console.log(users);
     console.log("Finished creating users!");
+    return users;
   } catch (error) {
     console.error("Error creating users!");
     throw error;
@@ -38,10 +39,11 @@ async function createInitialCategories() {
       mockCategories.map((category) => createCategory(category))
     );
 
-    console.log("Categories created:");
-    console.log(categories);
+    // console.log("Categories created:");
+    // console.log(categories);
 
     console.log("Finished creating categories!");
+    return categories;
   } catch (error) {
     console.error("Error creating categories!");
     throw error;
@@ -56,10 +58,11 @@ async function createInitialProducts() {
       mockProducts.map((product) => createProduct(product))
     );
 
-    console.log("Products created:");
-    console.log(products);
+    // console.log("Products created:");
+    // console.log(products);
 
     console.log("Finished creating products!");
+    return products;
   } catch (error) {
     console.error("Error creating products!");
     throw error;
@@ -74,10 +77,11 @@ async function createInitialOrders() {
       mockOrders.map((order) => createOrder(order))
     );
 
-    console.log("Orders created:");
-    console.log(orders);
+    // console.log("Orders created:");
+    // console.log(orders);
 
     console.log("Finished creating orders!");
+    return orders;
   } catch (error) {
     console.error("Error creating orders!");
     throw error;
@@ -92,10 +96,11 @@ async function createInitialReviews() {
       mockReviews.map((review) => createReview(review))
     );
 
-    console.log("Reviews created:");
-    console.log(reviews);
+    // console.log("Reviews created:");
+    // console.log(reviews);
 
     console.log("Finished creating reviews!");
+    return reviews;
   } catch (error) {
     console.error("Error creating reviews!");
     throw error;

@@ -135,7 +135,7 @@ async function populateInitialData() {
 
 async function rebuildDB() {
   try {
-    await client.connect();
+    client.connect();
     await dropTables();
     await createTables();
     await populateInitialData();
@@ -146,8 +146,4 @@ async function rebuildDB() {
   }
 }
 
-rebuildDB()
-  .catch(console.error)
-  .finally(() => client.end());
-
-module.exports = { rebuildDB };
+module.exports = rebuildDB;
