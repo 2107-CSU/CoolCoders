@@ -22,7 +22,16 @@ const {
   getAllUsers,
   updateUser,
 } = require("../db");
-const { user } = require("pg/lib/defaults");
+
+// PRODUCTS FUNCTIONS TO TEST
+const {
+  getProductById,
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  destroyProduct,
+  getProductsByCategory,
+} = require("../db");
 
 jest.setTimeout(10000);
 
@@ -126,6 +135,47 @@ describe("Database", () => {
         const userToUpdate = await getUserByEmail(userCredentials.email);
         const updatedUser = await updateUser(userToUpdate.id, "Test Robinson");
         expect(updatedUser).not.toEqual(userToUpdate);
+      });
+    });
+  });
+  describe("Products", () => {
+    let productToCreate, queriedProduct;
+    let productInfo = {
+      title: "Test product",
+      description: "This product is for testing.",
+      price: 100,
+      quantity: 100,
+      categoryId: 1,
+      photo: "Placeholder URL",
+    };
+    describe("createProduct", () => {
+      it("Creates a new product in the database", async () => {
+        expect(1).toEqual(1);
+      });
+    });
+    describe("getProductById", () => {
+      it("Fetches a product by its passed-in ID", async () => {
+        expect(1).toEqual(1);
+      });
+    });
+    describe("getAllProducts", () => {
+      it("Retrieves all existing products from the database", async () => {
+        expect(1).toEqual(1);
+      });
+    });
+    describe("getProductsByCategory", () => {
+      it("Retrieves products by category, according to passed-in category ID", async () => {
+        expect(1).toEqual(1);
+      });
+    });
+    describe("updateProduct", () => {
+      it("Updates product information with passed-in fields", async () => {
+        expect(1).toEqual(1);
+      });
+    });
+    describe("destroyProduct", () => {
+      it("Changes a product's active status to false, without deleting from DB", async () => {
+        expect(1).toEqual(1);
       });
     });
   });
