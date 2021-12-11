@@ -47,7 +47,6 @@ try {
         })
         const data = await response.json();
 
-        console.log("all routines: ", data);
         return data
     }
     catch (error) {
@@ -109,7 +108,6 @@ try {
         })
         const data = await response.json();
 
-        console.log("all routines: ", data);
         return data
     }
     catch (error) {
@@ -170,7 +168,6 @@ try {
         })
         const data = await response.json();
 
-        console.log("all routines: ", data);
         return data
     }
     catch (error) {
@@ -225,7 +222,6 @@ try {
         })
         const data = await response.json();
 
-        console.log("all routines: ", data);
         return data
     }
     catch (error) {
@@ -279,7 +275,6 @@ try {
         })
         const data = await response.json();
 
-        console.log("all routines: ", data);
         return data
     }
     catch (error) {
