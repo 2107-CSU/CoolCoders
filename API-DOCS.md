@@ -190,3 +190,8 @@ try {
 }
 
 ```
+
+## POST /api/orders/ (*)
+Creates an returns an order
+
+### Request Parameters

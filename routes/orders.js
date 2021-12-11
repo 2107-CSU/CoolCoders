@@ -5,10 +5,10 @@ const express = require('express');
 const ordersRouter = express.Router();
 
 //import helper functions
-const {} = require('./utils');
+const {requireUser} = require('./utils');
 
 //import db adapters
-const {getAllOrders, getOrderByUserId, getOrderByOrderId} = require('../db');
+const {getAllOrders, getOrderByUserId, getOrderByOrderId, createOrder} = require('../db');
 
 /**
  * GET REQUESTS
@@ -61,15 +61,37 @@ ordersRouter.get('/:orderId', async (req, res, next) => {
  * POST REQUESTS
  */
 
+//create an order
+ordersRouter.post('/', requireUser, async (req, res, next) => {
+    const userId = req.user.id;
+
+    const objFields = {userId, ...req.body};
+
+    console.log(objFields);
+
+    try {
+        const order = await createOrder(objFields);
+
+        res.send(order);
+    }
+    catch (error) {
+        next(error);
+    }
+
+})
 
 /**
  * PATCH REQUESTS
  */
 
+//edit an order
+
 
 /**
  * DELETE REQUESTS
  */
+
+//delete an order
 
 
 module.exports = ordersRouter;

@@ -17,7 +17,7 @@ CREATE TYPE status_type AS ENUM(
 */
 const client = require("./client");
 
-async function createOrder({ userId, totalPrice, orderDate, orderStatus }) {
+async function createOrder({ userId, totalPrice, orderDate, orderStatus = "cart"}) {
   try {
     const {
       rows: [order],
