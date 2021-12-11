@@ -22,7 +22,16 @@ const {
   getAllUsers,
   updateUser,
 } = require("../db");
-const { user } = require("pg/lib/defaults");
+
+// PRODUCTS FUNCTIONS TO TEST
+const {
+  getProductById,
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  destroyProduct,
+  getProductsByCategory,
+} = require("../db");
 
 jest.setTimeout(10000);
 
@@ -117,7 +126,7 @@ describe("Database", () => {
       it("Fetches an array of all active users", async () => {
         const users = await getAllUsers();
         const testUser = await getUserById(1);
-        testUser.active ? delete testUser.active : null;
+        testUser.active ? delete testUser.active : null; // fetched users are supposed to be active
         expect(users).toContainEqual(testUser);
       });
     });
@@ -126,6 +135,78 @@ describe("Database", () => {
         const userToUpdate = await getUserByEmail(userCredentials.email);
         const updatedUser = await updateUser(userToUpdate.id, "Test Robinson");
         expect(updatedUser).not.toEqual(userToUpdate);
+      });
+    });
+  });
+  describe("Products", () => {
+    let productToCreate, queriedProduct;
+    let productInfo = {
+      title: "Test product",
+      description: "This product is for testing.",
+      price: 100,
+      quantity: 100,
+      categoryId: 1,
+      photo: "Placeholder URL",
+    };
+    describe("createProduct", () => {
+      beforeAll(async () => {
+        productToCreate = await createProduct(productInfo);
+        const {
+          rows: [testProduct],
+        } = await client.query(
+          `
+          SELECT * FROM products
+          WHERE title=$1;
+        `,
+          [productInfo.title]
+        );
+        queriedProduct = testProduct;
+      });
+      it("Creates a new product in the database", async () => {
+        expect(productToCreate.title).toBe(productInfo.title);
+        expect(queriedProduct.title).toBe(productInfo.title);
+      });
+    });
+    describe("getProductById", () => {
+      it("Fetches a product by its passed-in ID", async () => {
+        let id = queriedProduct.id;
+        const product = await getProductById(id);
+        expect(product).toEqual(queriedProduct);
+      });
+    });
+    describe("getAllProducts", () => {
+      it("Retrieves all existing products from the database", async () => {
+        let products = await getAllProducts();
+        let sampleProduct = await getProductById(1);
+        expect(products).toContainEqual(sampleProduct);
+      });
+    });
+    describe("getProductsByCategory", () => {
+      it("Retrieves products by category, according to passed-in category ID", async () => {
+        let filteredProducts = await getProductsByCategory(1);
+        expect(filteredProducts).toContainEqual(queriedProduct);
+      });
+    });
+    describe("updateProduct", () => {
+      it("Updates product information with passed-in fields", async () => {
+        let id = queriedProduct.id;
+        let fields = {
+          title: "Updated Product Title",
+          description: "Updated description.",
+          price: 101,
+        };
+        const updatedProduct = await updateProduct(id, fields);
+        console.log("Updated product:", updatedProduct);
+        expect(updatedProduct).not.toEqual(queriedProduct);
+      });
+    });
+    describe("destroyProduct", () => {
+      it("Changes a product's active status to false, without deleting from DB", async () => {
+        let id = queriedProduct.id;
+        const deleteProduct = await destroyProduct(id);
+        const product = await getProductById(id);
+        expect(deleteProduct).toBeTruthy();
+        expect(product.active).toBeFalsy();
       });
     });
   });
