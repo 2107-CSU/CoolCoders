@@ -69,6 +69,9 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
 
     console.log(objFields);
 
+    const {orderDate} = objFields;
+    console.log(typeof orderDate);
+
     try {
         const order = await createOrder(objFields);
 

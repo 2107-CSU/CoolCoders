@@ -30,11 +30,11 @@ No request parameters
 
 ### Return Parameters
 (array of objects)
-- id
-- userId
-- totalPrice
-- orderDate
-- orderStatus
+- id (number)
+- userId (number)
+- totalPrice (number)
+- orderDate (string)
+- orderStatus (string)
 
 ### Sample Call
 ```
@@ -92,11 +92,11 @@ No request parameters
 
 ### Return Parameters
 (array of objects)
-- id
-- userId
-- totalPrice
-- orderDate
-- orderStatus
+- id (number)
+- userId (number)
+- totalPrice (number)
+- orderDate (string)
+- orderStatus (string)
 
 ### Sample Call
 ```
@@ -153,11 +153,11 @@ Returns an order with a matching id
 No request parameters
 
 ### Return Parameters
-- id
-- userId
-- totalPrice
-- orderDate
-- orderStatus
+- id (number)
+- userId (number)
+- totalPrice (number)
+- orderDate (string)
+- orderStatus (string)
 
 ### Sample Call
 ```
@@ -192,6 +192,56 @@ try {
 ```
 
 ## POST /api/orders/ (*)
-Creates an returns an order
+Creates an returns an order. You must pass a valid token with this request
 
 ### Request Parameters
+- user id (int, required): the id for the user placing the order
+- total price (number, required): total price for the given order
+- order date (string, required): date the order was submitted
+- order status (string, optional): defaults to "cart". can also be set to wishlist depending on the desired behavior
+
+### Return Parameters
+- id (number): order id
+- userId (number)
+- totalPrice (number)
+- orderDate (string)
+- orderStatus (string)
+
+### Sample Call
+```
+try {
+        const response = await fetch (`${BASEURL}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            },
+            body: JSON.stringify(
+                {
+                    userId: 31,
+                    totalPrice: 48.50,
+                    orderDate: '2021-12-01'
+                })
+        })
+        const data = await response.json();
+
+        console.log("all routines: ", data);
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```
+{
+    "id": 28,
+    "userId": 31,
+    "totalPrice": "48.5",
+    "orderDate": "2021-12-01T07:00:00.000Z",
+    "orderStatus": "cart"
+}
+
+```

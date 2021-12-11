@@ -15,8 +15,6 @@ apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
   const auth = req.header('Authorization');
 
-  console.log("SECRET: ", JWT_SECRET);
-
   //check for authorization in the header object
   if(!auth) {
       //if there is no authorization move onto the next middleware
