@@ -144,7 +144,7 @@ try {
 
 ```
 
-## GET /api/orders/:orderId (**)
+## GET /api/orders/:orderId
 Returns an order with a matching id
 
 ### Request Parameters
