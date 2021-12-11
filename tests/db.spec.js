@@ -33,6 +33,14 @@ const {
   getProductsByCategory,
 } = require("../db");
 
+// ORDERS FUNCTIONS TO TEST
+const {
+  getAllOrders,
+  getOrderByProductId,
+  getOrderByUsername,
+  createOrder,
+} = require("../db");
+
 jest.setTimeout(10000);
 
 describe("Database", () => {
@@ -210,4 +218,5 @@ describe("Database", () => {
       });
     });
   });
+  describe("Orders", () => {});
 });
