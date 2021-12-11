@@ -29,20 +29,20 @@ const Cart = () => {
           },
     ])
 
-    // find the total price by multiplying qty*price
     useEffect(() => {
-        let total = 0;
+      let total = 0;
+      if (cartItems) {
         cartItems.map((item) => {
-            let itemTotal = item.quantity * item.price;
-            total += itemTotal;
+          let itemTotal = item.quantity * item.price;
+          total += itemTotal;
+          setTotalPrice(total);
         })
-        setTotalPrice(total);
+      }
     }, [cartItems])
 
     function removeAllItems(){
       setCartItems([]);
     }
-
 
     return (
       <div className='cartBody'>
@@ -52,18 +52,19 @@ const Cart = () => {
             <h5 className='Action' onClick={() => removeAllItems()}>Remove all</h5>
           </div>
           <div >
-            {
+            { cartItems ? (
               cartItems.map(item => (
+                // -------------------- TODO -----------------------
                 // change the value of the key! Just using title for testing out
-                <SingleCartItem key={item.title} item={item} setCartItems={setCartItems} cartItems={cartItems} />
+                <SingleCartItem key={item.title} item={item} setCartItems={setCartItems} cartItems={cartItems} setTotalPrice={setTotalPrice} />
               ))
-            }
+            ) : <h3>Nothing in your cart</h3>}
           </div>
           <div className='checkout'>
             <div className='total'>
               <div>
                 <div className='Subtotal'>Sub-Total</div>
-                <div className='items'>{cartItems.length} items</div>
+                <div className='items'>{cartItems ? cartItems.length : 0} items</div>
               </div>
               <div className='total-amount'>${totalPrice}.00</div>
             </div>
