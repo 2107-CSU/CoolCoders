@@ -90,17 +90,23 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
 
     const objFields = {...req.body};
 
-    //determine if order status will allow edits
-
     try {
         //determine if logged in user is the owner of an order
         const orderToUpdate = await getOrderByOrderId(orderId);
+
         if(orderToUpdate) {
             if (orderToUpdate.userId !== userId) {
                 throw new Error('You must be the owner of an order to edit');
             }
+
+            //determine if order status will allow edits
+            if (orderToUpdate.orderStatus === 'in_transit' ||
+                orderToUpdate.orderStatus === 'delivered') {
+                throw new Error('Cannot edit an order after its been processed');
+            }
         }
 
+        //otherwise update the order
         const order = await updateOrder(orderId, objFields);
 
         res.send(order);

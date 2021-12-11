@@ -4,7 +4,7 @@ When using the API, many calls are made in the context of a registered user. The
 
 A sample request with an authorization token looks like this:
 
-```
+```js
 fetch('https://deployedapi.com/api/users/register', {
   method: 'POST',
   headers: {
@@ -37,7 +37,7 @@ No request parameters
 - orderStatus (string)
 
 ### Sample Call
-```
+```js
 try {
         const response = await fetch (`${BASEURL}/orders`, {
             method: 'GET',
@@ -57,7 +57,7 @@ try {
 ```
 
 ### Sample Response
-```
+```json
 [
     {
         "id": 1,
@@ -99,7 +99,7 @@ No request parameters
 - orderStatus (string)
 
 ### Sample Call
-```
+```js
 try {
         const response = await fetch (`${BASEURL}/orders/19/users`, {
             method: 'GET',
@@ -119,7 +119,7 @@ try {
 ```
 
 ### Sample Response
-```
+```json
 [
     {
         "id": 6,
@@ -160,7 +160,7 @@ No request parameters
 - orderStatus (string)
 
 ### Sample Call
-```
+```js
 try {
         const response = await fetch (`${BASEURL}/orders/13`, {
             method: 'GET',
@@ -180,7 +180,7 @@ try {
 ```
 
 ### Sample Response
-```
+```json
 {
     "id": 13,
     "userId": 19,
@@ -208,7 +208,7 @@ Creates and returns an order. You must pass a valid token with this request
 - orderStatus (string)
 
 ### Sample Call
-```
+```js
 try {
         const response = await fetch (`${BASEURL}/orders`, {
             method: 'POST',
@@ -235,7 +235,7 @@ try {
 ```
 
 ### Sample Response
-```
+```json
 {
     "id": 28,
     "userId": 31,
