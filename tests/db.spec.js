@@ -121,5 +121,12 @@ describe("Database", () => {
         expect(users).toContainEqual(testUser);
       });
     });
+    describe("updateUser", () => {
+      it("Successfully updates a user's information", async () => {
+        const userToUpdate = await getUserByEmail(userCredentials.email);
+        const updatedUser = await updateUser(userToUpdate.id, "Test Robinson");
+        expect(updatedUser).not.toEqual(userToUpdate);
+      });
+    });
   });
 });
