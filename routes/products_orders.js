@@ -9,7 +9,7 @@ const {requireUser} = require('./utils');
 
 //import db adapters
 const {addProductToOrder} = require('../db/products_orders');
-const { getProductById } = require('../db');
+const { getProductById, updateProduct } = require('../db');
 
 products_ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /products_orders');
@@ -35,11 +35,25 @@ products_ordersRouter.post('/', requireUser, async (req, res, next) => {
     let objFields = {};
 
     try {
-        //retrieve the product from db and grab the price
+        //retrieve the product from db
         const product = await getProductById(productId);
         if (product) {
-            productPrice = product.price;
+            //check current quantity of product
+            let prodQuantity = product.quantity;
 
+            if (prodQuantity >= quantity) {
+                //calculate new inventory
+                let newProdQuantity = prodQuantity - quantity
+                await updateProduct(productId, {
+                    quantity: newProdQuantity
+                })
+            }
+            else {
+                throw new Error ("Not enough stock to fulfill order");
+            }
+
+            //grab price
+            productPrice = product.price;
             //calculate total price for productOrder
             totalPrice = productPrice * quantity;
         }

@@ -23,7 +23,12 @@ async function addProductToOrder({productId, orderId, quantity, productPrice, to
             RETURNING *;
         `, [productId, orderId, quantity, productPrice, totalPrice]);
 
-        return productToOrder;
+        if (productToOrder) {
+            return productToOrder;
+        }
+        else {
+            throw new Error("Error adding item to order");
+        }
     }
     catch (error) {
         throw error;
