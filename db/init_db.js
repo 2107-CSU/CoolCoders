@@ -89,7 +89,7 @@ async function createTables() {
                 quantity INTEGER NOT NULL,
                 "productPrice" DECIMAL NOT NULL,
                 "totalPrice" DECIMAL NOT NULL,
-                UNIQUE ("productId", "orderId")
+                UNIQUE("productId", "orderId")
             );
             CREATE TABLE reviews(
                 id SERIAL PRIMARY KEY,
