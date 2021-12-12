@@ -9,7 +9,7 @@ const {requireUser} = require('./utils');
 
 //import db adapters
 const {addProductToOrder} = require('../db/products_orders');
-const { getProductById, updateProduct } = require('../db');
+const { getProductById, updateProduct, updateTotalOrderPrice } = require('../db');
 
 products_ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /products_orders');
@@ -25,8 +25,8 @@ products_ordersRouter.use((req, res, next) => {
  */
 
 //adds a product to an order, and returns the row
-//this endpoint fetches product price from db, and calculates total price
-//based on quantity
+//this endpoint updates quantity in products table,
+//and total price in orders table
 products_ordersRouter.post('/', requireUser, async (req, res, next) => {
     //destructure required fields from request body
     const {productId, orderId, quantity} = req.body;
@@ -65,8 +65,11 @@ products_ordersRouter.post('/', requireUser, async (req, res, next) => {
         objFields = {
             productId, orderId, quantity, productPrice, totalPrice
         }
-
+        //add product to order
         const productToOrder = await addProductToOrder(objFields);
+
+        //update total price for order
+        await updateTotalOrderPrice(orderId);
 
         res.send(productToOrder);
     }

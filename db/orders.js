@@ -131,11 +131,29 @@ async function updateOrder(orderId, fields={}) {
     }
 }
 
+async function updateTotalOrderPrice(orderId) {
+  try {
+    const {rows: [sum]} = await client.query(`
+      SELECT SUM ("totalPrice")
+      FROM products_orders
+      WHERE "orderId" = $1;
+    `, [orderId]);
+
+    const totalPrice = sum.sum;
+
+    await updateOrder(orderId, {totalPrice});
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   getAllOrders,
   getOrderByProductId,
   getOrderByUserId,
   createOrder,
   getOrderByOrderId,
-  updateOrder
+  updateOrder,
+  updateTotalOrderPrice
 };
