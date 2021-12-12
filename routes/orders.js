@@ -28,7 +28,6 @@ ordersRouter.get('/', async (req, res, next) => {
 
 //returns a list of orders for a given user id
 ordersRouter.get('/:userId/users', async (req, res, next) => {
-    console.log("RETURN A LIST OF A USERS ORDERS")
     const userId = req.params.userId;
 
     try {

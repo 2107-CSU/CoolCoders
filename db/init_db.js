@@ -84,11 +84,12 @@ async function createTables() {
             );
             CREATE TABLE products_orders(
                 id SERIAL PRIMARY KEY,
-                "productId" INTEGER REFERENCES products(id) UNIQUE NOT NULL,
+                "productId" INTEGER REFERENCES products(id) NOT NULL,
                 "orderId" INTEGER REFERENCES orders(id) NOT NULL,
                 quantity INTEGER NOT NULL,
                 "productPrice" DECIMAL NOT NULL,
-                "totalPrice" DECIMAL NOT NULL
+                "totalPrice" DECIMAL NOT NULL,
+                UNIQUE ("productId", "orderId")
             );
             CREATE TABLE reviews(
                 id SERIAL PRIMARY KEY,
