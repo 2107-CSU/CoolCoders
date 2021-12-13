@@ -16,6 +16,29 @@ products_ordersRouter.use((req, res, next) => {
     next();
 });
 
+//helper function to check and update product quantity
+//accepts a product object, and desired quantity
+async function manageQuantity(product, quantity) {
+    try {
+        //check current quantity of product
+        const prodQuantity = product.quantity;
+
+        if (prodQuantity >= quantity) {
+            //calculate new inventory
+            const newProdQuantity = prodQuantity - quantity
+            await updateProduct(product.id, {
+                quantity: newProdQuantity
+            })
+        }
+        else {
+            throw new Error ("Not enough stock to fulfill order");
+        }
+    }
+    catch (error) {
+        throw(error);
+    }
+}
+
 /**
  * GET REQUESTS
  */
@@ -38,19 +61,7 @@ products_ordersRouter.post('/', requireUser, async (req, res, next) => {
         //retrieve the product from db
         const product = await getProductById(productId);
         if (product) {
-            //check current quantity of product
-            let prodQuantity = product.quantity;
-
-            if (prodQuantity >= quantity) {
-                //calculate new inventory
-                let newProdQuantity = prodQuantity - quantity
-                await updateProduct(productId, {
-                    quantity: newProdQuantity
-                })
-            }
-            else {
-                throw new Error ("Not enough stock to fulfill order");
-            }
+            await manageQuantity(product, quantity);
 
             //grab price
             productPrice = product.price;
@@ -99,19 +110,7 @@ products_ordersRouter.patch('/:productOrderId', requireUser, async (req, res, ne
         //retrieve the product from db
         const product = await getProductById(productId);
         if (product) {
-            //check current quantity of product
-            let prodQuantity = product.quantity;
-
-            if (prodQuantity >= quantity) {
-                //calculate new inventory
-                let newProdQuantity = prodQuantity - quantity
-                await updateProduct(productId, {
-                    quantity: newProdQuantity
-                })
-            }
-            else {
-                throw new Error ("Not enough stock to fulfill order");
-            }
+            await manageQuantity(product, quantity);
 
             //grab price
             productPrice = product.price;
@@ -138,5 +137,6 @@ products_ordersRouter.patch('/:productOrderId', requireUser, async (req, res, ne
 /**
  * DELETE REQUESTS
  */
+
 
 module.exports = products_ordersRouter;
