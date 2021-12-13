@@ -295,9 +295,10 @@ try {
 
 ```
 
+
 # PRODUCTS_ORDERS ENDPOINTS
 
-## GET /api/products_orders/ (**)
+## GET /api/products_orders (**)
 Returns a product_order. You must pass a valid token with this request. The user must be the owner of this order, or use an admin account
 
 ### Request Parameters
@@ -408,7 +409,7 @@ try {
 
 ```
 
-## POST /api/products_orders/ (**)
+## POST /api/products_orders (**)
 Adds a product to an order. You must pass a valid token with this request. The user must be the owner of the order
 
 ### Request Parameters
