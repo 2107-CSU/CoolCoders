@@ -8,7 +8,7 @@ const products_ordersRouter = express.Router();
 const {requireUser} = require('./utils');
 
 //import db adapters
-const {addProductToOrder, updateProductOrder, getProductOrderById, deleteProductOrder} = require('../db/products_orders');
+const {addProductToOrder, updateProductOrder, getProductOrderById, deleteProductOrder, getProductsByOrder} = require('../db/products_orders');
 const { getProductById, updateProduct, updateTotalOrderPrice, getOrderByOrderId } = require('../db');
 
 products_ordersRouter.use((req, res, next) => {
@@ -18,14 +18,18 @@ products_ordersRouter.use((req, res, next) => {
 
 //helper function to check and update product quantity
 //accepts a product object, and desired quantity
-async function manageQuantity(product, quantity) {
+async function manageQuantity(productId, quantity) {
     try {
+        //retrieve updated product
+        const product = await getProductById(productId);
+
         //check current quantity of product
         const prodQuantity = product.quantity;
 
         if (prodQuantity >= quantity) {
-            //calculate new inventory
+            //calculate and update new inventory
             const newProdQuantity = prodQuantity - quantity
+
             await updateProduct(product.id, {
                 quantity: newProdQuantity
             })
@@ -61,7 +65,7 @@ products_ordersRouter.post('/', requireUser, async (req, res, next) => {
         //retrieve the product from db
         const product = await getProductById(productId);
         if (product) {
-            await manageQuantity(product, quantity);
+            await manageQuantity(productId, quantity);
 
             //grab price
             productPrice = product.price;
@@ -97,11 +101,11 @@ products_ordersRouter.patch('/:productOrderId', requireUser, async (req, res, ne
 
     const {quantity} = req.body;
 
-    if (quantity <= 0) {
-        throw new Error("Invalid quantity");
-    }
-
     try {
+        if (quantity <= 0) {
+            throw new Error("Invalid quantity");
+        }
+
         //retrieve product_order
         const productOrder = await getProductOrderById(productOrderId);
 
@@ -110,7 +114,12 @@ products_ordersRouter.patch('/:productOrderId', requireUser, async (req, res, ne
         //retrieve the product from db
         const product = await getProductById(productId);
         if (product) {
-            await manageQuantity(product, quantity);
+            //restore product inventory in db
+            const inventory = product.quantity + productOrder.quantity;
+            await updateProduct(productId, {quantity: inventory});
+
+            //call to subtract item qty from inventory
+            await manageQuantity(productId, quantity);
 
             //grab price
             productPrice = product.price;

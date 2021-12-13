@@ -63,7 +63,7 @@ async function createTables() {
                 id SERIAL PRIMARY KEY,
                 "userId" INTEGER,
                 FOREIGN KEY ("userId") REFERENCES users(id),
-                "totalPrice" DECIMAL NOT NULL,
+                "totalPrice" NUMERIC DEFAULT 0,
                 "orderDate" DATE NOT NULL,
                 "orderStatus" status_type NOT NULL
             );

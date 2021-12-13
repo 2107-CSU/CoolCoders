@@ -12,6 +12,34 @@ const client = require("./client");
     );
  */
 
+//returns a product_order given a specific id
+async function getProductOrderById(id) {
+    try {
+        const {rows: [productOrder]} = await client.query(`
+            SELECT * FROM products_orders
+            WHERE id = $1;
+        `, [id]);
+
+        return productOrder;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+//returns a list of products for a given order
+async function getProductsByOrder(orderId) {
+    try {
+        const {rows: orderProducts} = await client.query(`
+            SELECT * FROM products_orders
+            WHERE "orderId" = ${orderId};
+        `);
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 //creates a new product_order entry and returns it
 async function addProductToOrder({productId, orderId, quantity, productPrice, totalPrice}) {
     try {
@@ -29,21 +57,6 @@ async function addProductToOrder({productId, orderId, quantity, productPrice, to
         else {
             throw new Error("Error adding item to order");
         }
-    }
-    catch (error) {
-        throw error;
-    }
-}
-
-//returns a product_order given a specific id
-async function getProductOrderById(id) {
-    try {
-        const {rows: [productOrder]} = await client.query(`
-            SELECT * FROM products_orders
-            WHERE id = $1;
-        `, [id]);
-
-        return productOrder;
     }
     catch (error) {
         throw error;
@@ -87,5 +100,6 @@ module.exports = {
     getProductOrderById,
     addProductToOrder,
     updateProductOrder,
-    deleteProductOrder
+    deleteProductOrder,
+    getProductsByOrder
 }

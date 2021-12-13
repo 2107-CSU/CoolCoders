@@ -149,6 +149,11 @@ const mockUsers = [
     name: "lhutchinsono",
     password: "q0wRregCX",
   },
+  {
+    email: "txc@yahoo.com",
+    name: "txc",
+    password: "amapiano"
+  }
 ];
 
 const mockProducts = [
@@ -164,10 +169,18 @@ const mockProducts = [
     title: "Power Armor",
     description: "It makes you feel, like, really powerful, dude.",
     price: 1000000,
-    quantity: 1,
+    quantity: 20,
     categoryId: 4,
     photo: "https://via.placeholder.com/150",
   },
+  {
+    title: "Black Dream",
+    description: "Increases damage of Dark Magic attacks",
+    price: 250,
+    quantity: 75,
+    categoryId: 1,
+    photo: "https://via.placeholder.com/150"
+},
   {
     title: "Tea - Mint",
     description:
