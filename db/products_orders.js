@@ -50,7 +50,25 @@ async function getProductOrderById(id) {
     }
 }
 
+//updates a product order quantity. new quantity cannot be set to 0
+async function updateProductOrder(id, quantity, totalPrice) {
+    try {
+        const {rows: [productOrder]} = await client.query(`
+            UPDATE products_orders
+            SET "quantity"=$1, "totalPrice"=$2
+            WHERE id = ${id}
+            RETURNING *;
+        `, [quantity, totalPrice]);
+
+        return productOrder;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getProductOrderById,
-    addProductToOrder
+    addProductToOrder,
+    updateProductOrder
 }

@@ -8,7 +8,7 @@ const products_ordersRouter = express.Router();
 const {requireUser} = require('./utils');
 
 //import db adapters
-const {addProductToOrder} = require('../db/products_orders');
+const {addProductToOrder, updateProductOrder, getProductOrderById} = require('../db/products_orders');
 const { getProductById, updateProduct, updateTotalOrderPrice } = require('../db');
 
 products_ordersRouter.use((req, res, next) => {
@@ -81,6 +81,59 @@ products_ordersRouter.post('/', requireUser, async (req, res, next) => {
 /**
  * PATCH REQUESTS
  */
+products_ordersRouter.patch('/:productOrderId', requireUser, async (req, res, next) => {
+    const productOrderId = req.params.productOrderId;
+
+    const {quantity} = req.body;
+
+    if (quantity <= 0) {
+        throw new Error("Invalid quantity");
+    }
+
+    try {
+        //retrieve product_order
+        const productOrder = await getProductOrderById(productOrderId);
+
+        const productId = productOrder.productId;
+
+        //retrieve the product from db
+        const product = await getProductById(productId);
+        if (product) {
+            //check current quantity of product
+            let prodQuantity = product.quantity;
+
+            if (prodQuantity >= quantity) {
+                //calculate new inventory
+                let newProdQuantity = prodQuantity - quantity
+                await updateProduct(productId, {
+                    quantity: newProdQuantity
+                })
+            }
+            else {
+                throw new Error ("Not enough stock to fulfill order");
+            }
+
+            //grab price
+            productPrice = product.price;
+            //calculate total price for productOrder
+            totalPrice = productPrice * quantity;
+        }
+
+        //update product order
+        const updated = await updateProductOrder(productOrderId, quantity, totalPrice);
+
+        //update total price for order
+        await updateTotalOrderPrice(updated.orderId);
+
+        res.send(updated);
+
+    }
+    catch (error) {
+        next(error);
+    }
+
+
+})
 
 /**
  * DELETE REQUESTS
