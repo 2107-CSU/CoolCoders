@@ -67,8 +67,25 @@ async function updateProductOrder(id, quantity, totalPrice) {
     }
 }
 
+//hard deletes a product order
+async function deleteProductOrder(id) {
+    try {
+        const {rows: [deleted]} = await client.query(`
+            DELETE FROM products_orders
+            WHERE id = ${id}
+            RETURNING *;
+        `);
+
+        return deleted;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getProductOrderById,
     addProductToOrder,
-    updateProductOrder
+    updateProductOrder,
+    deleteProductOrder
 }

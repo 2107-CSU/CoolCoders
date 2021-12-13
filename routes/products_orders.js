@@ -8,8 +8,8 @@ const products_ordersRouter = express.Router();
 const {requireUser} = require('./utils');
 
 //import db adapters
-const {addProductToOrder, updateProductOrder, getProductOrderById} = require('../db/products_orders');
-const { getProductById, updateProduct, updateTotalOrderPrice } = require('../db');
+const {addProductToOrder, updateProductOrder, getProductOrderById, deleteProductOrder} = require('../db/products_orders');
+const { getProductById, updateProduct, updateTotalOrderPrice, getOrderByOrderId } = require('../db');
 
 products_ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /products_orders');
@@ -137,6 +137,55 @@ products_ordersRouter.patch('/:productOrderId', requireUser, async (req, res, ne
 /**
  * DELETE REQUESTS
  */
+//hard deletes and returns a product order
+//restores quantities of products and updates total price of order
+products_ordersRouter.delete('/:productOrderId', requireUser, async (req, res, next) => {
+    const productOrderId = req.params.productOrderId;
+    const userId = req.user.id
+
+    try {
+        //retrieve the product order
+        const productOrder = await getProductOrderById(productOrderId);
+
+        if (!productOrder) {
+            throw new Error ("Error finding product_order. Please try again");
+        }
+
+        //retrieve the order
+        const order = await getOrderByOrderId(productOrder.orderId)
+
+        //verify the user is the owner of the given order
+        if (order.userId === userId) {
+            //restore quantities of products
+            //retrieve product object
+            const product = await getProductById(productOrder.productId);
+            let inventory = product.quantity;
+
+            //qty of product from current order item
+            const orderQty = productOrder.quantity;
+
+            //calculate new inventory
+            inventory = orderQty + inventory
+
+            await updateProduct(product.id, {quantity: inventory});
+
+            //remove product order
+            const deleted = await deleteProductOrder(productOrderId);
+
+            //update total order price
+            await updateTotalOrderPrice(order.id);
+
+            res.send(deleted);
+        }
+        else {
+            throw new Error("Unauthorized");
+        }
+
+    }
+    catch (error) {
+        next(error);
+    }
+})
 
 
 module.exports = products_ordersRouter;
