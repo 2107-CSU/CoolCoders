@@ -294,3 +294,266 @@ try {
 }
 
 ```
+
+# PRODUCTS_ORDERS ENDPOINTS
+
+## GET /api/products_orders/ (**)
+Returns a product_order. You must pass a valid token with this request. The user must be the owner of this order, or use an admin account
+
+### Request Parameters
+No request parameters
+
+### Return Parameters
+- id (number)
+- productId (number)
+- quantity (number)
+- productPrice (number)
+- totalPrice (number)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/products_orders/8`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            }
+        })
+        const data = await response.json();
+
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+{
+    "id": 8,
+    "productId": 1,
+    "orderId": 26,
+    "quantity": 1,
+    "productPrice": "1000",
+    "totalPrice": "1000"
+}
+
+```
+
+## GET /api/products_orders/:orderId/orders (**)
+Returns a list of products for a given order. You must pass a valid token with this request. The user must be the owner of this order, or use an admin account
+
+### Request Parameters
+No request parameters
+
+### Return Parameters
+(array of objects)
+- id (number)
+- productId (number)
+- quantity (number)
+- productPrice (number)
+- totalPrice (number)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/products_orders/26/orders`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            }
+        })
+        const data = await response.json();
+
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+[
+    {
+        "id": 8,
+        "productId": 1,
+        "orderId": 26,
+        "quantity": 1,
+        "productPrice": "1000",
+        "totalPrice": "1000"
+    },
+    {
+        "id": 9,
+        "productId": 2,
+        "orderId": 26,
+        "quantity": 1,
+        "productPrice": "1000000",
+        "totalPrice": "1000000"
+    },
+    {
+        "id": 10,
+        "productId": 3,
+        "orderId": 26,
+        "quantity": 1,
+        "productPrice": "250",
+        "totalPrice": "250"
+    }
+]
+
+```
+
+## POST /api/products_orders/ (**)
+Adds a product to an order. You must pass a valid token with this request. The user must be the owner of the order
+
+### Request Parameters
+- product id (int, required)
+- order id (number, required)
+- quantity (number, required)
+
+### Return Parameters
+- id (number)
+- productId (number)
+- quantity (number)
+- productPrice (number)
+- totalPrice (number)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/products_orders/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            },
+            body: JSON.stringify(
+                {
+                    productId: 6,
+                    orderId: 27,
+                    quantity: 1
+                })
+        })
+        const data = await response.json();
+
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+{
+    "id": 13,
+    "productId": 6,
+    "orderId": 27,
+    "quantity": 1,
+    "productPrice": "26",
+    "totalPrice": "26"
+}
+
+```
+
+## PATCH /api/products_orders/:productOrderId (**)
+Edits a product order. You must pass a valid token with this request. The user must be the owner of the order
+
+### Request Parameters
+- quantity (number, required)
+
+### Return Parameters
+- id (number)
+- productId (number)
+- quantity (number)
+- productPrice (number)
+- totalPrice (number)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/products_orders/7`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            },
+            body: JSON.stringify(
+                {
+                    quantity: 2
+                })
+        })
+        const data = await response.json();
+
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+{
+    "id": 7,
+    "productId": 1,
+    "orderId": 26,
+    "quantity": 2,
+    "productPrice": "1000",
+    "totalPrice": "2000"
+}
+
+```
+
+## DELETE /api/products_orders/:productOrderId (**)
+Hard deletes a product from an order. You must pass a valid token with this request. The user must be the owner of the order
+
+### Request Parameters
+No request parameters
+
+### Return Parameters
+- id (number)
+- productId (number)
+- quantity (number)
+- productPrice (number)
+- totalPrice (number)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/products_orders/7`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            }
+        })
+        const data = await response.json();
+
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+{
+    "id": 7,
+    "productId": 1,
+    "orderId": 26,
+    "quantity": 2,
+    "productPrice": "1000",
+    "totalPrice": "2000"
+}
+
+```
