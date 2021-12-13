@@ -34,6 +34,8 @@ async function getProductsByOrder(orderId) {
             SELECT * FROM products_orders
             WHERE "orderId" = ${orderId};
         `);
+
+        return orderProducts;
     }
     catch (error) {
         throw error;

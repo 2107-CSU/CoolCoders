@@ -46,11 +46,38 @@ async function manageQuantity(productId, quantity) {
 /**
  * GET REQUESTS
  */
+//returns a product_order given a specific id
+products_ordersRouter.get('/:productOrderId', requireUser, async (req, res, next) => {
+    const productOrderId = req.params.productOrderId;
+
+    try {
+        const productOrder = await getProductOrderById(productOrderId);
+
+        res.send(productOrder);
+    }
+    catch (error) {
+        next(error);
+    }
+})
+
+//returns a list of products for a specific order
+products_ordersRouter.get('/:orderId/orders', requireUser, async (req, res, next) => {
+    const orderId = req.params.orderId;
+
+    try {
+        const orderProducts = await getProductsByOrder(orderId);
+
+        res.send(orderProducts);
+    }
+    catch (error) {
+        next(error);
+    }
+})
+
 
 /**
  * POST REQUESTS
  */
-
 //adds a product to an order, and returns the row
 //this endpoint updates quantity in products table,
 //and total price in orders table
