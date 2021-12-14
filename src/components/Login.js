@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import BASE_URL from "../api/constant";
-import { loginUser } from "../api/users";
+import { loginUser, registerUser } from "../api/users";
+import { UserContext } from "./App";
 
-const Login = ({ match, history, setToken, token }) => {
+const Login = ({ match, history, setToken }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
 
-  async function handleRegister(email, name, password, setToken, setEmail) {
+  /*   async function handleRegister(email, name, password, setToken, setEmail) {
     try {
       const res = await fetch(`${BASE_URL}/users/register`, {
         method: "POST",
@@ -38,7 +39,7 @@ const Login = ({ match, history, setToken, token }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  } */
 
   async function handleLogin() {
     try {
@@ -50,33 +51,18 @@ const Login = ({ match, history, setToken, token }) => {
     } catch (err) {
       console.error(err);
     }
-    /*     try {
-      const res = await fetch(`${BASE_URL}/users/login`, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (data.token) {
-        const token = data.token;
-        setToken(token);
-        localStorage.setItem("token", token);
-        return data;
-      } else {
-        alert(data);
-        setEmail("");
-        setPassword("");
+  }
+
+  async function handleRegister() {
+    try {
+      const user = await registerUser(email, password, name);
+      if (user.token) {
+        setToken(user.token);
+        localStorage.setItem("token", user.token);
       }
-    } catch (error) {
-      console.error(error);
-    } */
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
@@ -87,16 +73,11 @@ const Login = ({ match, history, setToken, token }) => {
           if (match.url === "/register") {
             try {
               if (password === confirmedPassword && password.length >= 8) {
-                const res = await handleRegister(
-                  email,
-                  name,
-                  password,
-                  setToken,
-                  setEmail,
-                  setPassword
-                );
-                console.log(res);
-                if (res.token) history.push("/products");
+                handleRegister();
+                setEmail("");
+                setPassword("");
+                setConfirmedPassword("");
+                setName("");
               }
             } catch (error) {
               console.log(error);
@@ -106,19 +87,6 @@ const Login = ({ match, history, setToken, token }) => {
             handleLogin();
             setEmail("");
             setPassword("");
-            /*  try {
-              const res = await handleLogin(
-                email,
-                password,
-                setToken,
-                setEmail,
-                setPassword
-              );
-              console.log(res);
-              // if (res.token) history.push('/activities')
-            } catch (error) {
-              console.error(error);
-            } */
           }
         }}
       >
