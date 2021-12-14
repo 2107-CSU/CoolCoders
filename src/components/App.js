@@ -8,12 +8,14 @@ import Homepage from "./Homepage";
 import Login from "./Login";
 import Logout from "./Logout";
 
-// create context to store user info for use throughout app
-export const UserContext = createContext();
+// create context to store user info for use throughout app - CURRENTLY UNUSED, may not be compatible with this version of React
+// export const UserContext = createContext();
 
 const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+
+  const [cartObj, setCartObj] = useState({});
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -48,8 +50,23 @@ const App = () => {
         exact
         render={() => <Logout setToken={setToken} />}
       />
-      <Route path="/products" exact render={() => <Products />} />
-      <Route path="/cart" exact render={() => <Cart />} />
+      <Route
+        path="/products"
+        exact
+        render={() => (
+          <Products
+            user={user}
+            token={token}
+            cartObj={cartObj}
+            setCartObj={setCartObj}
+          />
+        )}
+      />
+      <Route
+        path="/cart"
+        exact
+        render={() => <Cart cartObj={cartObj} setCartObj={setCartObj} />}
+      />
       <Route path="/" exact render={() => <Homepage />} />
     </BrowserRouter>
   );
