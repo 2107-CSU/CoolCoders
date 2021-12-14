@@ -160,16 +160,18 @@ Returns an order with a matching id
 No request parameters
 
 ### Return Parameters
+(array of object)
 - id (number)
 - userId (number)
 - totalPrice (number)
 - orderDate (string)
 - orderStatus (string)
+- products (array of objects)
 
 ### Sample Call
 ```js
 try {
-        const response = await fetch (`${BASEURL}/orders/13`, {
+        const response = await fetch (`${BASEURL}/orders/27`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json'
@@ -187,13 +189,27 @@ try {
 
 ### Sample Response
 ```json
-{
-    "id": 13,
-    "userId": 19,
-    "totalPrice": 28,
-    "orderDate": "2021-06-15T06:00:00.000Z",
-    "orderStatus": "cart"
-}
+[
+    {
+        "id": 27,
+        "userId": 31,
+        "totalPrice": "500",
+        "orderDate": "2021-12-13T07:00:00.000Z",
+        "orderStatus": "cart",
+        "products": [
+            {
+                "id": 3,
+                "orderId": 27,
+                "productId": 3,
+                "title": "Black Dream",
+                "description": "Increases damage of Dark Magic attacks",
+                "productPrice": "250",
+                "quantity": 2,
+                "totalPrice": "500"
+            }
+        ]
+    }
+]
 
 ```
 

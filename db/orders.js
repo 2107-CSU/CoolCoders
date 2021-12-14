@@ -17,10 +17,11 @@ CREATE TYPE status_type AS ENUM(
 */
 const client = require("./client");
 
+//accepts an array of orders as a parameter
+//finds matching products and adds them as an array
+//returns a new array of objectes with a 'products []' property
 async function _addProductsToOrder(ordersArray) {
  //retrieve products_orders joining on the products table
-  //filter by order id ?
-  //accept an order array, or just a single order object? Probably makes more sense to accept an array of objects
   const {rows: products} = await client.query(`
     SELECT products.id,
       products_orders."orderId" AS "orderId",
@@ -126,12 +127,12 @@ async function getOrderByUserId(userId) {
 
 async function getOrderByOrderId(orderId) {
   try {
-    const {rows: [order]} = await client.query(`
+    const {rows: order} = await client.query(`
       SELECT * FROM orders
       WHERE id = $1;
     `, [orderId]);
 
-    return order;
+    return await _addProductsToOrder(order);
   }
   catch (error) {
     throw error;
