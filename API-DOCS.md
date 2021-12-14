@@ -84,7 +84,7 @@ try {
 ```
 
 ## GET /api/orders/:userId/users (**)
-Returns a list of orders for a given user id
+Returns a list of orders for a given user id. Includes their products
 
 ### Request Parameters
 No request parameters
@@ -96,11 +96,12 @@ No request parameters
 - totalPrice (number)
 - orderDate (string)
 - orderStatus (string)
+- products (array of objects)
 
 ### Sample Call
 ```js
 try {
-        const response = await fetch (`${BASEURL}/orders/19/users`, {
+        const response = await fetch (`${BASEURL}/orders/31/users`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json'
@@ -120,25 +121,33 @@ try {
 ```json
 [
     {
-        "id": 6,
-        "userId": 19,
-        "totalPrice": 106,
-        "orderDate": "2020-12-09T07:00:00.000Z",
-        "orderStatus": "in_transit"
-    },
-    {
-        "id": 13,
-        "userId": 19,
-        "totalPrice": 28,
-        "orderDate": "2021-06-15T06:00:00.000Z",
-        "orderStatus": "cart"
-    },
-    {
-        "id": 15,
-        "userId": 19,
-        "totalPrice": 125,
-        "orderDate": "2021-10-25T06:00:00.000Z",
-        "orderStatus": "processing"
+        "id": 26,
+        "userId": 31,
+        "totalPrice": "1001000",
+        "orderDate": "2021-12-01T07:00:00.000Z",
+        "orderStatus": "cart",
+        "products": [
+            {
+                "id": 1,
+                "orderId": 26,
+                "productId": 1,
+                "title": "Greatsword",
+                "description": "A really great sword.",
+                "productPrice": "1000",
+                "quantity": 1,
+                "totalPrice": "1000"
+            },
+            {
+                "id": 2,
+                "orderId": 26,
+                "productId": 2,
+                "title": "Power Armor",
+                "description": "It makes you feel, like, really powerful, dude.",
+                "productPrice": "1000000",
+                "quantity": 1,
+                "totalPrice": "1000000"
+            }
+        ]
     }
 ]
 
