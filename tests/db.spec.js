@@ -33,13 +33,10 @@ const {
   getProductsByCategory,
 } = require("../db");
 
+// CATEGORIES FUNCTIONS TO TEST
+const { createCategory, getCategoryById } = require("../db");
+
 // ORDERS FUNCTIONS TO TEST
-const {
-  getAllOrders,
-  getOrderByProductId,
-  getOrderByUsername,
-  createOrder,
-} = require("../db");
 
 jest.setTimeout(10000);
 
@@ -218,5 +215,35 @@ describe("Database", () => {
       });
     });
   });
-  describe("Orders", () => {});
+  describe("Categories", () => {
+    let categoryToCreate, queriedCategory;
+    let testCategoryDetails = {
+      name: "My First Test",
+    };
+    describe("createCategory", () => {
+      beforeAll(async () => {
+        categoryToCreate = await createCategory(testCategoryDetails);
+        const {
+          rows: [testCategory],
+        } = await client.query(
+          `
+          SELECT * FROM categories WHERE name=$1;
+        `,
+          [categoryToCreate.name]
+        );
+        queriedCategory = testCategory;
+      });
+      it("Creates the category", async () => {
+        expect(categoryToCreate.name).toBe(testCategoryDetails.name);
+        expect(queriedCategory.name).toBe(testCategoryDetails.name);
+      });
+    });
+    describe("getCategoryById", () => {
+      it("Gets a category based on passed in ID", async () => {
+        const category = await getCategoryById(categoryToCreate.id);
+        expect(category).toBeTruthy();
+        expect(category.id).toBe(categoryToCreate.id);
+      });
+    });
+  });
 });
