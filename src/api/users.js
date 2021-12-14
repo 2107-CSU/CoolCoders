@@ -1,8 +1,9 @@
 import axios from "axios";
-import BASE_URL from "./constant";
+import BASE_URL, { setHeaders } from "./constant";
 
 export async function loginUser(email, password) {
   try {
+    const headers = setHeaders();
     const user = await axios.post(
       `${BASE_URL}/users/login`,
       {
@@ -10,10 +11,7 @@ export async function loginUser(email, password) {
         password: password,
       },
       {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: headers,
       }
     );
     return user.data;
@@ -24,6 +22,7 @@ export async function loginUser(email, password) {
 
 export async function registerUser(email, password, name) {
   try {
+    const headers = setHeaders();
     const user = await axios.post(
       `${BASE_URL}/users/register`,
       {
@@ -32,10 +31,7 @@ export async function registerUser(email, password, name) {
         password: password,
       },
       {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: headers,
       }
     );
     return user.data;
