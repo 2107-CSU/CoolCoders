@@ -17,6 +17,39 @@ CREATE TYPE status_type AS ENUM(
 */
 const client = require("./client");
 
+async function _addProductsToOrder(ordersArray) {
+ //retrieve products_orders joining on the products table
+  //filter by order id ?
+  //accept an order array, or just a single order object? Probably makes more sense to accept an array of objects
+  const {rows: products} = await client.query(`
+    SELECT products.id,
+      products_orders."orderId" AS "orderId",
+      products_orders."productId" AS "productId",
+      products.title, products.description,
+      products_orders."productPrice" AS "productPrice",
+      products_orders.quantity,
+      products_orders."totalPrice" AS "totalPrice"
+    FROM products
+    JOIN products_orders ON
+    products_orders."productId" = products.id;
+  `);
+
+  //map over array of orders
+  //for each order check if the orderIds match
+  //if they  do then push to order.products[]
+  const ordersWithProducts =
+    ordersArray.map( (currentOrder) => {
+      currentOrder.products = products.filter( (currentProduct) => {
+        return currentOrder.id === currentProduct.orderId;
+      })
+
+      return currentOrder;
+    })
+
+    return ordersWithProducts;
+
+}
+
 async function createOrder({ userId, totalPrice, orderDate, orderStatus = "cart"}) {
   try {
     const {
@@ -54,7 +87,7 @@ async function getAllOrders() {
 async function getOrderByProductId(productId) {
   try {
     const {
-      rows: [ordersWithProduct],
+      rows: ordersWithProduct,
     } = await client.query(
       `
             SELECT *
@@ -85,7 +118,7 @@ async function getOrderByUserId(userId) {
       [userId]
     );
 
-    return ordersByUserId;
+    return await _addProductsToOrder(ordersByUserId);
   } catch (error) {
     throw error;
   }
