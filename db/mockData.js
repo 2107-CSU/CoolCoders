@@ -152,8 +152,13 @@ const mockUsers = [
   {
     email: "txc@yahoo.com",
     name: "txc",
-    password: "amapiano"
-  }
+    password: "amapiano",
+  },
+  {
+    email: "test@gmail.com",
+    name: "Test User",
+    password: "test1234",
+  },
 ];
 
 const mockProducts = [
@@ -179,8 +184,8 @@ const mockProducts = [
     price: 250,
     quantity: 75,
     categoryId: 1,
-    photo: "https://via.placeholder.com/150"
-},
+    photo: "https://via.placeholder.com/150",
+  },
   {
     title: "Tea - Mint",
     description:
