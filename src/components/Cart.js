@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SingleCartItem from "./SingleCartItem";
+import { mockCart } from '../api/mockFEData'
+import BASE_URL from "../api/constant";
 
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
@@ -16,9 +18,39 @@ const Cart = () => {
     }
   }, [cartItems]);
 
+  // ------------------------------ TODO ---------------------------------
+  // this useEffect has got to go, here so I can test stripe with a full cart
+  useEffect(() => {
+    setCartItems(mockCart)
+  }, [])
+
   function removeAllItems() {
     setCartItems([]);
     setTotalPrice(0);
+  }
+
+  function handleCheckout(){
+    const items = []
+    for (let i = 0; i < cartItems.length; i++) {
+      const currentItem = cartItems[i];
+      items.push({ id: currentItem.id })
+    }
+    fetch(`${BASE_URL}/create-checkout-session`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          items: items
+      })
+    }).then(res => {
+      if (res.ok) return res.json();
+      return res.json().then(json => Promise.reject(json))
+    }).then(({ url }) => {
+      window.location = url;
+  }).catch (e => {
+      console.error(e.error);
+  })
   }
 
   return (
@@ -57,7 +89,7 @@ const Cart = () => {
             </div>
             <div className="total-amount">${totalPrice}.00</div>
           </div>
-          <button className="button">Checkout</button>
+          <button className="button" onClick={handleCheckout}>Checkout</button>
         </div>
       </div>
     </div>
