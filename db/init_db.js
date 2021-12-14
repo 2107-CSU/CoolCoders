@@ -63,7 +63,7 @@ async function createTables() {
                 id SERIAL PRIMARY KEY,
                 "userId" INTEGER,
                 FOREIGN KEY ("userId") REFERENCES users(id),
-                "totalPrice" INTEGER NOT NULL,
+                "totalPrice" NUMERIC DEFAULT 0,
                 "orderDate" DATE NOT NULL,
                 "orderStatus" status_type NOT NULL
             );
@@ -75,7 +75,7 @@ async function createTables() {
                 id SERIAL PRIMARY KEY,
                 title VARCHAR(255) UNIQUE NOT NULL,
                 description TEXT NOT NULL,
-                price INTEGER NOT NULL,
+                price DECIMAL NOT NULL,
                 quantity INTEGER NOT NULL,
                 active BOOLEAN DEFAULT true,
                 "categoryId" INTEGER NOT NULL,
@@ -84,11 +84,12 @@ async function createTables() {
             );
             CREATE TABLE products_orders(
                 id SERIAL PRIMARY KEY,
-                "productId" INTEGER REFERENCES products(id) UNIQUE NOT NULL,
+                "productId" INTEGER REFERENCES products(id) NOT NULL,
                 "orderId" INTEGER REFERENCES orders(id) NOT NULL,
                 quantity INTEGER NOT NULL,
-                "productPrice" INTEGER NOT NULL,
-                "totalPrice" INTEGER NOT NULL
+                "productPrice" DECIMAL NOT NULL,
+                "totalPrice" DECIMAL NOT NULL,
+                UNIQUE("productId", "orderId")
             );
             CREATE TABLE reviews(
                 id SERIAL PRIMARY KEY,

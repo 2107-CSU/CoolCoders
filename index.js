@@ -1,3 +1,6 @@
+//import .env package to use environment variables
+require('dotenv').config();
+
 // This is the Web Server
 const express = require('express');
 const server = express();
@@ -39,7 +42,8 @@ const {client} = require('./db');
 //Error handler that sets the status code to 500
 //and returns the error as an object
 server.use((error, req, res, next) => {
-  res.status(500).send(error);
+  console.log(error);
+  res.status(500).send(error.message);
 })
 
 // connect to the server
