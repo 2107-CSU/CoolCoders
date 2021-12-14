@@ -25,12 +25,13 @@ const Header = ({ token }) => {
         <Link to="/cart" className="nav-link">
           Cart
         </Link>
-        <Link to="/login" className="nav-link">
-          {" "}
-          Login{" "}
-        </Link>
-        {/* // --------------- TODO ----------------- */}
-        {/* only show these last two if you are signed in */}
+        {!token ? (
+          <Link to="/login" className="nav-link">
+            {" "}
+            Login{" "}
+          </Link>
+        ) : null}
+
         {token ? (
           <Fragment>
             <Link to="/orders" className="nav-link">

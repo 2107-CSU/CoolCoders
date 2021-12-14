@@ -54,7 +54,7 @@ usersRouter.post("/login", async (req, res, next) => {
           expiresIn: "1w",
         }
       );
-      res.send({ message: "you are logged in", token });
+      res.send({ message: "you are logged in", user, token });
     } else {
       next({
         name: "IncorrectCredentialsError",
@@ -94,6 +94,7 @@ usersRouter.post("/register", async (req, res, next) => {
 
     res.send({
       message: "thank you for signing up with us",
+      user,
       token,
     });
   } catch (error) {

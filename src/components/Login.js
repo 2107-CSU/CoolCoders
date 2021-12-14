@@ -4,42 +4,11 @@ import BASE_URL from "../api/constant";
 import { loginUser, registerUser } from "../api/users";
 import { UserContext } from "./App";
 
-const Login = ({ match, history, setToken }) => {
+const Login = ({ match, history, setToken, setUser }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-
-  /*   async function handleRegister(email, name, password, setToken, setEmail) {
-    try {
-      const res = await fetch(`${BASE_URL}/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          name,
-          password,
-        }),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (data.token) {
-        const token = data.token;
-        setToken(token);
-        localStorage.setItem("token", token);
-        return data;
-      } else {
-        alert(data.error);
-        setEmail("");
-        setName("");
-        setPassword("");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  } */
 
   async function handleLogin() {
     try {
@@ -48,6 +17,7 @@ const Login = ({ match, history, setToken }) => {
         setToken(user.token);
         localStorage.setItem("token", user.token);
       }
+      if (user.user) setUser(user.user);
     } catch (err) {
       console.error(err);
     }
@@ -57,8 +27,7 @@ const Login = ({ match, history, setToken }) => {
     try {
       const user = await registerUser(email, password, name);
       if (user.token) {
-        setToken(user.token);
-        localStorage.setItem("token", user.token);
+        history.push("/login");
       }
     } catch (err) {
       console.error(err);

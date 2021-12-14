@@ -30,7 +30,12 @@ const App = () => {
         path="/login"
         exact
         render={(routeProps) => (
-          <Login {...routeProps} setToken={setToken} token={token} />
+          <Login
+            {...routeProps}
+            setToken={setToken}
+            token={token}
+            setUser={setUser}
+          />
         )}
       />
       <Route
