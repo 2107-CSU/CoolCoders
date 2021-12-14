@@ -1,4 +1,4 @@
-/* 
+/*
 CREATE TYPE status_type AS ENUM(
                 'wishlist',
                 'cart',
@@ -17,7 +17,7 @@ CREATE TYPE status_type AS ENUM(
 */
 const client = require("./client");
 
-async function createOrder({ userId, totalPrice, orderDate, orderStatus }) {
+async function createOrder({ userId, totalPrice, orderDate, orderStatus = "cart"}) {
   try {
     const {
       rows: [order],
@@ -39,7 +39,7 @@ async function createOrder({ userId, totalPrice, orderDate, orderStatus }) {
 async function getAllOrders() {
   try {
     const {
-      rows: [allOrders],
+      rows: allOrders
     } = await client.query(`
             SELECT *
             FROM orders;
@@ -72,10 +72,10 @@ async function getOrderByProductId(productId) {
   }
 }
 
-async function getOrderByUsername(userId) {
+async function getOrderByUserId(userId) {
   try {
     const {
-      rows: [ordersByUserId],
+      rows: ordersByUserId
     } = await client.query(
       `
             SELECT *
@@ -91,9 +91,69 @@ async function getOrderByUsername(userId) {
   }
 }
 
+async function getOrderByOrderId(orderId) {
+  try {
+    const {rows: [order]} = await client.query(`
+      SELECT * FROM orders
+      WHERE id = $1;
+    `, [orderId]);
+
+    return order;
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
+async function updateOrder(orderId, fields={}) {
+  // map over the object's keys, output ===> columnOne=$1, columnTwo=$2, columnThree=$3
+  // then use Object.values(fields) to reference updated values inside the SQL query
+  const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
+
+    try {
+      if (setString.length > 0) {
+        const {rows: [order]} = await client.query(
+          `
+          UPDATE orders
+          SET ${setString}
+          WHERE id=${orderId}
+          RETURNING *;
+         `,
+          Object.values(fields)
+        );
+
+        return order;
+      }
+    } catch (error) {
+      throw error;
+    }
+}
+
+async function updateTotalOrderPrice(orderId) {
+  try {
+    const {rows: [sum]} = await client.query(`
+      SELECT SUM ("totalPrice")
+      FROM products_orders
+      WHERE "orderId" = $1;
+    `, [orderId]);
+
+    const totalPrice = sum.sum;
+
+    await updateOrder(orderId, {totalPrice});
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   getAllOrders,
   getOrderByProductId,
-  getOrderByUsername,
+  getOrderByUserId,
   createOrder,
+  getOrderByOrderId,
+  updateOrder,
+  updateTotalOrderPrice
 };
