@@ -1,5 +1,6 @@
 //import express package
 const express = require('express');
+const { authRole } = require('./utils')
 
 //initialize productsRouter
 const productsRouter = express.Router();
@@ -52,10 +53,11 @@ productsRouter.get('/:productId', async (req, res, next) => {
  *  will add these functions again once users table is populated
  */
  productsRouter.post('/', async (req, res, next) => {
-    const fieldsObj = req.body;
+    const {title, description, price, quantity, categoryId, photo} = req.body;
 
     try {
-        const newProduct = await createProduct(fieldsObj);
+        const newProduct = await createProduct({ title, description, price, quantity, categoryId, photo });
+        console.log('newProduct = ', newProduct);
 
         res.send(newProduct);
 

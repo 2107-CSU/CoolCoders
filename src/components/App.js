@@ -7,6 +7,7 @@ import Header from "./Header";
 import Homepage from "./Homepage";
 import Login from "./Login";
 import Logout from "./Logout";
+import AdminDashboard from './admin/AdminDashboard'
 
 // create context to store user info for use throughout app
 export const UserContext = createContext();
@@ -25,7 +26,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Header token={token} />
+      <Header token={token}/>
+      <Route path='/admin' exact render={() => <AdminDashboard />} />
       <Route
         path="/login"
         exact

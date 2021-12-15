@@ -159,6 +159,12 @@ const mockUsers = [
     name: "Test User",
     password: "test1234",
   },
+  {
+    email: "admin@admin.com",
+    name: "Admin User",
+    password: "adminadmin",
+    userStatus: 'admin',
+  },
 ];
 
 const mockProducts = [

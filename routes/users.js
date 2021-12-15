@@ -29,8 +29,6 @@ usersRouter.get("/", async (req, res, next) => {
 usersRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
-  console.log(req.body);
-
   if (!email || !password) {
     next({
       name: "MissingCredentialsError",
@@ -54,6 +52,8 @@ usersRouter.post("/login", async (req, res, next) => {
           expiresIn: "1w",
         }
       );
+      req.user = user;
+      console.log('at the end of login function, req.user = ', req.user)
       res.send({ message: "you are logged in", user, token });
     } else {
       next({

@@ -84,6 +84,7 @@ apiRouter.post('/create-checkout-session', async (req, res) => {
 })
 
 
+
 //PRODUCTS ROUTER
 const productsRouter = require('./products');
 apiRouter.use('/products', productsRouter);

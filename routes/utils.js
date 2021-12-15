@@ -23,8 +23,22 @@ function requireAdmin(req, res, next) {
 
 }
 
+function authRole(req, res, next){
+        console.log('req = ',req);
+        // if (req.user.userStatus !== 'admin') {
+        //     res.status(401)
+        //     return res.send('Not allowed!')
+        // }
+        //    console.log('authRole running')
+        // next();
+    
+}
+
+
+
 module.exports = {
     requireUser,
     requireActiveUser,
-    requireAdmin
+    requireAdmin,
+    authRole
 }
