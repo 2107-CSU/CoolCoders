@@ -64,6 +64,22 @@ export async function updateQuantity(token, productOrderId, quantity) {
   }
 }
 
+export async function deleteProductOrder(token, productOrderId) {
+  try {
+    const headers = setHeaders(token);
+    console.log(headers);
+    const deleted = await axios.delete(
+      `${BASE_URL}/products_orders/${productOrderId}`,
+      {
+        headers: headers,
+      }
+    );
+    return deleted.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export async function getProductOrders(token, orderId) {
   try {
     const headers = setHeaders(token);

@@ -21,15 +21,22 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
+    const retrieveCart = async (token) => {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart && token && !cartObj.id) {
+        let cart = JSON.parse(storedCart);
+        let retrieved = await getOrder(token, cart.id);
+        setCartObj(retrieved);
+        if (retrieved[0].products) setCartItems(retrieved[0].products);
+      }
+    };
     const storedToken = localStorage.getItem("token");
-    const storedCart = localStorage.getItem("cart");
+
     if (storedToken) {
       setToken(storedToken);
+      retrieveCart(storedToken);
     }
-    if (storedCart) {
-      let cart = JSON.parse(storedCart);
-      setCartObj(cart);
-    }
+
     if (!storedToken) setToken("");
   }, []);
 
@@ -56,7 +63,7 @@ const App = () => {
       <Route
         path="/logout"
         exact
-        render={() => <Logout setToken={setToken} />}
+        render={() => <Logout setToken={setToken} setCartObj={setCartObj} />}
       />
       <Route
         path="/products"

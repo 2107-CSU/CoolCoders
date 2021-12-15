@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { getProducts } from "../api";
-import { addItemToCart, createCart } from "../api/cart";
+import { addItemToCart, createCart, getOrder } from "../api/cart";
 // import { getSingleProduct } from "../api";
 
 import { Link } from "react-router-dom";
@@ -36,16 +36,28 @@ const Products = (props) => {
     fetchProducts();
   }, []);
 
+  // if auth'd user, initialize cart upon visiting page
   useEffect(() => {
     const initializeCart = async () => {
       const cart = await createCart(token);
       setCartObj(cart);
+      // store cart in local storage (as with token) for retrieval upon next visit
       localStorage.setItem("cart", JSON.stringify(cart));
     };
     if (token && !cartObj.id) {
       initializeCart();
     }
   }, []);
+
+  const handleAddToCart = async (product) => {
+    if (cartObj.id) {
+      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      await addItemToCart(token, product.id, cartObj.id, 1);
+      const [updatedCart] = await getOrder(token, cartObj.id);
+      setCartObj(updatedCart);
+      setCartItems(updatedCart.products);
+    }
+  };
 
   return (
     <div>
@@ -63,12 +75,7 @@ const Products = (props) => {
                 <p className="font-bold mb-3">Price: ${product.price}</p>
                 <p>Quantity: {product.quantity}</p>
                 <Link to={`/products/${product.id}`}>View</Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCartItems([...cartItems, { ...product, quantity: 1 }]);
-                  }}
-                >
+                <button type="button" onClick={() => handleAddToCart(product)}>
                   Add to cart
                 </button>
               </div>

@@ -20,7 +20,7 @@ const Cart = (props) => {
     let total = 0;
     if (cartItems) {
       cartItems.map((item) => {
-        let itemTotal = item.quantity * item.price;
+        let itemTotal = item.quantity * item.productPrice;
         total += itemTotal;
         setTotalPrice(total);
       });
@@ -74,11 +74,14 @@ const Cart = (props) => {
               // -------------------- TODO -----------------------
               // change the value of the key! Just using title for testing out
               <SingleCartItem
-                key={item.title}
+                key={item.id}
                 item={item}
                 setCartItems={setCartItems}
                 cartItems={cartItems}
                 setTotalPrice={setTotalPrice}
+                token={token}
+                cartObj={cartObj}
+                setCartObj={setCartObj}
               />
             ))
           ) : (
