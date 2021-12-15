@@ -3,15 +3,7 @@ import SingleCartItem from "./SingleCartItem";
 import { mockCart } from "../api/mockFEData";
 import BASE_URL from "../api/constant";
 
-import {
-  createCart,
-  addItemToCart,
-  getOrder,
-  getProductOrders,
-  deleteProductOrder,
-  updateQuantity,
-  fetchSingleProduct,
-} from "../api/cart";
+import { getOrder, deleteProductOrder } from "../api/cart";
 
 const Cart = (props) => {
   const { cartItems, setCartItems, cartObj, setCartObj, user, token } = props;
