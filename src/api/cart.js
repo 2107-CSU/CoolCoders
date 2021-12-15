@@ -1,9 +1,7 @@
 import axios from "axios";
 import BASE_URL, { setHeaders } from "./constant";
-import jwt from "jsonwebtoken";
-const { verify } = jwt;
 
-export async function createCart(token, totalPrice) {
+export async function createCart(token) {
   try {
     const headers = setHeaders(token);
     if (token) {
@@ -82,12 +80,17 @@ export async function getProductOrders(token, orderId) {
 }
 
 export async function getOrder(token, orderId) {
+  // this returns order data w/ associated product_orders
+  let order;
   try {
     const headers = setHeaders(token);
-    const order = await axios.get(`${BASE_URL}/orders/${orderId}`, {
+    const response = await axios.get(`${BASE_URL}/orders/${orderId}`, {
       headers: headers,
     });
-    return order.data;
+    order = response.data;
+    const products = await getProductOrders(token, orderId);
+    order.products = products;
+    return order;
   } catch (err) {
     console.error(err);
   }

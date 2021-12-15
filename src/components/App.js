@@ -22,25 +22,16 @@ const App = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    const orderId = localStorage.getItem("CartId");
+    const storedCart = localStorage.getItem("cart");
     if (storedToken) {
       setToken(storedToken);
     }
+    if (storedCart) {
+      let cart = JSON.parse(storedCart);
+      setCartObj(cart);
+    }
     if (!storedToken) setToken("");
-    if (orderId && storedToken) {
-      const fetchExistingCart = async () => {
-        const cart = await getOrder(storedToken, orderId);
-        setCartObj(cart);
-      };
-      fetchExistingCart();
-    }
   }, []);
-
-  useEffect(() => {
-    if (cartObj) {
-      localStorage.setItem("CartId", cartObj.id);
-    }
-  }, [cartObj]);
 
   return (
     <BrowserRouter>

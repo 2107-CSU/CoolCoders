@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SingleCartItem from "./SingleCartItem";
-import { mockCart } from '../api/mockFEData'
+import { mockCart } from "../api/mockFEData";
 import BASE_URL from "../api/constant";
 
 import {
@@ -17,63 +17,6 @@ const Cart = (props) => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const initializeCart = async () => {
-      const cart = await createCart(token, totalPrice);
-      setCartObj(cart);
-    };
-    if (token && !cartObj.id) initializeCart();
-  }, []);
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      if (cartObj.id) {
-        const order = await getOrder(token, cartObj.id);
-        const orderProducts = await getProductOrders(token, cartObj.id);
-        if (order) {
-          setCartObj({ ...order, products: orderProducts });
-          if (orderProducts) {
-            const products = orderProducts.map((item) =>
-              fetchSingleProduct(token, item.productId)
-            );
-            setCartItems(products);
-          }
-        }
-      }
-    };
-    fetchCart();
-  }, []);
-
-  // if item already exists in cart on backend, update quantity only
-  useEffect(() => {
-    const updateCart = async () => {
-      if (cartObj.products) {
-        const existingProductIds = cartObj.products.map((item) => item.id);
-        const cartItemsToUpdate = cartItems.filter(
-          (item) => !existingProductIds.includes(item.id)
-        );
-        for (let i = 0; i < cartItemsToUpdate.length; i++) {
-          await addItemToCart(
-            token,
-            cartItemsToUpdate[i].id,
-            cartObj.id,
-            cartItemsToUpdate[i].quantity
-          );
-        }
-        await cartObj.products.forEach((item) =>
-          updateQuantity(token, item.id, item.quantity)
-        );
-      }
-
-      const updatedOrder = await getOrder(token, cartObj.id);
-      const orderProducts = await getProductOrders(token, cartObj.id);
-      if (updatedOrder) {
-        setCartObj({ ...updatedOrder, products: orderProducts });
-      }
-    };
-    if (token && cartItems && cartObj.id) updateCart();
-  }, [cartItems, totalPrice]);
-
-  useEffect(() => {
     let total = 0;
     if (cartItems) {
       cartItems.map((item) => {
@@ -84,39 +27,36 @@ const Cart = (props) => {
     }
   }, [cartItems, totalPrice]);
 
-  // ------------------------------ TODO ---------------------------------
-  // this useEffect has got to go, here so I can test stripe with a full cart
-  useEffect(() => {
-    setCartItems(mockCart)
-  }, [])
-
   function removeAllItems() {
     setCartItems([]);
     setTotalPrice(0);
   }
 
-  function handleCheckout(){
-    const items = []
+  function handleCheckout() {
+    const items = [];
     for (let i = 0; i < cartItems.length; i++) {
       const currentItem = cartItems[i];
-      items.push({ id: currentItem.id })
+      items.push({ id: currentItem.id });
     }
     fetch(`${BASE_URL}/create-checkout-session`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-          'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-          items: items
+        items: items,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
       })
-    }).then(res => {
-      if (res.ok) return res.json();
-      return res.json().then(json => Promise.reject(json))
-    }).then(({ url }) => {
-      window.location = url;
-  }).catch (e => {
-      console.error(e.error);
-  })
+      .then(({ url }) => {
+        window.location = url;
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
   }
 
   return (
@@ -155,7 +95,9 @@ const Cart = (props) => {
             </div>
             <div className="total-amount">${totalPrice}.00</div>
           </div>
-          <button className="button" onClick={handleCheckout}>Checkout</button>
+          <button className="button" onClick={handleCheckout}>
+            Checkout
+          </button>
         </div>
       </div>
     </div>

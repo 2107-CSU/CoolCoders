@@ -6,6 +6,7 @@ const Logout = (props) => {
   useEffect(() => {
     setToken("");
     localStorage.removeItem("token");
+    localStorage.removeItem("cart");
   }, []);
   return (
     <div>

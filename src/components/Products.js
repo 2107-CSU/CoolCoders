@@ -22,6 +22,7 @@ const Products = (props) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
+  // fetches products from db upon page load
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -33,6 +34,17 @@ const Products = (props) => {
       setProducts(data);
     };
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const initializeCart = async () => {
+      const cart = await createCart(token);
+      setCartObj(cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    };
+    if (token && !cartObj.id) {
+      initializeCart();
+    }
   }, []);
 
   return (
