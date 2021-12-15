@@ -46,6 +46,26 @@ export async function addItemToCart(token, productId, orderId, quantity) {
   }
 }
 
+export async function updateQuantity(token, productOrderId, quantity) {
+  try {
+    const headers = setHeaders(token);
+    if (token) {
+      const productOrder = await axios.patch(
+        `${BASE_URL}/products_orders/${productOrderId}`,
+        {
+          quantity: quantity,
+        },
+        {
+          headers: headers,
+        }
+      );
+      return productOrder.data;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export async function getProductOrders(token, orderId) {
   try {
     const headers = setHeaders(token);
@@ -68,6 +88,18 @@ export async function getOrder(token, orderId) {
       headers: headers,
     });
     return order.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function fetchSingleProduct(token, productId) {
+  try {
+    const headers = setHeaders(token);
+    const product = await axios.get(`${BASE_URL}/products/${productId}`, {
+      headers: headers,
+    });
+    return product.data;
   } catch (err) {
     console.error(err);
   }

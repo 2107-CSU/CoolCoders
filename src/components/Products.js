@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 /* 
 - Store cartItems in root, pass state down
 - when user clicks "add to cart," product is added to cartItems (passed btw comps)
-- cart is not initialized in db until Cart page is visited
+- If user is not logged in, prompt to continue as guest or create an account
+- cart is not initialized in db until Cart page is visited *SUBJECT TO CHANGE*
   - if user is logged in, cart is created under their token
   - if not, a guest account is created and user is given token, which is then used to init cart
     - NOTE: that means if a token exists in state, when a user registers, they are UPDATING acct, not creating one

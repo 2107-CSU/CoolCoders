@@ -6,6 +6,8 @@ import {
   addItemToCart,
   getOrder,
   getProductOrders,
+  updateQuantity,
+  fetchSingleProduct,
 } from "../api/cart";
 
 const Cart = (props) => {
@@ -21,22 +23,53 @@ const Cart = (props) => {
   }, []);
 
   useEffect(() => {
+    const fetchCart = async () => {
+      if (cartObj.id) {
+        const order = await getOrder(token, cartObj.id);
+        const orderProducts = await getProductOrders(token, cartObj.id);
+        if (order) {
+          setCartObj({ ...order, products: orderProducts });
+          if (orderProducts) {
+            const products = orderProducts.map((item) =>
+              fetchSingleProduct(token, item.productId)
+            );
+            setCartItems(products);
+          }
+        }
+      }
+    };
+    fetchCart();
+  }, []);
+
+  // if item already exists in cart on backend, update quantity only
+  useEffect(() => {
     const updateCart = async () => {
-      for (let i = 0; i < cartItems.length; i++) {
-        await addItemToCart(
-          token,
-          cartItems[i].id,
-          cartObj.id,
-          cartItems[i].quantity
+      if (cartObj.products) {
+        const existingProductIds = cartObj.products.map((item) => item.id);
+        const cartItemsToUpdate = cartItems.filter(
+          (item) => !existingProductIds.includes(item.id)
+        );
+        for (let i = 0; i < cartItemsToUpdate.length; i++) {
+          await addItemToCart(
+            token,
+            cartItemsToUpdate[i].id,
+            cartObj.id,
+            cartItemsToUpdate[i].quantity
+          );
+        }
+        await cartObj.products.forEach((item) =>
+          updateQuantity(token, item.id, item.quantity)
         );
       }
+
       const updatedOrder = await getOrder(token, cartObj.id);
       const orderProducts = await getProductOrders(token, cartObj.id);
-      if (updatedOrder)
+      if (updatedOrder) {
         setCartObj({ ...updatedOrder, products: orderProducts });
+      }
     };
     if (token && cartItems && cartObj.id) updateCart();
-  }, [cartItems]);
+  }, [cartItems, totalPrice]);
 
   useEffect(() => {
     let total = 0;
@@ -47,7 +80,7 @@ const Cart = (props) => {
         setTotalPrice(total);
       });
     }
-  }, [cartItems]);
+  }, [cartItems, totalPrice]);
 
   function removeAllItems() {
     setCartItems([]);
