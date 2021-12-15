@@ -81,8 +81,6 @@ const Cart = (props) => {
         <div>
           {cartItems && cartItems.length > 0 ? (
             cartItems.map((item) => (
-              // -------------------- TODO -----------------------
-              // change the value of the key! Just using title for testing out
               <SingleCartItem
                 key={item.id}
                 item={item}

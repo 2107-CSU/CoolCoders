@@ -13,8 +13,6 @@ const SingleCartItem = ({
 }) => {
   async function removeSingleItem() {
     const { id } = item;
-    // --------------- TODO -----------------
-    // need to update this to reflect item.id NOT item.title
     const updatedCartItems = cartItems.filter((item) => item.id !== id);
     if (updatedCartItems.length === 0) setTotalPrice(0);
     setCartItems(updatedCartItems);
@@ -24,7 +22,7 @@ const SingleCartItem = ({
     if (updatedCart.products) setCartItems(updatedCart.products);
   }
 
-  function addCartQty(itemToUpdate) {
+  async function addCartQty(itemToUpdate) {
     const updatedCartItems = cartItems.map((item) => {
       if (item.title === itemToUpdate.title) {
         itemToUpdate.quantity++;
@@ -32,9 +30,13 @@ const SingleCartItem = ({
       return item;
     });
     setCartItems(updatedCartItems);
+    await updateQuantity(token, item.id, item.quantity);
+    const updatedCart = await getOrder(token, cartObj.id);
+    setCartObj(updatedCart);
+    if (updatedCart.products) setCartItems(updatedCart.products);
   }
 
-  function decreaseCartQty(itemToUpdate) {
+  async function decreaseCartQty(itemToUpdate) {
     if (item.quantity > 1) {
       const updatedCartItems = cartItems.map((item) => {
         if (item.title === itemToUpdate.title) {
@@ -44,6 +46,10 @@ const SingleCartItem = ({
       });
       setCartItems(updatedCartItems);
     }
+    await updateQuantity(token, item.id, item.quantity);
+    const updatedCart = await getOrder(token, cartObj.id);
+    setCartObj(updatedCart);
+    if (updatedCart.products) setCartItems(updatedCart.products);
   }
 
   function saveForLater() {
