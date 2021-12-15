@@ -14,94 +14,114 @@ const client = require("./client");
 
 //returns a product_order given a specific id
 async function getProductOrderById(id) {
-    try {
-        const {rows: [productOrder]} = await client.query(`
+  try {
+    const {
+      rows: [productOrder],
+    } = await client.query(
+      `
             SELECT * FROM products_orders
             WHERE id = $1;
-        `, [id]);
+        `,
+      [id]
+    );
 
-        return productOrder;
-    }
-    catch (error) {
-        throw error;
-    }
+    return productOrder;
+  } catch (error) {
+    throw error;
+  }
 }
 
 //returns a list of products for a given order
 async function getProductsByOrder(orderId) {
-    try {
-        const {rows: orderProducts} = await client.query(`
+  try {
+    const { rows: orderProducts } = await client.query(`
             SELECT * FROM products_orders
             WHERE "orderId" = ${orderId};
         `);
 
-        return orderProducts;
-    }
-    catch (error) {
-        throw error;
-    }
+    return orderProducts;
+  } catch (error) {
+    throw error;
+  }
 }
 
 //creates a new product_order entry and returns it
-async function addProductToOrder({productId, orderId, quantity, productPrice, totalPrice}) {
-    try {
-        const {rows: [productToOrder]} = await client.query(`
+async function addProductToOrder({
+  productId,
+  orderId,
+  quantity,
+  productPrice,
+  totalPrice,
+}) {
+  try {
+    const {
+      rows: [productToOrder],
+    } = await client.query(
+      `
             INSERT INTO products_orders
             ("productId","orderId", quantity, "productPrice", "totalPrice")
             VALUES ($1, $2, $3, $4, $5)
             ON CONFLICT ("productId", "orderId") DO NOTHING
             RETURNING *;
-        `, [productId, orderId, quantity, productPrice, totalPrice]);
+        `,
+      [productId, orderId, quantity, productPrice, totalPrice]
+    );
 
-        if (productToOrder) {
-            return productToOrder;
-        }
-        else {
-            throw new Error("Error adding item to order");
-        }
+    if (productToOrder) {
+      return productToOrder;
+    } else {
+      throw new Error("Error adding item to order");
     }
-    catch (error) {
-        throw error;
-    }
+  } catch (error) {
+    throw error;
+  }
 }
 
 //updates a product order quantity. new quantity cannot be set to 0
 async function updateProductOrder(id, quantity, totalPrice) {
-    try {
-        const {rows: [productOrder]} = await client.query(`
+  try {
+    const {
+      rows: [productOrder],
+    } = await client.query(
+      `
             UPDATE products_orders
             SET "quantity"=$1, "totalPrice"=$2
             WHERE id = ${id}
             RETURNING *;
-        `, [quantity, totalPrice]);
+        `,
+      [quantity, totalPrice]
+    );
 
-        return productOrder;
-    }
-    catch (error) {
-        throw error;
-    }
+    return productOrder;
+  } catch (error) {
+    throw error;
+  }
 }
 
 //hard deletes a product order
 async function deleteProductOrder(id) {
-    try {
-        const {rows: [deleted]} = await client.query(`
+  try {
+    const {
+      rows: [deleted],
+    } = await client.query(
+      `
             DELETE FROM products_orders
-            WHERE id = ${id}
+            WHERE id=$1
             RETURNING *;
-        `);
+        `,
+      [id]
+    );
 
-        return deleted;
-    }
-    catch (error) {
-        throw error;
-    }
+    return deleted;
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {
-    getProductOrderById,
-    addProductToOrder,
-    updateProductOrder,
-    deleteProductOrder,
-    getProductsByOrder
-}
+  getProductOrderById,
+  addProductToOrder,
+  updateProductOrder,
+  deleteProductOrder,
+  getProductsByOrder,
+};

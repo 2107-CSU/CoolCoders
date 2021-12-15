@@ -12,18 +12,35 @@ import NewProduct from "./admin/NewProduct";
 import DeleteProduct from "./admin/DeleteProduct";
 import UpdateProduct from "./admin/UpdateProduct";
 
-// create context to store user info for use throughout app
-export const UserContext = createContext();
+import { getOrder } from "../api/cart";
+
+// create context to store user info for use throughout app - CURRENTLY UNUSED, may not be compatible with this version of React
+// export const UserContext = createContext();
 
 const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
 
+  const [cartObj, setCartObj] = useState({});
+  const [cartItems, setCartItems] = useState([]);
+
   useEffect(() => {
+    const retrieveCart = async (token) => {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart && token && !cartObj.id) {
+        let cart = JSON.parse(storedCart);
+        let retrieved = await getOrder(token, cart.id);
+        setCartObj(retrieved);
+        if (retrieved.products) setCartItems(retrieved.products);
+      }
+    };
     const storedToken = localStorage.getItem("token");
+
     if (storedToken) {
       setToken(storedToken);
+      retrieveCart(storedToken);
     }
+
     if (!storedToken) setToken("");
   }, []);
 
@@ -54,10 +71,36 @@ const App = () => {
       <Route
         path="/logout"
         exact
-        render={() => <Logout setToken={setToken} />}
+        render={() => <Logout setToken={setToken} setCartObj={setCartObj} />}
       />
-      <Route path="/products" exact render={() => <Products />} />
-      <Route path="/cart" exact render={() => <Cart />} />
+      <Route
+        path="/products"
+        exact
+        render={() => (
+          <Products
+            user={user}
+            token={token}
+            cartObj={cartObj}
+            setCartObj={setCartObj}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+          />
+        )}
+      />
+      <Route
+        path="/cart"
+        exact
+        render={() => (
+          <Cart
+            user={user}
+            token={token}
+            cartObj={cartObj}
+            setCartObj={setCartObj}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+          />
+        )}
+      />
       <Route path="/" exact render={() => <Homepage />} />
     </BrowserRouter>
   );
