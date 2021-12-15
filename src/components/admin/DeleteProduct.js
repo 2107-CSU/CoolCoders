@@ -11,7 +11,7 @@ const DeleteProduct = ({ history }) => {
     }
 
     return (
-<>
+        <>
             <h2 className='marginTop'>DELETE A PRODUCT HERE</h2>
             <form>
                 <div>

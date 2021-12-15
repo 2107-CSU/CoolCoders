@@ -31,8 +31,7 @@ async function handleUpdateProduct(productId, {title, description, price, qty, c
             photo
         })
     })
-    const data = await res.json();
-    console.log('updated product = ', data);
+    await res.json();
 }
 
 async function handleDeleteProduct(productId){

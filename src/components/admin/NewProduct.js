@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { handleNewProduct } from './adminUtility';
 
-// title, description, price, qty, active, categoryId
 const NewProduct = ({ history}) => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [qty, setQty] = useState(0);
-    // const [isActive, setIsActive] = useState(true);
     const [categoryId, setCategoryId] = useState(0);
     const [photo, setPhoto] = useState('');
 
@@ -70,16 +68,6 @@ const NewProduct = ({ history}) => {
                     className="form-control mb-2"
                 />
             </div>
-            {/* <div>
-                <label>Product Ready To Sell?</label>
-                <input
-                    type='checkbox'
-                    value={isActive}
-                    onChange={(e) => setIsActive(e.target.value)}
-                    id="isActive"
-                    required
-                />
-            </div> */}
             <div>
                 <label>categoryId:</label>
                 <input
