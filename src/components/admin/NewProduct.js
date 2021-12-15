@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { handleNewProduct } from './adminUtility';
 
-const NewProduct = ({ history}) => {
+const NewProduct = ({ history, token}) => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -12,7 +12,7 @@ const NewProduct = ({ history}) => {
 
     function newProduct(e, title, description, price, qty, categoryId, photo){
         e.preventDefault();
-        handleNewProduct(title, description, price, qty, categoryId, photo)
+        handleNewProduct(title, description, price, qty, categoryId, photo, token)
         history.push('./admin')
     }
 

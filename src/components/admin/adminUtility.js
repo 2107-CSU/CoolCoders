@@ -1,8 +1,9 @@
-async function handleNewProduct(title, description, price, qty, categoryId, photo){
+async function handleNewProduct(title, description, price, qty, categoryId, photo, token){
     const res = await fetch(`http://localhost:2345/api/products`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify({
             title: title,
@@ -13,14 +14,16 @@ async function handleNewProduct(title, description, price, qty, categoryId, phot
             photo: photo
         })
     })
-    await res.json();
+    const data = await res.json();
+    console.log('data from handleNewProduct = ', data)
 }
 
-async function handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}){
+async function handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token){
     const res = await fetch(`http://localhost:2345/api/products/${productId}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify({
             title,
@@ -34,11 +37,12 @@ async function handleUpdateProduct(productId, {title, description, price, qty, c
     await res.json();
 }
 
-async function handleDeleteProduct(productId){
+async function handleDeleteProduct(productId, token){
     const res = await fetch(`http://localhost:2345/api/products/${productId}`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         }
     })
     await res.json();

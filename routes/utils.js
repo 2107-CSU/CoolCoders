@@ -24,13 +24,15 @@ function requireAdmin(req, res, next) {
 }
 
 function authRole(req, res, next){
-        console.log('req = ',req);
-        // if (req.user.userStatus !== 'admin') {
-        //     res.status(401)
-        //     return res.send('Not allowed!')
-        // }
-        //    console.log('authRole running')
-        // next();
+
+        if (req.user.userStatus !== 'admin') {
+            next({
+                name: 'Unauthorized',
+                message: 'You do not have access'
+            })
+        }
+           console.log('authRole running')
+        next();
     
 }
 

@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import { handleDeleteProduct } from './adminUtility';
 
-const DeleteProduct = ({ history }) => {
+const DeleteProduct = ({ history, token }) => {
     const [productId, setProductId] = useState(0);
 
-    function deleteProduct(e, productId){
+    function deleteProduct(e, productId, token){
         e.preventDefault();
-        handleDeleteProduct(productId);
+        handleDeleteProduct(productId, token);
         history.push('./admin');
     }
 
     return (
         <>
             <h2 className='marginTop'>DELETE A PRODUCT HERE</h2>
-            <form>
+            <form onSubmit={(e) => deleteProduct(e, productId, token)}>
                 <div>
                     <label>Product ID Of Product To Delete:</label>
                     <input 
@@ -27,7 +27,7 @@ const DeleteProduct = ({ history }) => {
                     />
                 </div>
         
-            <button onClick={(e) => deleteProduct(e, productId)}>Delete Product</button>
+            <button>Delete Product</button>
             </form>
         </>
     )

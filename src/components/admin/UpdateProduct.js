@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { handleUpdateProduct } from './adminUtility';
 
-const UpdateProduct = ({ history }) => {
+const UpdateProduct = ({ history, token }) => {
 
     const [productId, setProductId] = useState(0)
     const [title, setTitle] = useState('');
@@ -13,7 +13,7 @@ const UpdateProduct = ({ history }) => {
 
     async function updateProduct(e, productId, {title, description, price, qty, categoryId, photo}){
         e.preventDefault();
-        handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo})
+        handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token)
         history.push('/admin')
     }
 

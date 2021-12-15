@@ -31,9 +31,9 @@ const App = () => {
     <BrowserRouter>
       <Header token={token}/>
       <Route path='/admin' exact render={() => <AdminDashboard />} />
-      <Route path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} />} />
-      <Route path='/deleteproduct' exact render={(routeProps) => <DeleteProduct {...routeProps} />} />
-      <Route path='/updateproduct' exact render={(routeProps) => <UpdateProduct {...routeProps} />} />
+      <Route path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} token={token}/>} />
+      <Route path='/deleteproduct' exact render={(routeProps) => <DeleteProduct {...routeProps} token={token}/>} />
+      <Route path='/updateproduct' exact render={(routeProps) => <UpdateProduct {...routeProps} token={token}/>} />
       <Route
         path="/login"
         exact
