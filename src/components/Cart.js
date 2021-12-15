@@ -8,6 +8,7 @@ import {
   addItemToCart,
   getOrder,
   getProductOrders,
+  deleteProductOrder,
   updateQuantity,
   fetchSingleProduct,
 } from "../api/cart";
@@ -27,7 +28,16 @@ const Cart = (props) => {
     }
   }, [cartItems, totalPrice]);
 
-  function removeAllItems() {
+  useEffect(() => {
+    const updateCart = async () => {
+      const cart = await getOrder(token, cartObj.id);
+      setCartObj(cart);
+    };
+    updateCart();
+  }, [cartItems]);
+
+  async function removeAllItems() {
+    await cartItems.forEach((item) => deleteProductOrder(token, item.id));
     setCartItems([]);
     setTotalPrice(0);
   }
@@ -69,7 +79,7 @@ const Cart = (props) => {
           </h5>
         </div>
         <div>
-          {cartItems ? (
+          {cartItems && cartItems.length > 0 ? (
             cartItems.map((item) => (
               // -------------------- TODO -----------------------
               // change the value of the key! Just using title for testing out

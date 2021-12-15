@@ -104,9 +104,6 @@ export async function getOrder(token, orderId) {
       headers: headers,
     });
     [order] = response.data;
-    console.log(order);
-    // const products = await getProductOrders(token, orderId);
-    // order.products = products;
     return order;
   } catch (err) {
     console.error(err);
