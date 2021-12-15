@@ -3,12 +3,15 @@ const jwt = require('jsonwebtoken');
 //import passphrase
 const {JWT_SECRET} = process.env;
 
+// import stripe, call it and pass in our private key
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
+
 //initialize apiRouter
 const apiRouter = require('express').Router();
 
 //import db adapter to retrieve user.
 //this function is used to verify the JWT
-const { getUserById } = require('../db');
+const { getUserById, getProductById } = require('../db');
 
 //JWT verifier
 apiRouter.use(async (req, res, next) => {
@@ -49,6 +52,37 @@ apiRouter.get('/health', (req, res, next) => {
   res.status(200).send({
       message: "api online!" });
 })
+
+// incorporating stripe server side
+apiRouter.post('/create-checkout-session', async (req, res) => {
+    try {
+        let line_items = [];
+        for (let i = 0; i < req.body.items.length; i++) {
+            const currentProduct = await getProductById(req.body.items[i].id);
+            line_items.push({
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: currentProduct.title
+                    },
+                    unit_amount: currentProduct.price
+                },
+                quantity: currentProduct.quantity
+            })
+        }
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: [ 'card' ],
+            mode: 'payment',
+            line_items: line_items,
+            success_url:`http://localhost:3000/products`,
+            cancel_url:`http://localhost:3000/cart`
+        })
+        res.send({ url: session.url })
+    } catch (error) {
+        res.status(500).json({ error: error.message})
+    }
+})
+
 
 //PRODUCTS ROUTER
 const productsRouter = require('./products');
