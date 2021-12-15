@@ -103,9 +103,10 @@ export async function getOrder(token, orderId) {
     const response = await axios.get(`${BASE_URL}/orders/${orderId}`, {
       headers: headers,
     });
-    order = response.data;
-    const products = await getProductOrders(token, orderId);
-    order.products = products;
+    [order] = response.data;
+    console.log(order);
+    // const products = await getProductOrders(token, orderId);
+    // order.products = products;
     return order;
   } catch (err) {
     console.error(err);

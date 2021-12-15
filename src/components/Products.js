@@ -44,7 +44,7 @@ const Products = (props) => {
       // store cart in local storage (as with token) for retrieval upon next visit
       localStorage.setItem("cart", JSON.stringify(cart));
     };
-    if (token && !cartObj.id) {
+    if (token && !Object.keys(cartObj).length) {
       initializeCart();
     }
   }, []);
@@ -53,7 +53,7 @@ const Products = (props) => {
     if (cartObj.id) {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
       await addItemToCart(token, product.id, cartObj.id, 1);
-      const [updatedCart] = await getOrder(token, cartObj.id);
+      const updatedCart = await getOrder(token, cartObj.id);
       setCartObj(updatedCart);
       setCartItems(updatedCart.products);
     }

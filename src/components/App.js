@@ -27,7 +27,7 @@ const App = () => {
         let cart = JSON.parse(storedCart);
         let retrieved = await getOrder(token, cart.id);
         setCartObj(retrieved);
-        if (retrieved[0].products) setCartItems(retrieved[0].products);
+        if (retrieved.products) setCartItems(retrieved.products);
       }
     };
     const storedToken = localStorage.getItem("token");

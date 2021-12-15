@@ -19,9 +19,9 @@ const SingleCartItem = ({
     if (updatedCartItems.length === 0) setTotalPrice(0);
     setCartItems(updatedCartItems);
     await deleteProductOrder(token, id);
-    // const updatedCart = await getOrder(token, cartObj.id);
-    // setCartObj(updatedCart);
-    // if (updatedCart.products) setCartItems(updatedCart.products);
+    const updatedCart = await getOrder(token, cartObj.id);
+    setCartObj(updatedCart);
+    if (updatedCart.products) setCartItems(updatedCart.products);
   }
 
   function addCartQty(itemToUpdate) {

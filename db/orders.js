@@ -23,7 +23,7 @@ const client = require("./client");
 async function _addProductsToOrder(ordersArray) {
   //retrieve products_orders joining on the products table
   const { rows: products } = await client.query(`
-    SELECT products.id,
+    SELECT products_orders.id,
       products_orders."orderId" AS "orderId",
       products_orders."productId" AS "productId",
       products.title, products.description,

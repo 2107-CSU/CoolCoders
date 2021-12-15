@@ -201,7 +201,6 @@ products_ordersRouter.delete(
   async (req, res, next) => {
     const productOrderId = req.params.productOrderId;
     const userId = req.user.id;
-    console.log(userId);
 
     try {
       //retrieve the product order
@@ -213,10 +212,9 @@ products_ordersRouter.delete(
 
       //retrieve the order
       const order = await getOrderByOrderId(productOrder.orderId);
-      console.log(order);
 
       //verify the user is the owner of the given order
-      if (order.userId === userId) {
+      if (order[0].userId === userId) {
         //restore quantities of products
         //retrieve product object
         const product = await getProductById(productOrder.productId);
@@ -234,7 +232,7 @@ products_ordersRouter.delete(
         const deleted = await deleteProductOrder(productOrderId);
 
         //update total order price
-        await updateTotalOrderPrice(order.id);
+        await updateTotalOrderPrice(order[0].id);
 
         res.send(deleted);
       } else {
