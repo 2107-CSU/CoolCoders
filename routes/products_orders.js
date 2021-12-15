@@ -17,7 +17,7 @@ products_ordersRouter.use((req, res, next) => {
 });
 
 //helper function to check and update product quantity
-//accepts a product object, and desired quantity
+//accepts a product id, and desired quantity
 async function manageQuantity(productId, quantity) {
     try {
         //retrieve updated product
