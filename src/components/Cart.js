@@ -1,9 +1,42 @@
 import React, { useState, useEffect } from "react";
 import SingleCartItem from "./SingleCartItem";
 
-const Cart = () => {
+import {
+  createCart,
+  addItemToCart,
+  getOrder,
+  getProductOrders,
+} from "../api/cart";
+
+const Cart = (props) => {
+  const { cartItems, setCartItems, cartObj, setCartObj, user, token } = props;
   const [totalPrice, setTotalPrice] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const initializeCart = async () => {
+      const cart = await createCart(token, totalPrice);
+      setCartObj(cart);
+    };
+    if (token && !cartObj.id) initializeCart();
+  }, []);
+
+  useEffect(() => {
+    const updateCart = async () => {
+      for (let i = 0; i < cartItems.length; i++) {
+        await addItemToCart(
+          token,
+          cartItems[i].id,
+          cartObj.id,
+          cartItems[i].quantity
+        );
+      }
+      const updatedOrder = await getOrder(token, cartObj.id);
+      const orderProducts = await getProductOrders(token, cartObj.id);
+      if (updatedOrder)
+        setCartObj({ ...updatedOrder, products: orderProducts });
+    };
+    if (token && cartItems && cartObj.id) updateCart();
+  }, [cartItems]);
 
   useEffect(() => {
     let total = 0;

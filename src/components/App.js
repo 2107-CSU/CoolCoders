@@ -8,6 +8,8 @@ import Homepage from "./Homepage";
 import Login from "./Login";
 import Logout from "./Logout";
 
+import { getOrder } from "../api/cart";
+
 // create context to store user info for use throughout app - CURRENTLY UNUSED, may not be compatible with this version of React
 // export const UserContext = createContext();
 
@@ -16,14 +18,29 @@ const App = () => {
   const [user, setUser] = useState({});
 
   const [cartObj, setCartObj] = useState({});
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
+    const orderId = localStorage.getItem("CartId");
     if (storedToken) {
       setToken(storedToken);
     }
     if (!storedToken) setToken("");
+    if (orderId && storedToken) {
+      const fetchExistingCart = async () => {
+        const cart = await getOrder(storedToken, orderId);
+        setCartObj(cart);
+      };
+      fetchExistingCart();
+    }
   }, []);
+
+  useEffect(() => {
+    if (cartObj) {
+      localStorage.setItem("CartId", cartObj.id);
+    }
+  }, [cartObj]);
 
   return (
     <BrowserRouter>
@@ -59,13 +76,24 @@ const App = () => {
             token={token}
             cartObj={cartObj}
             setCartObj={setCartObj}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
           />
         )}
       />
       <Route
         path="/cart"
         exact
-        render={() => <Cart cartObj={cartObj} setCartObj={setCartObj} />}
+        render={() => (
+          <Cart
+            user={user}
+            token={token}
+            cartObj={cartObj}
+            setCartObj={setCartObj}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+          />
+        )}
       />
       <Route path="/" exact render={() => <Homepage />} />
     </BrowserRouter>

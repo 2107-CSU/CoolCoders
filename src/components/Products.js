@@ -6,8 +6,17 @@ import { addItemToCart, createCart } from "../api/cart";
 
 import { Link } from "react-router-dom";
 
+/* 
+- Store cartItems in root, pass state down
+- when user clicks "add to cart," product is added to cartItems (passed btw comps)
+- cart is not initialized in db until Cart page is visited
+  - if user is logged in, cart is created under their token
+  - if not, a guest account is created and user is given token, which is then used to init cart
+    - NOTE: that means if a token exists in state, when a user registers, they are UPDATING acct, not creating one
+*/
+
 const Products = (props) => {
-  const { user, token, cartObj, setCartObj } = props;
+  const { user, token, cartObj, setCartObj, cartItems, setCartItems } = props;
 
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
@@ -43,14 +52,8 @@ const Products = (props) => {
                 <Link to={`/products/${product.id}`}>View</Link>
                 <button
                   type="button"
-                  onClick={async () => {
-                    if (!cartObj.id) {
-                      const newCart = await createCart(token);
-                      setCartObj(newCart);
-                      // then add item to initialized cart using cart id & product id
-                    } else {
-                      // add item to existing cart
-                    }
+                  onClick={() => {
+                    setCartItems([...cartItems, { ...product, quantity: 1 }]);
                   }}
                 >
                   Add to cart
