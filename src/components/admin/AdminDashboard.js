@@ -1,11 +1,15 @@
 import React from 'react'
-import NewProduct from './NewProduct'
+import { Link } from 'react-router-dom'
 
 const AdminDashboard = () => {
+
     return (
-        <div>
-            <h1 className='marginTop'>ADMIN DASHBOARD</h1>
-            <NewProduct />
+        <div className='marginTop'>
+        <ul>
+            <li><Link to='createnewproduct'>Create New Product</Link></li>
+            <li><Link to='deleteproduct'>Delete a Product</Link></li>
+            <li><Link to='updateproduct'>Update a Product</Link></li>
+        </ul>
         </div>
     )
 }

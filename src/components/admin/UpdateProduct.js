@@ -1,112 +1,108 @@
 import React, { useState } from 'react'
-import { handleNewProduct } from './adminUtility';
+import { handleUpdateProduct } from './adminUtility';
 
-// title, description, price, qty, active, categoryId
-const NewProduct = ({ history}) => {
+const UpdateProduct = ({ history }) => {
 
+    const [productId, setProductId] = useState(0)
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [qty, setQty] = useState(0);
-    // const [isActive, setIsActive] = useState(true);
     const [categoryId, setCategoryId] = useState(0);
     const [photo, setPhoto] = useState('');
 
-    function newProduct(e, title, description, price, qty, categoryId, photo){
+    async function updateProduct(e, productId, {title, description, price, qty, categoryId, photo}){
         e.preventDefault();
-        handleNewProduct(title, description, price, qty, categoryId, photo)
-        history.push('./admin')
+        handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo})
+        history.push('/admin')
     }
 
     return (
-        <form className='marginTop'>
-            <h3>Add A New Product To The Store Here</h3>
-            <div>
-                <label>Title:</label>
+        <>
+            <h2 className='marginTop'>UPDATE A PRODUCT HERE</h2>
+            <form>
+                <div>
+                    <label>Product ID Of Product To Update</label>
+                    <input 
+                    type='text'
+                    value={productId}
+                    onChange={(e) => setProductId(e.target.value)}
+                    id='productId'
+                    autoFocus
+                    className='form-control mb-2'
+                    required
+                    />
+                </div>
+                <div>
+                <label>Updated Title:</label>
                 <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     id="title"
-                    required
-                    placeholder="New product title"
-                    autoFocus
+                    placeholder="update product title"
                     className="form-control mb-2"
                 />
             </div>
             <div>
-                <label>description:</label>
+                <label>Updated description:</label>
                 <input
                     type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     id="description"
-                    required
-                    placeholder="New product description"
+                    placeholder="update product description"
                     className="form-control mb-2"
                 />
             </div>
             <div>
-                <label>price:</label>
+                <label>Updated price:</label>
                 <input
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     id="price"
-                    required
-                    placeholder="New product price"
+                    placeholder="update product price"
                     className="form-control mb-2"
                 />
             </div>
             <div>
-                <label>qty:</label>
+                <label>Updated qty:</label>
                 <input
                     type="number"
                     value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     id="qty"
-                    required
-                    placeholder="New product qty"
+                    placeholder="update product qty"
                     className="form-control mb-2"
                 />
             </div>
-            {/* <div>
-                <label>Product Ready To Sell?</label>
-                <input
-                    type='checkbox'
-                    value={isActive}
-                    onChange={(e) => setIsActive(e.target.value)}
-                    id="isActive"
-                    required
-                />
-            </div> */}
             <div>
-                <label>categoryId:</label>
+                <label>Updated categoryId:</label>
                 <input
                     type="number"
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
                     id="categoryId"
-                    required
-                    placeholder="New product categoryId"
+                    placeholder="update product categoryId"
                     className="form-control mb-2"
                 />
             </div>
             <div>
-                <label>Product Photo:</label>
+                <label>Updated Product Photo:</label>
                 <input
                     type="text"
                     value={photo}
                     onChange={(e) => setPhoto(e.target.value)}
                     id="photo"
-                    required
-                    placeholder="New product photo url here"
+                    placeholder="update photo url here"
                     className="form-control mb-2"
                 />
             </div>
-                <button onClick={(e) => newProduct(e, title, description, price, qty, categoryId, photo)}>Add Product To Store</button>
-        </form>
+            <button onClick={(e) => updateProduct(e, productId, {title, description, price, qty, categoryId, photo})}>Update Product</button>
+            </form>
+        </>
     )
 }
 
-export default NewProduct
+export default UpdateProduct
