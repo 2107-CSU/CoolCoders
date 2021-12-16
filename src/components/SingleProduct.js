@@ -32,10 +32,15 @@ const SingleProduct = () => {
 
   return loading
     ? <div>Loading</div>
-    : <div>
+    : <div style ={{
+        textAlign:"center",
+        margin: "0 auto",
+        border: "1px solid black",
+        marginTop: "100px"}}>
+      <h1>{product.title}</h1>
       <img src={product.photo} />
-      <h1>{product.title}</h1> 
       <p>Description: {product.description}</p>
+      <p>Price: {product.price} Quantity: {product.quantity}</p>
     </div>
 };
 
