@@ -63,7 +63,7 @@ const App = () => {
       <Route
         path="/logout"
         exact
-        render={() => <Logout setToken={setToken} />}
+        render={() => <Logout setToken={setToken} setIsAdmin={setIsAdmin}/>}
       />
       <Route path="/products" exact render={() => <Products />} />
       <Route path="/cart" exact render={() => <Cart />} />
