@@ -9,9 +9,10 @@ import Login from "./Login";
 import Logout from "./Logout";
 import AdminDashboard from './admin/AdminDashboard'
 import NewProduct from "./admin/NewProduct";
-import DeleteProduct from "./admin/DeleteProduct";
-import UpdateProduct from "./admin/UpdateProduct";
 import DeleteDisplay from "./admin/DeleteDisplay";
+import DeleteProduct from "./admin/DeleteProduct";
+import UpdateDisplay from "./admin/UpdateDisplay";
+import UpdateProduct from "./admin/UpdateProduct";
 
 // create context to store user info for use throughout app
 export const UserContext = createContext();
@@ -34,8 +35,9 @@ const App = () => {
       <Route path='/admin' exact render={() => <AdminDashboard />} />
       <Route path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} token={token}/>} />
       <Route path='/deleteproduct' exact render={(routeProps) => <DeleteDisplay {...routeProps} token={token}/>} />
-      <Route path='/updateproduct' exact render={(routeProps) => <UpdateProduct {...routeProps} token={token}/>} />
+      <Route path='/updateproduct' exact render={(routeProps) => <UpdateDisplay {...routeProps} token={token}/>} />
       <Route path='/admin/delete/:productId' exact render={(routeProps) => <DeleteProduct {...routeProps} token={token} />} />
+      <Route path='/admin/edit/:productId' exact render={(routeProps) => <UpdateProduct {...routeProps} token={token} />} />
       <Route
         path="/login"
         exact

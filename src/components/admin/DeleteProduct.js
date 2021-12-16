@@ -1,40 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { handleDeleteProduct } from './adminUtility';
+import { getProductById } from './adminUtility';
 
 const DeleteProduct = ({ match, history, token }) => {
-
-    
-    const getProductById = async () => {
-        try {
-            const response = await fetch (`http://localhost:2345/api/products/${productId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-            })
-            const data = await response.json();
-            console.log('data inside getProductById', data);
-            setSelectedProduct(data)
-        }
-            catch (error) {
-            console.log(error)
-            throw error;
-        }
-    }
 
     const [productId, setProductId] = useState(match.params.productId);
     const [selectedProduct, setSelectedProduct] = useState({});
 
-    async function deleteProduct(e, productId, token){
+    async function deleteProduct(e, productId, token, setSelectedProduct){
         e.preventDefault();
-        await handleDeleteProduct(productId, token);
+        await handleDeleteProduct(productId, token, setSelectedProduct);
         history.push('/deleteproduct');
         
     }
     useEffect(() => {
-        const { productIdToDelete } = match.params;
-        setProductId(productIdToDelete)
-        const productToDelete = getProductById(productId);
+        const productToDelete = getProductById(productId, setSelectedProduct);
         setSelectedProduct(productToDelete)
 
     }, [productId])
