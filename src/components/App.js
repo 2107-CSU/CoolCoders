@@ -11,6 +11,7 @@ import AdminDashboard from './admin/AdminDashboard'
 import NewProduct from "./admin/NewProduct";
 import DeleteProduct from "./admin/DeleteProduct";
 import UpdateProduct from "./admin/UpdateProduct";
+import DeleteDisplay from "./admin/DeleteDisplay";
 
 // create context to store user info for use throughout app
 export const UserContext = createContext();
@@ -32,8 +33,9 @@ const App = () => {
       <Header token={token}/>
       <Route path='/admin' exact render={() => <AdminDashboard />} />
       <Route path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} token={token}/>} />
-      <Route path='/deleteproduct' exact render={(routeProps) => <DeleteProduct {...routeProps} token={token}/>} />
+      <Route path='/deleteproduct' exact render={(routeProps) => <DeleteDisplay {...routeProps} token={token}/>} />
       <Route path='/updateproduct' exact render={(routeProps) => <UpdateProduct {...routeProps} token={token}/>} />
+      <Route path='/admin/delete/:productId' exact render={(routeProps) => <DeleteProduct {...routeProps} token={token} />} />
       <Route
         path="/login"
         exact
