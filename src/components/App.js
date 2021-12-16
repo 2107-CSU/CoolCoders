@@ -21,6 +21,7 @@ export const UserContext = createContext();
 const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -30,9 +31,10 @@ const App = () => {
     if (!storedToken) setToken("");
   }, []);
 
+
   return (
     <BrowserRouter>
-      <Header token={token}/>
+      <Header token={token} isAdmin={isAdmin}/>
       <Route path='/admin' exact render={() => <AdminDashboard />} />
       <Route path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} token={token}/>} />
       <Route path='/deleteproduct' exact render={(routeProps) => <DeleteDisplay {...routeProps} token={token}/>} />
@@ -49,6 +51,7 @@ const App = () => {
             setToken={setToken}
             token={token}
             setUser={setUser}
+            setIsAdmin={setIsAdmin}
           />
         )}
       />
