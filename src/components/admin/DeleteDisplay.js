@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getProducts } from "../../api";
 import { Link } from "react-router-dom";
 
-const DeleteDisplay = ({ token }) => {
+const DeleteDisplay = () => {
 
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);

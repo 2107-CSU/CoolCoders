@@ -9,6 +9,7 @@ const AdminDashboard = () => {
             <li><Link to='createnewproduct'>Create New Product</Link></li>
             <li><Link to='deleteproduct'>Delete a Product</Link></li>
             <li><Link to='updateproduct'>Edit a Product</Link></li>
+            <li><Link to='createadmin'>Create a new admin account</Link></li>
         </ul>
         </div>
     )

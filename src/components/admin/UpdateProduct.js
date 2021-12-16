@@ -15,15 +15,12 @@ const UpdateProduct = ({ history, token, match }) => {
 
     async function updateProduct(e, productId, {title, description, price, qty, categoryId, photo}){
         e.preventDefault();
-        handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token)
-        history.push('/admin')
+        await handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token)
+        history.push('/updateproduct')
     }
 
     useEffect(() => {
         const productToUpdate = getProductById(productId, setSelectedProduct);
-        console.log('product returned back from getProductById = ', productToUpdate)
-        setSelectedProduct(productToUpdate)
-
     }, [productId])
 
     useEffect(() => {
