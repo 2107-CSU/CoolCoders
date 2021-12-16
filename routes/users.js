@@ -85,6 +85,7 @@ usersRouter.post("/register", async (req, res, next) => {
       {
         email,
         id: user.id,
+        userStatus
       },
       process.env.JWT_SECRET,
       {

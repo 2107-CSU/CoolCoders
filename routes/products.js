@@ -1,6 +1,5 @@
 //import express package
 const express = require('express');
-const { authRole } = require('./utils')
 
 //initialize productsRouter
 const productsRouter = express.Router();
@@ -52,7 +51,7 @@ productsRouter.get('/:productId', async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
- productsRouter.post('/', authRole, async (req, res, next) => {
+ productsRouter.post('/', requireUser, requireAdmin, async (req, res, next) => {
     const {title, description, price, quantity, categoryId, photo} = req.body;
 
     try {
@@ -77,7 +76,7 @@ productsRouter.get('/:productId', async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
-productsRouter.patch('/:productId', authRole, async (req, res, next) => {
+productsRouter.patch('/:productId', requireUser, requireAdmin, async (req, res, next) => {
     const productId = req.params.productId;
 
     //copy the fields to update into a new object
@@ -103,7 +102,7 @@ productsRouter.patch('/:productId', authRole, async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
-productsRouter.delete('/:productId', authRole, async (req, res, next) => {
+productsRouter.delete('/:productId', requireUser, requireAdmin, async (req, res, next) => {
     const productId = req.params.productId;
     try {
         const deletedProduct = await destroyProduct(productId);
