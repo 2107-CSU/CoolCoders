@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react"
 import { getProducts } from "../api";
 // import { getSingleProduct } from "../api";
 
-import { Route, Link} from 'react-router-dom';
-import SingleProduct from "./SingleProduct";
+import { Link } from 'react-router-dom';
+
 
 const Products = () => {
    
@@ -39,7 +39,7 @@ const Products = () => {
                                 <div>
                                     <img src={product.photo}/>
                                 </div>
-                                <p className="mb-3">Description: {product.description}</p>
+                                <div className="mb-3">Description: {product.description}</div>
                                 <div className="font-bold mb-3">Price: ${product.price}</div>
                                 <div>Quantity: {product.quantity}</div>
                                 <Link  to={`/products/${product.id}`}>
