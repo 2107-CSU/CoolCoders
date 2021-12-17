@@ -102,7 +102,7 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/:userId", async (req, res, next) => {
+usersRouter.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -113,7 +113,7 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete("/:userId", async (req, res, next) => {
+usersRouter.delete("/:userId", requireUser, requireAdmin, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -131,7 +131,7 @@ usersRouter.delete("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.patch("/:userId", async (req, res, next) => {
+usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   // Should a user be allowed to change anything other than their name?
 
   const { userId } = req.params;
@@ -147,3 +147,4 @@ usersRouter.patch("/:userId", async (req, res, next) => {
 });
 
 module.exports = usersRouter;
+git 
