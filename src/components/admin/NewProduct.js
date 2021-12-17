@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { handleNewProduct } from './adminUtility';
 
-const NewProduct = ({ history, token}) => {
+const NewProduct = ({ history, token }) => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -10,11 +10,12 @@ const NewProduct = ({ history, token}) => {
     const [categoryId, setCategoryId] = useState(0);
     const [photo, setPhoto] = useState('');
 
-    function newProduct(e, title, description, price, qty, categoryId, photo){
+    function newProduct(e, token, title, description, price, qty, categoryId, photo){
         e.preventDefault();
-        handleNewProduct(title, description, price, qty, categoryId, photo, token)
+        handleNewProduct(token, title, description, price, qty, categoryId, photo)
         history.push('./admin')
     }
+
 
     return (
         <>
@@ -93,7 +94,7 @@ const NewProduct = ({ history, token}) => {
                     className="singleProductInput"
                 />
             </div>
-                <button className='singleProductBtn' onClick={(e) => newProduct(e, title, description, price, qty, categoryId, photo)}>Add Product To Store</button>
+                <button className='singleProductBtn' onClick={(e) => newProduct(e, token, title, description, price, qty, categoryId, photo)}>Add Product To Store</button>
         </form>
         </>
     )
