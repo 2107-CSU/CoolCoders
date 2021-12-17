@@ -63,7 +63,13 @@ const App = () => {
       <Route
         path="/logout"
         exact
-        render={() => <Logout setToken={setToken} setCartObj={setCartObj} />}
+        render={() => (
+          <Logout
+            setToken={setToken}
+            setCartObj={setCartObj}
+            setUser={setUser}
+          />
+        )}
       />
       <Route
         path="/products"

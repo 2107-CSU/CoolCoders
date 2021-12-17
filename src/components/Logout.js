@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 
 const Logout = (props) => {
-  const { setToken, setCartObj } = props;
+  const { setToken, setCartObj, setUser } = props;
 
   useEffect(() => {
     setToken("");
     setCartObj({});
+    setUser({});
     localStorage.removeItem("token");
     localStorage.removeItem("cart");
+    localStorage.removeItem("user");
   }, []);
   return (
     <div>
