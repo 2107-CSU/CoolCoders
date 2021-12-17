@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const {JWT_SECRET} = process.env
 
 const usersRouter = express.Router();
 const {
@@ -146,5 +147,33 @@ usersRouter.patch("/:userId", async (req, res, next) => {
     next(error);
   }
 });
+
+//retrieves a user object given a jwt token
+//returns email, user id,
+usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
+  // console.log("REQUEST: ", req.headers.authorization)
+
+  //grab the token from the request headers
+  //use slice method to remove 'Bearer ' prefix
+  const prefix = 'Bearer '
+  let token = req.headers.authorization;
+  token = token.slice(prefix.length, token.length);
+
+  // console.log("TOKEN IS:",token);
+
+  try {
+    //verify token and send user obj
+    //remove iat and exp before returning to client
+    const userObj = await jwt.verify(token, JWT_SECRET);
+    delete userObj.iat;
+    delete userObj.exp;
+
+    res.send(userObj);
+  }
+  catch (error) {
+    next(error);
+  }
+
+})
 
 module.exports = usersRouter;

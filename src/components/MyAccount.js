@@ -4,7 +4,7 @@ import OrderHistory from "./OrderHistory";
 
 //import helper functions
 
-const MyAccount = () => {
+const MyAccount = ({user}) => {
     return (
         <div id="myaccount-page">
             <div id="your-account-container">
@@ -14,6 +14,9 @@ const MyAccount = () => {
                 <p>password: </p>
             </div>
             <hr id="horizontal-line" />
+            {
+                console.log("USER OBJ: ", user)
+            }
             <OrderHistory />
         </div>
     )

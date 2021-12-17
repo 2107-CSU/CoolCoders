@@ -1,6 +1,9 @@
 import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
+//import helper functions
+import { fetchUserObj } from "../api/users";
+
 import Cart from "./Cart";
 import Products from "./Products";
 import Header from "./Header";
@@ -31,6 +34,14 @@ const App = () => {
     }
     if (!storedToken) setToken("");
   }, []);
+
+  //initialize user object on page load
+  useEffect( () => {
+    async function fetchData() {
+      setUser(await fetchUserObj(token));
+    }
+    fetchData();
+  }, [token])
 
 
   return (
@@ -71,7 +82,7 @@ const App = () => {
       <Route path="/" exact render={() => <Homepage />} />
       <Route
         exact path = '/myaccount'
-        render = {routeProps => <MyAccount {...routeProps} />}
+        render = {routeProps => <MyAccount user={user} {...routeProps} />}
       />
     </BrowserRouter>
   );

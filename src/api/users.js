@@ -40,3 +40,24 @@ export async function registerUser(email, password, name, userStatus) {
     console.error(err);
   }
 }
+
+export async function fetchUserObj(token) {
+  if (!token) return {};
+
+  try {
+    const response = await fetch (`${BASE_URL}/users/userinfo/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+    })
+  const data = await response.json();
+  console.log("FETCH USER OBJ: ", data);
+  return data
+  }
+  catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
