@@ -16,19 +16,19 @@ const MakeAdmin = ({ match, history, token }) => {
     }
 
     return (
-        <div className='marginTop'>
+        <div className='singleUserContainer'>
             {selectedUser 
             ? ( selectedUser.map((user) => (
-                <div className='marginTop' key={user.id}>
-                    <h2>Are You Sure You Want to Make {user.name} an Admin?</h2>
-                    <p >email: {user.email}</p>
-                    <p>Current status: {user.userStatus}</p>
+                <div className='singleUserDetails' key={user.id}>
+                    <h2>Make {user.name} an admin here</h2>
+                    <p><span className='singleUserLabel'>email:</span> {user.email}</p>
+                    <p><span className='singleUserLabel'>Current status:</span> {user.userStatus}</p>
                 </div>
             ))
                 
             ) : <p>Loading Selected User</p>}
             <form>
-                <button onClick={(e) => upgradeUser(e, token, userId)}>Upgrade to Admin</button>
+                <button className='singleUserBtn' onClick={(e) => upgradeUser(e, token, userId)}>Upgrade to Admin</button>
             </form>
         </div>
     )

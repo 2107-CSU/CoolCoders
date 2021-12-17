@@ -19,19 +19,19 @@ const DeleteUser = ({ match, history }) => {
     }
 
     return (
-        <div className='marginTop'>
+        <div className='singleUserContainer'>
             {selectedUser 
             ? ( selectedUser.map((user) => (
-                <div className='marginTop' key={user.id}>
+                <div className='singleUserDetails' key={user.id}>
                     <h2>Are You Sure You Want to Delete {user.name}?</h2>
-                    <p >email: {user.email}</p>
-                    <p>status: {user.userStatus}</p>
+                    <p><span className='singleUserLabel'>email: </span> {user.email}</p>
+                    <p><span className='singleUserLabel'>status: </span> {user.userStatus}</p>
                 </div>
             ))
                 
             ) : <p>Loading Selected User</p>}
             <form onSubmit={(e) => deleteUser(e, userId)}>
-                <button>Delete User</button>
+                <button className='singleUserBtn'>Yes, Delete</button>
             </form>
         </div>
     )
