@@ -135,11 +135,11 @@ usersRouter.patch("/:userId", async (req, res, next) => {
   // Should a user be allowed to change anything other than their name?
 
   const { userId } = req.params;
-  const { name } = req.body;
+  const updateObj = {...req.body};
 
   try {
-    const user = await updateUser(userId, name);
-    console.log("the user = ", user);
+
+    const user = await updateUser(userId, updateObj);
     res.send(user);
   } catch (error) {
     next(error);
