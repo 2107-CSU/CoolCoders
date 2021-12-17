@@ -94,7 +94,29 @@ async function deleteSingleUser(userId){
         const data = await response.json();
         console.log('data inside delete single user = ', data)
     } catch (error) {
-        
+        console.log(error);
+        throw error;
+    }
+}
+
+async function makeAdmin(token, userId){
+    try {
+        const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                userStatus: 'admin'
+            })
+        })
+        const data = await response.json();
+        console.log('data inside makeAdmin = ', data);
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 }
 
@@ -104,5 +126,6 @@ module.exports = {
     handleDeleteProduct,
     getProductById,
     getUserById,
-    deleteSingleUser
+    deleteSingleUser,
+    makeAdmin
 }
