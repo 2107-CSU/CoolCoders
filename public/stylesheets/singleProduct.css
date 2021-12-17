@@ -21,9 +21,9 @@
     padding: 0.5em;
 }
 
-/* .singleProductLabel {
-    flex: 1;
-} */
+.singleProductLabel {
+    font-weight: 700;
+}
 
 .singleProductInput {
     flex-grow: 1;

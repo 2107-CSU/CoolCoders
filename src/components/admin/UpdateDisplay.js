@@ -29,7 +29,7 @@ const UpdateDisplay = () => {
                     <p className="mb-3"><span className='descTitle'>Description: </span>{product.description}</p>
                     <p className="font-bold mb-3"><span className='descTitle'>Price:</span> ${product.price}</p>
                     <p><span className='descTitle'>Quantity:</span>{product.quantity}</p>
-                    <Link to={`admin/edit/${product.id}`} className='editProductBtn'>Edit {product.title}</Link>
+                    <Link to={`admin/edit/${product.id}`} className='singleProductBtn'>Edit {product.title}</Link>
                 </div>
                 );
             })}

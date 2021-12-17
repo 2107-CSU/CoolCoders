@@ -48,7 +48,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 />
             </div>
             <div className='singleProductDetail'>
-                <label>Updated description:</label>
+                <label className='singleProductLabel'>Updated description:</label>
                 <input
                     type="text"
                     value={description}
@@ -59,7 +59,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 />
             </div>
             <div className='singleProductDetail'>
-                <label>Updated price:</label>
+                <label className='singleProductLabel'>Updated price:</label>
                 <input
                     type="number"
                     value={price}
@@ -70,7 +70,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 />
             </div>
             <div className='singleProductDetail'>
-                <label>Updated qty:</label>
+                <label className='singleProductLabel'>Updated qty:</label>
                 <input
                     type="number"
                     value={qty}
@@ -81,7 +81,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 />
             </div>
             <div className='singleProductDetail'>
-                <label>Updated categoryId:</label>
+                <label className='singleProductLabel'>Updated categoryId:</label>
                 <input
                     type="number"
                     value={categoryId}
@@ -92,7 +92,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 />
             </div>
             <div className='singleProductDetail'>
-                <label>Updated Product Photo:</label>
+                <label className='singleProductLabel'>Updated Product Photo:</label>
                 <input
                     type="text"
                     value={photo}

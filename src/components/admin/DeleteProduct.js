@@ -19,15 +19,15 @@ const DeleteProduct = ({ match, history, token }) => {
 
     }, [productId])
     return (
-        <>
-            <h2 className='marginTop'>Are you sure you want to deactivate <b>{selectedProduct.title}</b>?</h2>
-            <h3><b>Description:</b> {selectedProduct.description}</h3>
-            <h3><b>Price:</b> {selectedProduct.price}</h3>
-            <h3><b>Quantity In Stock:</b> {selectedProduct.quantity}</h3>
+        <div className='deleteProductContainer'>
+            <h2>Are you sure you want to deactivate <b>{selectedProduct.title}</b>?</h2>
+            <p><span className='deleteProductTitle'>Description:</span> {selectedProduct.description}</p>
+            <p><span className='deleteProductTitle'>Price:</span> ${selectedProduct.price}</p>
+            <p><span className='deleteProductTitle'>Quantity In Stock:</span> {selectedProduct.quantity}</p>
             <form onSubmit={(e) => deleteProduct(e, selectedProduct.id, token)}>
-            <button>Yes, Delete Product</button>
+            <button className='deleteProductBtn'>Yes, Delete {selectedProduct.title}</button>
             </form>
-        </>
+        </div>
     )
 }
 
