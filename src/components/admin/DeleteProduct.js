@@ -14,7 +14,7 @@ const DeleteProduct = ({ match, history, token }) => {
         
     }
     useEffect(() => {
-        const productToDelete = getProductById(productId, setSelectedProduct);
+        const productToDelete = getProductById(productId, setSelectedProduct, token);
         setSelectedProduct(productToDelete)
 
     }, [productId])

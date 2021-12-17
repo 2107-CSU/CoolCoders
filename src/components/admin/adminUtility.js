@@ -63,12 +63,13 @@ async function handleDeleteProduct(productId, token){
     }
 }
 
-const getProductById = async (productId, setSelectedProduct) => {
+const getProductById = async (productId, setSelectedProduct, token) => {
     try {
         const response = await fetch (`http://localhost:2345/api/products/${productId}`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
         }
         })
         const data = await response.json();
@@ -81,12 +82,13 @@ const getProductById = async (productId, setSelectedProduct) => {
     }
 }
 
-async function getUserById(userId, setSelectedUser){
+async function getUserById(userId, setSelectedUser, token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         }
         })
         const data = await response.json();
@@ -98,12 +100,13 @@ async function getUserById(userId, setSelectedUser){
     }
 }
 
-async function deleteSingleUser(userId){
+async function deleteSingleUser(userId, token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
             }
         })
         const data = await response.json();
@@ -114,7 +117,7 @@ async function deleteSingleUser(userId){
     }
 }
 
-async function makeAdmin(token, userId){
+async function makeAdmin(token, userId,){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: "PATCH",

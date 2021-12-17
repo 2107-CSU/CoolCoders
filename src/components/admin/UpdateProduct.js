@@ -20,7 +20,7 @@ const UpdateProduct = ({ history, token, match }) => {
     }
 
     useEffect(() => {
-        getProductById(productId, setSelectedProduct);
+        getProductById(productId, setSelectedProduct, token);
     }, [productId])
 
     useEffect(() => {

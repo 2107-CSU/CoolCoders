@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getUserById, deleteSingleUser } from './adminUtility';
 
-const DeleteUser = ({ match, history }) => {
+const DeleteUser = ({ match, history, token }) => {
 
     // const [productId, setProductId] = useState(match.params.productId)
     const [userId, setUserId] = useState(match.params.userId);
@@ -9,12 +9,12 @@ const DeleteUser = ({ match, history }) => {
 
 
     useEffect(() => {
-        getUserById(userId, setSelectedUser);
+        getUserById(userId, setSelectedUser, token);
     }, [userId])
 
-    function deleteUser(e, userId){
+    function deleteUser(e, userId, token){
         e.preventDefault();
-        deleteSingleUser(userId);
+        deleteSingleUser(userId, token);
         history.push('/admin')
     }
 
@@ -30,7 +30,7 @@ const DeleteUser = ({ match, history }) => {
             ))
                 
             ) : <p>Loading Selected User</p>}
-            <form onSubmit={(e) => deleteUser(e, userId)}>
+            <form onSubmit={(e) => deleteUser(e, userId, token)}>
                 <button className='singleUserBtn'>Yes, Delete</button>
             </form>
         </div>

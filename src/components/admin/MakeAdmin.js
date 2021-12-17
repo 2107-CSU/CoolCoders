@@ -6,7 +6,7 @@ const MakeAdmin = ({ match, history, token }) => {
     const [selectedUser, setSelectedUser] = useState([])
 
     useEffect(() => {
-        getUserById(userId, setSelectedUser);
+        getUserById(userId, setSelectedUser, token);
     }, [userId])
 
     function upgradeUser(e, token, userId) {
