@@ -1,0 +1,6 @@
+#myaccount-page {
+  height: 100vh;
+  width: 100%;
+  padding: 3rem;
+  overflow-y: scroll;
+}

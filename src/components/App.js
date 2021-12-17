@@ -7,6 +7,7 @@ import Header from "./Header";
 import Homepage from "./Homepage";
 import Login from "./Login";
 import Logout from "./Logout";
+import MyAccount from "./MyAccount";
 import AdminDashboard from './admin/AdminDashboard'
 import NewProduct from "./admin/NewProduct";
 import DeleteDisplay from "./admin/DeleteDisplay";
@@ -68,6 +69,10 @@ const App = () => {
       <Route path="/products" exact render={() => <Products />} />
       <Route path="/cart" exact render={() => <Cart />} />
       <Route path="/" exact render={() => <Homepage />} />
+      <Route
+        exact path = '/myaccount'
+        render = {routeProps => <MyAccount {...routeProps} />}
+      />
     </BrowserRouter>
   );
 };
