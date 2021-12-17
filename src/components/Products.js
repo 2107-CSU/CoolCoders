@@ -26,6 +26,7 @@ const Products = () => {
     }, []);
 
 
+
     return (
         <div>
             <h2 style={{
@@ -34,7 +35,7 @@ const Products = () => {
             {!loading
                 ? (
                     <ul>
-                        {products.map(product => {
+                        {products.filter(product => !!product.quantity).map(product => {
                             return (
                             <div className="border mb-3 roundeed overflow-hidden">
                                 <h2 className="p-3" key={product.id}>{product.title}</h2>

@@ -6,14 +6,14 @@ const SingleProduct = () => {
   const [product, setProduct] = useState([]);
   const [productId, setProductId] = useState(null);
 
-// * This useEffect breaks the path into an array and then grabs the last index which is going to be the product id *
+//  This useEffect breaks the path into an array and then grabs the last index which is going to be the product id *
   useEffect(() => {
     const splitPath = window.location.pathname.split('/');
     
     setProductId(splitPath[splitPath.length - 1]);
   }, []);
 
-// * This useEffect is used when the productId changes and it will make the call to id
+//  This useEffect is used when the productId changes and it will make the call to the id and return the single product
 
   useEffect(() => {
     const fetchSingleProduct = async (id) => {
@@ -44,4 +44,5 @@ const SingleProduct = () => {
     </div>
 };
 
+// Have reviews show up in single product view if time permits?
 export default SingleProduct;
