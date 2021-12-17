@@ -1,0 +1,6 @@
+.user {
+    border: 5px solid black;
+    background-color: lightgray;
+    display: flex;
+    justify-content: space-between;
+}

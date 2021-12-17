@@ -66,9 +66,43 @@ const getProductById = async (productId, setSelectedProduct) => {
     }
 }
 
+async function getUserById(userId, setSelectedUser){
+    try {
+        const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
+            method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        const data = await response.json();
+        console.log('data inside getUserById', data)
+        setSelectedUser(data);
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+async function deleteSingleUser(userId){
+    try {
+        const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json();
+        console.log('data inside delete single user = ', data)
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     handleNewProduct,
     handleUpdateProduct,
     handleDeleteProduct,
-    getProductById
+    getProductById,
+    getUserById,
+    deleteSingleUser
 }
