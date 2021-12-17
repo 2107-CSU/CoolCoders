@@ -6,9 +6,7 @@ const AllUsers = ({ token }) => {
 
     useEffect(() => {
         async function getAllUsers(){
-            const res = await fetch(`http://localhost:2345/api/users`)
-            const allUsers = await res.json();
-            setUsers(allUsers.users);
+           await fetchAllUsers(token, setUsers);
         }
         getAllUsers();
     }, [])

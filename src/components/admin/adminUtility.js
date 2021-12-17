@@ -138,6 +138,22 @@ async function makeAdmin(token, userId,){
     }
 }
 
+async function fetchAllUsers(token, setUsers){
+    try {
+        const response = await fetch(`http://localhost:2345/api/users/`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        const data = await response.json();
+        setUsers(data.users)
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
 module.exports = {
     handleNewProduct,
     handleUpdateProduct,
@@ -145,5 +161,6 @@ module.exports = {
     getProductById,
     getUserById,
     deleteSingleUser,
-    makeAdmin
+    makeAdmin,
+    fetchAllUsers
 }
