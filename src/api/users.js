@@ -20,7 +20,7 @@ export async function loginUser(email, password) {
   }
 }
 
-export async function registerUser(email, password, name) {
+export async function registerUser(email, password, name, userStatus) {
   try {
     const headers = setHeaders();
     const user = await axios.post(
@@ -29,6 +29,7 @@ export async function registerUser(email, password, name) {
         email: email,
         name: name,
         password: password,
+        userStatus
       },
       {
         headers: headers,

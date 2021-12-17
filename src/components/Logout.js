@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 
 const Logout = (props) => {
-  const { setToken } = props;
+  const { setToken, setIsAdmin } = props;
 
   useEffect(() => {
     setToken("");
     localStorage.removeItem("token");
+    setIsAdmin(false);
   }, []);
   return (
     <div>

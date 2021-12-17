@@ -28,12 +28,15 @@ apiRouter.use(async (req, res, next) => {
 
       try {
           //attempt to verify token and destructure the id from the return data
-          const {id} = jwt.verify(token, JWT_SECRET);
+          const {id, userStatus} = jwt.verify(token, JWT_SECRET);
 
           if (id) {
               //if a valid user is returned, add it to the request object
               req.user = await getUserById(id);
-
+              // if userStatus = admin, add a key to the req.user object
+              if (userStatus === 'admin') {
+                req.user.admin = true;
+              }
               //then move to the next middleware
               next();
           }
@@ -43,6 +46,8 @@ apiRouter.use(async (req, res, next) => {
       }
   }
 })
+
+
 
 /**
  * apiRouter will set up a tree of routes. It will match paths then pass the request along to the appropriate middleware
@@ -82,6 +87,7 @@ apiRouter.post('/create-checkout-session', async (req, res) => {
         res.status(500).json({ error: error.message})
     }
 })
+
 
 
 //PRODUCTS ROUTER

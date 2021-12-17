@@ -51,11 +51,12 @@ productsRouter.get('/:productId', async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
- productsRouter.post('/', async (req, res, next) => {
-    const fieldsObj = req.body;
+ productsRouter.post('/', requireUser, requireAdmin, async (req, res, next) => {
+    const {title, description, price, quantity, categoryId, photo} = req.body;
 
     try {
-        const newProduct = await createProduct(fieldsObj);
+        const newProduct = await createProduct({ title, description, price, quantity, categoryId, photo });
+        console.log('newProduct = ', newProduct);
 
         res.send(newProduct);
 
@@ -75,7 +76,7 @@ productsRouter.get('/:productId', async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
-productsRouter.patch('/:productId', async (req, res, next) => {
+productsRouter.patch('/:productId', requireUser, requireAdmin, async (req, res, next) => {
     const productId = req.params.productId;
 
     //copy the fields to update into a new object
@@ -101,9 +102,8 @@ productsRouter.patch('/:productId', async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
-productsRouter.delete('/:productId', async (req, res, next) => {
+productsRouter.delete('/:productId', requireUser, requireAdmin, async (req, res, next) => {
     const productId = req.params.productId;
-
     try {
         const deletedProduct = await destroyProduct(productId);
 
