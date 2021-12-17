@@ -38,7 +38,7 @@ const Cart = (props) => {
     const items = [];
     for (let i = 0; i < cartItems.length; i++) {
       const currentItem = cartItems[i];
-      items.push({ id: currentItem.id });
+      items.push({ id: currentItem.productId });
     }
     fetch(`${BASE_URL}/create-checkout-session`, {
       method: "POST",
