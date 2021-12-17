@@ -14,21 +14,34 @@ const AllUsers = ({ token }) => {
     }, [])
 
     return (
-        <div>
-           <h2>All Users</h2>
+        <>
+           <h2 className='allUsersTitle'>All Users</h2>
+            <div className='allUsersContainer'>
            {users.length
            ? (
                 users.map((user) => (
-                    <div key={user.id} className='marginTop user'>
-                        <p>{user.email}</p>
-                        <p>{user.name}</p>
-                        <p>{user.userStatus}</p>
-                        <Link to={`/admin/makeadmin/${user.id}`}>Make Admin</Link>
-                        <Link to={`/admin/deleteuser/${user.id}`}>Delete User</Link>
+                    <div key={user.id} className='individualUser'>
+                        <div className='individualUserDetails'>
+                            <p>{user.email}</p>
+                            <p>{user.name}</p>
+                            <p>{user.userStatus}</p>
+                        </div>
+                        {user.userStatus !== 'admin'
+                        ? (
+                        <div className='individualUserOptions'>
+                            <Link to={`/admin/makeadmin/${user.id}`} className='individualUserBtn'>Make Admin</Link>
+                            <Link to={`/admin/deleteuser/${user.id}`} className='individualUserBtn'>Delete User</Link>
+                        </div>
+                        ) : (
+                        <div className='individualUserOptions'>
+                            <Link to={`/admin/deleteuser/${user.id}`} className='individualUserBtn'>Delete Admin</Link>
+                        </div>
+                        )}
                     </div>
                 ))
            ) : <h3>Loading Users...</h3>}
         </div>
+        </>
     )
 }
 
