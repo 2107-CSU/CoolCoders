@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const usersRouter = express.Router();
 const {
@@ -97,6 +98,65 @@ usersRouter.post("/register", async (req, res, next) => {
       user,
       token,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.post("/register/guest", async (req, res, next) => {
+  // collect only email when user continues as guest
+  // save user as email: guest-[email] name: guest password: guest (HASHED?) active: false userStatus: "guest"
+  // on FE, change cart component to prompt for account creation
+  // if user creates account, UPDATE user email (splice), name (from form), password (from form), userStatus to "user", active: true
+
+  const { email } = req.body;
+
+  try {
+    const _user = await getUserByEmail(email);
+
+    if (_user) {
+      next({
+        name: "UserExistsError",
+        message: "A user with that email address already exists",
+      });
+    }
+
+    let user = await createUser({
+      email: `guest-${email}`,
+      name: "Guest",
+      password: "guest",
+      userStatus: "guest",
+    });
+
+    const deactivateAccount = await deactivateUser(user.id);
+
+    if (deactivateAccount) {
+      const guest = await getUserById(user.id);
+      user = guest;
+
+      const token = jwt.sign(
+        {
+          email: guest.email,
+          id: guest.id,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1w",
+        }
+      );
+
+      res.send({
+        message: "You may now continue as a guest.",
+        user,
+        token,
+      });
+    } else {
+      next({
+        name: "GuestUserError",
+        message:
+          "There was an error creating a guest account. Please try again.",
+      });
+    }
   } catch (error) {
     next(error);
   }

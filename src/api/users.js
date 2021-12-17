@@ -39,3 +39,5 @@ export async function registerUser(email, password, name) {
     console.error(err);
   }
 }
+
+export async function registerGuest() {}
