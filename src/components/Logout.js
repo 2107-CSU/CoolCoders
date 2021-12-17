@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 const Logout = (props) => {
-  const { setToken, setCartObj, setUser } = props;
+  const { setToken, setCartObj, setUser, setIsAdmin } = props;
 
   useEffect(() => {
     setToken("");
@@ -10,6 +10,7 @@ const Logout = (props) => {
     localStorage.removeItem("token");
     localStorage.removeItem("cart");
     localStorage.removeItem("user");
+    setIsAdmin(false);
   }, []);
   return (
     <div>

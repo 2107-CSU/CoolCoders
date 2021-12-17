@@ -20,8 +20,18 @@ function requireActiveUser(req, res, next) {
 
 
 function requireAdmin(req, res, next) {
-
+    if (req.user.userStatus !== 'admin') {
+        next({
+            name: 'Unauthorized',
+            message: 'You do not have access'
+        })
+    }
+       console.log('authRole running')
+    next();
 }
+
+
+
 
 module.exports = {
     requireUser,
