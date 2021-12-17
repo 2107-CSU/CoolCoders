@@ -128,18 +128,23 @@ async function getAllUsers() {
   }
 }
 
-async function updateUser(userId, name) {
+async function updateUser(userId, fields = {}) {
+  const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
   try {
-    await client.query(
-      `
-      UPDATE users
-      SET name=$1
-      WHERE id=$2
-      RETURNING *;
-    `,
-      [name, userId]
-    );
-
+    if (setString.length > 0) {
+      await client.query(
+        `
+        UPDATE users
+        SET ${setString}
+        WHERE id=${userId}
+        RETURNING *;
+      `,
+        Object.values(fields)
+      );
+  
+    }
     return await getUserById(userId);
   } catch (error) {
     throw error;
