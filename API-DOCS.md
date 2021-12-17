@@ -68,6 +68,63 @@ try {
 }
 ```
 
+## PATCH /api/register/guest
+
+Turns a guest user into a full account
+
+### Request parameters
+
+userId (int, required): guest user account ID
+name (string, required): user's full name
+password (string, required): user's desired password
+
+### Return Parameters
+
+(object)
+message: "Thank you for signing up!"
+user: updated user object
+token: JSON web token
+
+### Sample Call
+
+```js
+try {
+  const response = await fetch(`${BASEURL}/users/register/guest`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer TOKEN HERE",
+    },
+    body: JSON.stringify({
+      userId: 31,
+      name: "Alex Jones",
+      password: "p@ssw0rd",
+    }),
+  });
+  const data = await response.json();
+
+  return data;
+} catch (error) {
+  throw error;
+}
+```
+
+### Sample Response
+
+```json
+{
+  "message": "Thanks for signing up!",
+  "user": {
+    "id": 31,
+    "email": "example@example.com",
+    "name": "Alex Jones",
+    "userStatus": "user",
+    "active": true
+  },
+  "token": "adjhalwehgalweuhgaliehgalkjdhglkajsd"
+}
+```
+
 # PRODUCTS ENDPOINTS
 
 # ORDERS ENDPOINTS
