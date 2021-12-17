@@ -19,7 +19,7 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", requireAdmin, async (req, res, next) => {
   const users = await getAllUsers();
 
   res.send({ users });
