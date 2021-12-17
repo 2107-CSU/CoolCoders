@@ -36,6 +36,7 @@ const App = () => {
   }, []);
 
   //initialize user object on page load
+  //and whenever token state changes
   useEffect( () => {
     async function fetchData() {
       setUser(await fetchUserObj(token));
