@@ -17,10 +17,11 @@ const NewProduct = ({ history, token}) => {
     }
 
     return (
-        <form className='marginTop'>
-            <h3>Add A New Product To The Store Here</h3>
-            <div>
-                <label>Title:</label>
+        <>
+        <h3 className='singleProductTitle'>Add A New Product To The Store Here</h3>
+        <form className='singleProductForm'>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>Title:</label>
                 <input
                     type="text"
                     value={title}
@@ -29,11 +30,11 @@ const NewProduct = ({ history, token}) => {
                     required
                     placeholder="New product title"
                     autoFocus
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
-                <label>description:</label>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>Description:</label>
                 <input
                     type="text"
                     value={description}
@@ -41,11 +42,11 @@ const NewProduct = ({ history, token}) => {
                     id="description"
                     required
                     placeholder="New product description"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
-                <label>price:</label>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>Price:</label>
                 <input
                     type="number"
                     value={price}
@@ -53,11 +54,11 @@ const NewProduct = ({ history, token}) => {
                     id="price"
                     required
                     placeholder="New product price"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
-                <label>qty:</label>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>Quantity:</label>
                 <input
                     type="number"
                     value={qty}
@@ -65,11 +66,11 @@ const NewProduct = ({ history, token}) => {
                     id="qty"
                     required
                     placeholder="New product qty"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
-                <label>categoryId:</label>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>CategoryId:</label>
                 <input
                     type="number"
                     value={categoryId}
@@ -77,11 +78,11 @@ const NewProduct = ({ history, token}) => {
                     id="categoryId"
                     required
                     placeholder="New product categoryId"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
-                <label>Product Photo:</label>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>Product Photo:</label>
                 <input
                     type="text"
                     value={photo}
@@ -89,11 +90,12 @@ const NewProduct = ({ history, token}) => {
                     id="photo"
                     required
                     placeholder="New product photo url here"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-                <button onClick={(e) => newProduct(e, title, description, price, qty, categoryId, photo)}>Add Product To Store</button>
+                <button className='singleProductBtn' onClick={(e) => newProduct(e, title, description, price, qty, categoryId, photo)}>Add Product To Store</button>
         </form>
+        </>
     )
 }
 
