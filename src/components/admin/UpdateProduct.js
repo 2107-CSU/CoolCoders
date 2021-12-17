@@ -34,20 +34,20 @@ const UpdateProduct = ({ history, token, match }) => {
 
     return (
         <>
-            <h2 className='marginTop'>UPDATE A PRODUCT HERE</h2>
-            <form>
-            <div>
-                <label>Updated Title:</label>
+            <h2 className='singleProductTitle'>Update {selectedProduct.title? selectedProduct.title : 'a product'} Here</h2>
+            <form className='singleProductForm'>
+            <div className='singleProductDetail'>
+                <label className='singleProductLabel'>Updated Title:</label>
                 <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     id="title"
                     placeholder="update product title"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
+            <div className='singleProductDetail'>
                 <label>Updated description:</label>
                 <input
                     type="text"
@@ -55,10 +55,10 @@ const UpdateProduct = ({ history, token, match }) => {
                     onChange={(e) => setDescription(e.target.value)}
                     id="description"
                     placeholder="update product description"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
+            <div className='singleProductDetail'>
                 <label>Updated price:</label>
                 <input
                     type="number"
@@ -66,10 +66,10 @@ const UpdateProduct = ({ history, token, match }) => {
                     onChange={(e) => setPrice(e.target.value)}
                     id="price"
                     placeholder="update product price"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
+            <div className='singleProductDetail'>
                 <label>Updated qty:</label>
                 <input
                     type="number"
@@ -77,10 +77,10 @@ const UpdateProduct = ({ history, token, match }) => {
                     onChange={(e) => setQty(e.target.value)}
                     id="qty"
                     placeholder="update product qty"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
+            <div className='singleProductDetail'>
                 <label>Updated categoryId:</label>
                 <input
                     type="number"
@@ -88,10 +88,10 @@ const UpdateProduct = ({ history, token, match }) => {
                     onChange={(e) => setCategoryId(e.target.value)}
                     id="categoryId"
                     placeholder="update product categoryId"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <div>
+            <div className='singleProductDetail'>
                 <label>Updated Product Photo:</label>
                 <input
                     type="text"
@@ -99,10 +99,10 @@ const UpdateProduct = ({ history, token, match }) => {
                     onChange={(e) => setPhoto(e.target.value)}
                     id="photo"
                     placeholder="update photo url here"
-                    className="form-control mb-2"
+                    className="singleProductInput"
                 />
             </div>
-            <button onClick={(e) => updateProduct(e, productId, {title, description, price, qty, categoryId, photo})}>Update Product</button>
+            <button className='singleProductBtn' onClick={(e) => updateProduct(e, productId, {title, description, price, qty, categoryId, photo})}>Update Product</button>
             </form>
         </>
     )
