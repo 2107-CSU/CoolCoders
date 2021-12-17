@@ -42,11 +42,14 @@ usersRouter.post("/login", async (req, res, next) => {
 
     if (user) {
       // create token and return it
-      const { email, id } = user;
+      const { email, id, name, active, userStatus } = user;
       const token = jwt.sign(
         {
           email,
           id,
+          name,
+          active,
+          userStatus
         },
         process.env.JWT_SECRET,
         {
