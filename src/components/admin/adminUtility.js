@@ -1,5 +1,4 @@
 async function handleNewProduct(token, title, description, price, qty, categoryId, photo){
-    console.log('token inside of handleNewProduct', token);
     try {
         const res = await fetch(`http://localhost:2345/api/products`, {
             method: 'POST',
