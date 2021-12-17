@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const usersRouter = express.Router();
 const {
@@ -130,11 +129,6 @@ usersRouter.patch("/register/guest", requireUser, async (req, res, next) => {
 });
 
 usersRouter.post("/register/guest", async (req, res, next) => {
-  // collect only email when user continues as guest
-  // save user as email: guest-[email] name: guest password: guest (HASHED?) active: false userStatus: "guest"
-  // on FE, change cart component to prompt for account creation
-  // if user creates account, UPDATE user email (splice), name (from form), password (from form), userStatus to "user", active: true
-
   const { email } = req.body;
 
   try {
