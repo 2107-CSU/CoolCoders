@@ -146,4 +146,20 @@ usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   }
 });
 
+usersRouter.patch("/admin/:userId", requireUser, requireAdmin, async (req, res, next) => {
+  // Should a user be allowed to change anything other than their name?
+
+  const { userId } = req.params;
+  const updateObj = {...req.body};
+
+  try {
+
+    const user = await updateUser(userId, updateObj);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = usersRouter;
