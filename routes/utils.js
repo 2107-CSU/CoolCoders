@@ -20,7 +20,6 @@ function requireActiveUser(req, res, next) {
 
 
 function requireAdmin(req, res, next) {
-    // req.user is an array, so I grab the first object inside the array and check their userStatus
     if (req.user.userStatus !== 'admin') {
         next({
             name: 'Unauthorized',
