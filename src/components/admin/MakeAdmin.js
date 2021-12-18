@@ -15,7 +15,7 @@ const MakeAdmin = ({ match, history, token }) => {
             setIsLoading(false);
         }
         getUser();
-    }, [history])
+    }, [])
 
     function upgradeUser(e, token, userId) {
         e.preventDefault();

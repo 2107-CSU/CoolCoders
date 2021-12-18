@@ -5,12 +5,19 @@ const DeleteUser = ({ match, history, token }) => {
 
     // const [productId, setProductId] = useState(match.params.productId)
     const [userId, setUserId] = useState(match.params.userId);
-    const [selectedUser, setSelectedUser] = useState([])
+    const [selectedUser, setSelectedUser] = useState({})
+    const [isLoading, setIsLoading] = useState(false)
 
 
     useEffect(() => {
-        getUserById(userId, setSelectedUser, token);
-    }, [userId])
+        async function getUser(){
+            setIsLoading(true);
+            const data = await getUserById(userId, token, setSelectedUser);
+            setSelectedUser(data);
+            setIsLoading(false);
+        }
+        getUser();
+    }, [])
 
     function deleteUser(e, userId, token){
         e.preventDefault();
@@ -20,15 +27,13 @@ const DeleteUser = ({ match, history, token }) => {
 
     return (
         <div className='singleUserContainer'>
-            {selectedUser 
-            ? ( selectedUser.map((user) => (
-                <div className='singleUserDetails' key={user.id}>
-                    <h2>Are You Sure You Want to Delete {user.name}?</h2>
-                    <p><span className='singleUserLabel'>email: </span> {user.email}</p>
-                    <p><span className='singleUserLabel'>status: </span> {user.userStatus}</p>
+            {!isLoading 
+            ? ( 
+                <div className='singleUserDetails' key={selectedUser.id}>
+                    <h2>Are You Sure You Want to Delete {selectedUser.name}?</h2>
+                    <p><span className='singleUserLabel'>email: </span> {selectedUser.email}</p>
+                    <p><span className='singleUserLabel'>status: </span> {selectedUser.userStatus}</p>
                 </div>
-            ))
-                
             ) : <p>Loading Selected User</p>}
             <form onSubmit={(e) => deleteUser(e, userId, token)}>
                 <button className='singleUserBtn'>Yes, Delete</button>
