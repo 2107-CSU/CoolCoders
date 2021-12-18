@@ -29,7 +29,7 @@ export async function registerUser(email, password, name, userStatus) {
         email: email,
         name: name,
         password: password,
-        userStatus
+        userStatus,
       },
       {
         headers: headers,
@@ -41,4 +41,20 @@ export async function registerUser(email, password, name, userStatus) {
   }
 }
 
-export async function registerGuest() {}
+export async function registerGuest(email) {
+  try {
+    const headers = setHeaders();
+    const user = await axios.post(
+      `${BASE_URL}/users/register/guest`,
+      {
+        email: email,
+      },
+      {
+        headers: headers,
+      }
+    );
+    return user.data;
+  } catch (err) {
+    console.error(err);
+  }
+}

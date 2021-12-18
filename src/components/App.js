@@ -120,6 +120,8 @@ const App = () => {
         render={() => (
           <Products
             user={user}
+            setUser={setUser}
+            setToken={setToken}
             token={token}
             cartObj={cartObj}
             setCartObj={setCartObj}
