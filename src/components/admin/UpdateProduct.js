@@ -40,7 +40,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 <label className='singleProductLabel'>Updated Title:</label>
                 <input
                     type="text"
-                    value={title}
+                    defaultValue={title}
                     onChange={(e) => setTitle(e.target.value)}
                     id="title"
                     placeholder="update product title"
@@ -51,7 +51,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 <label className='singleProductLabel'>Updated description:</label>
                 <input
                     type="text"
-                    value={description}
+                    defaultValue={description}
                     onChange={(e) => setDescription(e.target.value)}
                     id="description"
                     placeholder="update product description"
@@ -62,7 +62,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 <label className='singleProductLabel'>Updated price:</label>
                 <input
                     type="number"
-                    value={price}
+                    defaultValue={price}
                     onChange={(e) => setPrice(e.target.value)}
                     id="price"
                     placeholder="update product price"
@@ -73,7 +73,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 <label className='singleProductLabel'>Updated qty:</label>
                 <input
                     type="number"
-                    value={qty}
+                    defaultValue={qty}
                     onChange={(e) => setQty(e.target.value)}
                     id="qty"
                     placeholder="update product qty"
@@ -84,7 +84,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 <label className='singleProductLabel'>Updated categoryId:</label>
                 <input
                     type="number"
-                    value={categoryId}
+                    defaultValue={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
                     id="categoryId"
                     placeholder="update product categoryId"
@@ -95,7 +95,7 @@ const UpdateProduct = ({ history, token, match }) => {
                 <label className='singleProductLabel'>Updated Product Photo:</label>
                 <input
                     type="text"
-                    value={photo}
+                    defaultValue={photo}
                     onChange={(e) => setPhoto(e.target.value)}
                     id="photo"
                     placeholder="update photo url here"
