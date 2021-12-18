@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 //import helper functions
-import { fetchUserObj } from "../api/users";
+import { fetchUserObj, getUser } from "../api/users";
 
 import Cart from "./Cart";
 import Products from "./Products";
@@ -39,7 +39,11 @@ const App = () => {
   //and whenever token state changes
   useEffect( () => {
     async function fetchData() {
-      setUser(await fetchUserObj(token));
+      //retrieve user information using token
+      const userInfo = await fetchUserObj(token);
+
+      //setUser
+      setUser(await getUser(userInfo.id));
     }
     fetchData();
   }, [token])
@@ -83,7 +87,7 @@ const App = () => {
       <Route path="/" exact render={() => <Homepage />} />
       <Route
         exact path = '/myaccount'
-        render = {routeProps => <MyAccount user={user} {...routeProps} />}
+        render = {routeProps => <MyAccount user={user} setUser={setUser} token={token} {...routeProps} />}
       />
     </BrowserRouter>
   );

@@ -50,11 +50,59 @@ export async function fetchUserObj(token) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-    }
+      }
     })
-  const data = await response.json();
-  console.log("FETCH USER OBJ: ", data);
-  return data
+    const data = await response.json();
+    console.log("FETCH USER OBJ: ", data);
+    return data
+  }
+  catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
+export async function editUser(token, userId, email, name) {
+  try {
+    const response = await fetch (`${BASE_URL}/users/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(
+        {
+            email: email,
+            name: name
+        })
+    })
+    const data = await response.json();
+
+    //if call was successful...
+    if (data.id) {
+      console.log("UPDATED USER: ",data);
+      alert("User successfully updated!");
+      return data;
+    }
+  }
+  catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
+export async function getUser(userId) {
+  try {
+    const response = await fetch (`${BASE_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json();
+    console.log("USER RETRIEVED: ", data);
+
+    return data
   }
   catch (error) {
     console.log(error)

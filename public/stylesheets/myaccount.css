@@ -4,3 +4,27 @@
   padding: 4rem;
   overflow-y: scroll;
 }
+
+#edit-account-form {
+  width: 50%;
+}
+
+.margin-right {
+  margin-right: 1rem;
+}
+
+.input-formatting {
+  display: inline-block;
+  width: 75%;
+}
+
+#update-btn {
+  padding: 0.25rem;
+  margin-right: 1rem;
+  border-radius: 5px;
+}
+
+#delete-btn {
+  padding: 0.25rem;
+  border-radius: 5px;
+}
