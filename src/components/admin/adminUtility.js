@@ -82,18 +82,19 @@ const getProductById = async (productId, setSelectedProduct, token) => {
     }
 }
 
-async function getUserById(userId, setSelectedUser, token){
+async function getUserById(userId, token, setSelectedUser){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
         })
         const data = await response.json();
         console.log('data inside getUserById', data)
         setSelectedUser(data);
+        return data;
     } catch (error) {
         console.log(error);
         throw error;
@@ -119,7 +120,7 @@ async function deleteSingleUser(userId, token){
 
 async function makeAdmin(token, userId,){
     try {
-        const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
+        const response = await fetch(`http://localhost:2345/api/users/admin/${userId}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
