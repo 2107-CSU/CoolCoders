@@ -35,7 +35,7 @@ const MakeAdmin = ({ match, history, token }) => {
                         <p><span className='singleUserLabel'>Current status:</span> {selectedUser.userStatus}</p>
                     </div>
                     <form>
-                    <button className='singleUserBtn' onClick={(e) => upgradeUser(e, token, userId)}>Upgrade to Admin</button>
+                    <button className='singleUserBtn' onClick={(e) => upgradeUser(e, token, userId)}>Make {selectedUser.name} an Admin</button>
                 </form>
                </>
             
