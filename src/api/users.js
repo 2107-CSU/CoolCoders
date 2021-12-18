@@ -80,8 +80,7 @@ export async function editUser(token, userId, email, name) {
 
     //if call was successful...
     if (data.id) {
-      console.log("UPDATED USER: ",data);
-      alert("User successfully updated!");
+      alert("Account successfully updated!");
       return data;
     }
   }
@@ -100,7 +99,7 @@ export async function getUser(userId) {
       }
     })
     const data = await response.json();
-    console.log("USER RETRIEVED: ", data);
+    console.log("USER: ", data);
 
     return data
   }
@@ -108,4 +107,8 @@ export async function getUser(userId) {
     console.log(error)
     throw error;
   }
+}
+
+export async function deleteUser(token, userId) {
+
 }

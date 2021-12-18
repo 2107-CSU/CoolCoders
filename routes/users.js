@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const { user } = require("pg/lib/defaults");
 const {JWT_SECRET} = process.env
 
 const usersRouter = express.Router();
@@ -117,18 +118,30 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete("/:userId", async (req, res, next) => {
+usersRouter.delete("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const response = await deactivateUser(userId);
+    //retrieve user to be deleted
+    const userToDelete = await getUserById(userId);
 
-    if (response) {
-      res.send({ msg: `user #${userId} has been successfully deactivated` });
-    } else {
-      res.send({
-        msg: `something went wrong trying to delete user #${userId}`,
-      });
+    if (userToDelete) {
+      //check if user making the request is the same as the user to delete or if they are an admin
+      if (req.user.id === userToDelete.id || req.user.userStatus === 'admin') {
+        const response = await deactivateUser(userId);
+
+        if (response) {
+          res.send({ msg: `user #${userId} has been successfully deactivated` });
+        }
+        else {
+          res.send({
+            msg: `something went wrong trying to delete user #${userId}`,
+          });
+        }
+      }
+      else {
+        throw new Error("You are not authorized to deactivate this user");
+      }
     }
   } catch (error) {
     next(error);

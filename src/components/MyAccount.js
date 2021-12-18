@@ -32,10 +32,6 @@ const MyAccount = ({user, setUser, token, history}) => {
                         //make an api call and update user state
                         await setUser(await getUser(user.id));
 
-                        //clear text fields
-                        // setNewEmail('');
-                        // setNewName('');
-
                         history.push('/myaccount');
                     }}
                 >
@@ -69,24 +65,29 @@ const MyAccount = ({user, setUser, token, history}) => {
                             }/>
                     </div>
                     <br />
-                    {/* <div className="form-group form-spacing">
+                    <div className="form-group form-spacing">
                         <label htmlFor="newName" className="margin-right">Password: </label>
                             <input
-                                required
+                                disabled
                                 id="newPassword"
                                 type="password"
                                 className="form-control input-formatting"
-                                value={newName}
+                                value="********"
                                 onChange={
                                 (event) => {
                                     setNewName(event.target.value);
                                     console.log(newName)
                                 }
                             }/>
-                    </div> */}
+                    </div>
                     <br />
                 <button type="submit" className="btn-primary" id="update-btn">Update</button>
-                <button type="button" className="btn-danger" id="delete-btn">Deactivate Account</button>
+                <button type="button" className="btn-danger" id="delete-btn"
+                    onClick = { () => {
+                        console.log("DEACTIVATING ACCOUNT: ", user.id);
+                    }
+                    }
+                >Deactivate Account</button>
                 </form>
             </div>
             <br />
