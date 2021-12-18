@@ -57,7 +57,7 @@ async function getUser({ email, password }) {
 async function getUserById(userId) {
   try {
     const {
-      rows: user,
+      rows: {user},
     } = await client.query(
       `
             SELECT *
