@@ -62,7 +62,7 @@ export async function fetchUserObj(token) {
   }
 }
 
-export async function editUser(token, userId, newEmail, newName, active) {
+export async function editUser(token, userId, newEmail, newName, active=true) {
   try {
     const response = await fetch (`${BASE_URL}/users/${userId}`, {
       method: 'PATCH',
