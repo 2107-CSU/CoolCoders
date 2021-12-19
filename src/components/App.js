@@ -6,6 +6,7 @@ import { fetchUserObj, getUser } from "../api/users";
 
 import Cart from "./Cart";
 import Products from "./Products";
+import SingleProduct from './SingleProduct';
 import Header from "./Header";
 import Homepage from "./Homepage";
 import Login from "./Login";
@@ -83,6 +84,7 @@ const App = () => {
         render={() => <Logout setToken={setToken} setIsAdmin={setIsAdmin}/>}
       />
       <Route path="/products" exact render={() => <Products />} />
+      <Route path='/products/:id' exact render={() => <SingleProduct />}/>
       <Route path="/cart" exact render={() => <Cart />} />
       <Route path="/" exact render={() => <Homepage />} />
       <Route
