@@ -3,9 +3,11 @@ import React, {useState, useEffect} from "react";
 import OrderHistory from "./OrderHistory";
 
 //import helper functions
-import { editUser, getUser } from "../api/users";
+import { editUser, getUser, deleteUser } from "../api/users";
 
 const MyAccount = ({user, setUser, token, history}) => {
+    const userId = user.id;
+
     //state for user info fields to edit
     const [newEmail, setNewEmail] = useState(user.email);
     const [newName, setNewName] = useState(user.name);
@@ -27,10 +29,10 @@ const MyAccount = ({user, setUser, token, history}) => {
                         event.preventDefault();
 
                         //api call to edit user
-                        await editUser(token, user.id, newEmail, newName);
+                        await editUser(token, userId, newEmail, newName);
 
                         //make an api call and update user state
-                        await setUser(await getUser(user.id));
+                        await setUser(await getUser(userId));
 
                         history.push('/myaccount');
                     }}
@@ -81,13 +83,41 @@ const MyAccount = ({user, setUser, token, history}) => {
                             }/>
                     </div>
                     <br />
-                <button type="submit" className="btn-primary" id="update-btn">Update</button>
-                <button type="button" className="btn-danger" id="delete-btn"
-                    onClick = { () => {
-                        console.log("DEACTIVATING ACCOUNT: ", user.id);
-                    }
-                    }
-                >Deactivate Account</button>
+                <button type="submit" className="btn-primary btn-radius btn-padding" id="update-btn">Update</button>
+                {
+                    user.active ?
+                        <button type="button" className="btn-danger btn-radius btn-padding" id="delete-btn"
+                        onClick = { async (event) => {
+                            event.preventDefault();
+
+                            //api call to deactivate account
+                            await deleteUser(token, userId);
+
+                            //make an api call and update user state
+                            await setUser(await getUser(userId));
+
+                            history.push('/myaccount');
+                        }
+                        }
+                        >Deactivate Account</button>
+                    : <button type="button" className="btn-success btn-radius btn-padding" id="activate-btn"
+                        onClick = { async (event) => {
+                            console.log("Reactivating account");
+                            event.preventDefault();
+
+                            const active = true;
+                            //api call to update user status
+                            await editUser(token, userId, newEmail, newName, active);
+
+                            //make an api call and update user state
+                            await setUser(await getUser(userId));
+
+                            history.push('/myaccount');
+                        }
+                        }
+                    >Activate account</button>
+
+                }
                 </form>
             </div>
             <br />

@@ -62,7 +62,7 @@ export async function fetchUserObj(token) {
   }
 }
 
-export async function editUser(token, userId, email, name) {
+export async function editUser(token, userId, newEmail, newName, active) {
   try {
     const response = await fetch (`${BASE_URL}/users/${userId}`, {
       method: 'PATCH',
@@ -72,8 +72,10 @@ export async function editUser(token, userId, email, name) {
       },
       body: JSON.stringify(
         {
-            email: email,
-            name: name
+            email: newEmail,
+            name: newName,
+            active: active
+
         })
     })
     const data = await response.json();
@@ -110,5 +112,23 @@ export async function getUser(userId) {
 }
 
 export async function deleteUser(token, userId) {
+  try {
+    const response = await fetch (`${BASE_URL}/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    const data = await response.json();
 
+    if (data) {
+      alert("Account deactivated");
+      return data
+    }
+  }
+  catch (error) {
+    console.log(error)
+    throw error;
+  }
 }
