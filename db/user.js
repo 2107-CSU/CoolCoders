@@ -75,6 +75,23 @@ async function getUserById(userId) {
   }
 }
 
+//for internal use only.
+//returns user's password
+async function _getUserById(userId) {
+  try {
+    const {rows: [user]} = await client.query(`
+            SELECT *
+            FROM users
+            WHERE id=$1;
+        `,[userId]);
+    if (user) {
+      return user;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getUserByEmail(email) {
   try {
     const {
@@ -128,18 +145,23 @@ async function getAllUsers() {
   }
 }
 
-async function updateUser(userId, name) {
+async function updateUser(userId, fields = {}) {
+  const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
   try {
-    await client.query(
-      `
-      UPDATE users
-      SET name=$1
-      WHERE id=$2
-      RETURNING *;
-    `,
-      [name, userId]
-    );
+    if (setString.length > 0) {
+      await client.query(
+        `
+        UPDATE users
+        SET ${setString}
+        WHERE id=${userId}
+        RETURNING *;
+      `,
+        Object.values(fields)
+      );
 
+    }
     return await getUserById(userId);
   } catch (error) {
     throw error;
@@ -177,6 +199,7 @@ module.exports = {
   createUser,
   getUser,
   getUserById,
+  _getUserById,
   getUserByEmail,
   deactivateUser,
   getAllUsers,

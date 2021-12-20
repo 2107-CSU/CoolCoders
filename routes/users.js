@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const { user } = require("pg/lib/defaults");
+const {JWT_SECRET} = process.env
 
 const usersRouter = express.Router();
 const {
@@ -42,11 +44,13 @@ usersRouter.post("/login", async (req, res, next) => {
 
     if (user) {
       // create token and return it
-      const { email, id } = user;
+      const { email, id, name, active, userStatus } = user;
       const token = jwt.sign(
         {
           email,
           id,
+          name,
+          active
         },
         process.env.JWT_SECRET,
         {
@@ -194,37 +198,77 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete("/:userId", async (req, res, next) => {
+usersRouter.delete("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const response = await deactivateUser(userId);
+    //retrieve user to be deleted
+    const userToDelete = await getUserById(userId);
 
-    if (response) {
-      res.send({ msg: `user #${userId} has been successfully deactivated` });
-    } else {
-      res.send({
-        msg: `something went wrong trying to delete user #${userId}`,
-      });
+    if (userToDelete) {
+      //check if user making the request is the same as the user to delete or if they are an admin
+      if (req.user.id === userToDelete.id || req.user.userStatus === 'admin') {
+        const response = await deactivateUser(userId);
+
+        if (response) {
+          res.send({ msg: `user #${userId} has been successfully deactivated` });
+        }
+        else {
+          res.send({
+            msg: `something went wrong trying to delete user #${userId}`,
+          });
+        }
+      }
+      else {
+        throw new Error("You are not authorized to deactivate this user");
+      }
     }
   } catch (error) {
     next(error);
   }
 });
 
-usersRouter.patch("/:userId", async (req, res, next) => {
+usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   // Should a user be allowed to change anything other than their name?
 
   const { userId } = req.params;
-  const { name } = req.body;
+  const updateObj = {...req.body};
 
   try {
-    const user = await updateUser(userId, name);
-    console.log("the user = ", user);
+
+    const user = await updateUser(userId, updateObj);
     res.send(user);
   } catch (error) {
     next(error);
   }
 });
+
+//retrieves a user object given a jwt token
+//returns email, user id,
+usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
+  // console.log("REQUEST: ", req.headers.authorization)
+
+  //grab the token from the request headers
+  //use slice method to remove 'Bearer ' prefix
+  const prefix = 'Bearer '
+  let token = req.headers.authorization;
+  token = token.slice(prefix.length, token.length);
+
+  // console.log("TOKEN IS:",token);
+
+  try {
+    //verify token and send user obj
+    //remove iat and exp before returning to client
+    const userObj = await jwt.verify(token, JWT_SECRET);
+    delete userObj.iat;
+    delete userObj.exp;
+
+    res.send(userObj);
+  }
+  catch (error) {
+    next(error);
+  }
+
+})
 
 module.exports = usersRouter;

@@ -18,6 +18,44 @@ fetch("https://deployedapi.com/api/users/register", {
 ```
 
 # USER ENDPOINTS
+## GET /api/users/userinfo/me
+Returns user info given a JWT. You must pass a valid token with this request
+
+### Request Parameters
+No request parameters
+
+### Return Parameters
+- email (string)
+- id (number)
+
+### Sample Call
+```js
+try {
+        const response = await fetch (`${BASEURL}/users/userinfo/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TOKEN_STRING_HERE'
+            }
+        })
+        const data = await response.json();
+
+        return data
+    }
+    catch (error) {
+        throw error;
+    }
+
+```
+
+### Sample Response
+```json
+{
+    "email": "txc@yahoo.com",
+    "id": 30
+}
+
+```
 
 ## POST /api/register/guest
 
