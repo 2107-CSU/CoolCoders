@@ -63,6 +63,7 @@ const App = () => {
       const mostRecent = sortedCarts[sortedCarts.length - 1];
       if (mostRecent) {
         setCartObj(mostRecent);
+        localStorage.setItem("cart", JSON.stringify(mostRecent));
         if (mostRecent.products) setCartItems(mostRecent.products);
       }
     };
