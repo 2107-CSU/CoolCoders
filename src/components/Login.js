@@ -24,7 +24,7 @@ const Login = ({ match, history, setToken, setUser, setIsAdmin }) => {
       if (user.user.userStatus === "admin") {
         setIsAdmin(true);
       }
-      history.push("/products");
+      history.push("/myaccount");
     } catch (err) {
       console.error(err);
     }

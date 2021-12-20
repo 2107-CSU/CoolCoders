@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 //import helper functions
-import { fetchUserObj, getUser } from "../api/users";
+import { fetchUserObj, getUser, getUserOrders } from "../api/users";
 
 import Cart from "./Cart";
 import Products from "./Products";
@@ -30,6 +30,7 @@ const App = () => {
   const [cartObj, setCartObj] = useState({});
   const [cartItems, setCartItems] = useState([]);
 
+  // sets token and cart from localStorage if returning user from familiar browser
   useEffect(() => {
     const retrieveCart = async (token) => {
       const storedCart = localStorage.getItem("cart");
@@ -49,6 +50,26 @@ const App = () => {
 
     if (!storedToken) setToken("");
   }, []);
+
+  //if auth'd user on new browser/device, retrieve most recent cart and set in state
+  useEffect(() => {
+    const fetchRecentCart = async () => {
+      const id = user.id;
+      const userOrders = await getUserOrders(token, id);
+      console.log(userOrders);
+      const userCarts = userOrders.filter(
+        (order) => order.orderStatus === "cart" && order.products.length > 0
+      );
+      const sortedCarts = userCarts.sort((a, b) => a.id - b.id);
+      const mostRecent = sortedCarts[sortedCarts.length - 1];
+      console.log(mostRecent);
+      setCartObj(mostRecent);
+      if (mostRecent.products) setCartItems(mostRecent.products);
+    };
+    if (!cartObj.id && token && user.id) {
+      fetchRecentCart();
+    }
+  }, [token, user]);
 
   //initialize user object on page load
   //and whenever token state changes
