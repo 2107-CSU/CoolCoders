@@ -181,7 +181,19 @@ const App = () => {
           />
         )}
       />
-      <Route path="/products/:id" exact render={() => <SingleProduct />} />
+      <Route
+        path="/products/:id"
+        exact
+        render={() => (
+          <SingleProduct
+            token={token}
+            cartObj={cartObj}
+            setCartObj={setCartObj}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+          />
+        )}
+      />
       <Route path="/" exact render={() => <Homepage />} />
       <Route
         exact
