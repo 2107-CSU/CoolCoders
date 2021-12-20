@@ -82,7 +82,7 @@ const getProductById = async (productId, setSelectedProduct, token) => {
     }
 }
 
-async function getUserById(userId, token, setSelectedUser){
+async function getUserById(userId, token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'GET',
@@ -93,7 +93,6 @@ async function getUserById(userId, token, setSelectedUser){
         })
         const data = await response.json();
         console.log('data inside getUserById', data)
-        setSelectedUser(data);
         return data;
     } catch (error) {
         console.log(error);

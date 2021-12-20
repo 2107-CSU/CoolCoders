@@ -10,11 +10,18 @@ const MakeAdmin = ({ match, history, token }) => {
 
         async function getUser(){
             setIsLoading(true);
-            const data = await getUserById(userId, token, setSelectedUser);
+            const data = await getUserById(userId, token);
+            window.localStorage.setItem('selectedUser', JSON.stringify(data));
             setSelectedUser(data);
             setIsLoading(false);
         }
         getUser();
+    }, [])
+
+    useEffect(() => {
+        const selectedUser = JSON.parse(localStorage.getItem('selectedUser'));
+        console.log('selectedUser from local storage = ', selectedUser);
+        setSelectedUser(selectedUser);
     }, [])
 
     function upgradeUser(e, token, userId) {
@@ -26,7 +33,7 @@ const MakeAdmin = ({ match, history, token }) => {
 
     return (
         <div className='singleUserContainer'>
-            {!isLoading 
+            {selectedUser 
             ? ( 
                 <>
                     <div className='singleUserDetails' key={selectedUser.id}>
