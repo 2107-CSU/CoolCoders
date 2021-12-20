@@ -6,9 +6,16 @@ const AllUsers = ({ token }) => {
 
     useEffect(() => {
         async function getAllUsers(){
-           await fetchAllUsers(token, setUsers);
+           const data = await fetchAllUsers(token);
+           window.localStorage.setItem('allUsers', JSON.stringify(data.users));
+           setUsers(data.users);
         }
         getAllUsers();
+    }, [])
+
+    useEffect(() => {
+        const allUsers = JSON.parse(localStorage.getItem('allUsers'));
+        setUsers(allUsers);
     }, [])
 
     return (

@@ -139,7 +139,7 @@ async function makeAdmin(token, userId,){
     }
 }
 
-async function fetchAllUsers(token, setUsers){
+async function fetchAllUsers(token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/`, {
             method: "GET",
@@ -149,7 +149,8 @@ async function fetchAllUsers(token, setUsers){
             }
         })
         const data = await response.json();
-        setUsers(data.users)
+        console.log('fetchAllUsers = ', data.users);
+        return data;
     } catch (error) {
         console.log(error);
         throw error;
