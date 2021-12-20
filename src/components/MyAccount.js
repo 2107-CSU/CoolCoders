@@ -12,6 +12,8 @@ const MyAccount = ({user, setUser, token, history}) => {
     //state for user info fields to edit
     const [newEmail, setNewEmail] = useState(user.email);
     const [newName, setNewName] = useState(user.name);
+    const [currentPass, setCurrentPass] = useState('');
+    const [newPass, setNewPass] = useState('');
 
     //when the page loads, set pieces of state to track user info
     useEffect( () => {
@@ -73,19 +75,49 @@ const MyAccount = ({user, setUser, token, history}) => {
                     </button>
 
                     {/* <!-- Modal --> */}
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Change password</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            ...
+                        <div className="modal-body">
+                            <div className="form-group form-spacing">
+                            <label htmlFor="currentPass" className="margin-right">Current Password: </label>
+                                <input
+                                    required
+                                    id="currentPass"
+                                    type="password"
+                                    className="form-control input-formatting"
+                                    value={currentPass}
+                                    onChange={
+                                    (event) => {
+                                        setCurrentPass(event.target.value);
+                                    }
+                                }/>
+                            </div>
+                            <br />
+                            <div className="form-group form-spacing">
+                            <label htmlFor="newPass" className="margin-right">New Password: </label>
+                                <input
+                                    required
+                                    id="newPass"
+                                    type="password"
+                                    className="form-control input-formatting"
+                                    value={newPass}
+                                    onChange={
+                                    (event) => {
+                                        setNewPass(event.target.value);
+                                        console.log(newPass);
+                                    }
+                                }/>
+                            </div>
+                            <br />
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn-secondary btn-radius btn-padding" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn-primary btn-radius btn-padding">Save changes</button>
                         </div>
                         </div>
                     </div>
