@@ -20,8 +20,20 @@ const UpdateProduct = ({ history, token, match }) => {
     }
 
     useEffect(() => {
-        getProductById(productId, setSelectedProduct, token);
-    }, [productId])
+        async function fetchProduct(){
+            const data = await getProductById(productId, token);
+            console.log('data returned from getProductById = ', data);
+            window.localStorage.setItem('selectedProduct', JSON.stringify(data));
+            setSelectedProduct(data)
+        }
+        fetchProduct();
+    }, [])
+
+    useEffect(() => {
+        const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+        console.log('selectedProduct from local storage = ', selectedProduct);
+        setSelectedProduct(selectedProduct);
+    }, [])
 
     useEffect(() => {
         setTitle(selectedProduct.title)
@@ -34,76 +46,80 @@ const UpdateProduct = ({ history, token, match }) => {
 
     return (
         <>
-            <h2 className='singleProductTitle'>Update {selectedProduct.title? selectedProduct.title : 'a product'} Here</h2>
-            <form className='singleProductForm'>
-            <div className='singleProductDetail'>
-                <label className='singleProductLabel'>Updated Title:</label>
-                <input
-                    type="text"
-                    defaultValue={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    id="title"
-                    placeholder="update product title"
-                    className="singleProductInput"
-                />
-            </div>
-            <div className='singleProductDetail'>
-                <label className='singleProductLabel'>Updated description:</label>
-                <input
-                    type="text"
-                    defaultValue={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    id="description"
-                    placeholder="update product description"
-                    className="singleProductInput"
-                />
-            </div>
-            <div className='singleProductDetail'>
-                <label className='singleProductLabel'>Updated price:</label>
-                <input
-                    type="number"
-                    defaultValue={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    id="price"
-                    placeholder="update product price"
-                    className="singleProductInput"
-                />
-            </div>
-            <div className='singleProductDetail'>
-                <label className='singleProductLabel'>Updated qty:</label>
-                <input
-                    type="number"
-                    defaultValue={qty}
-                    onChange={(e) => setQty(e.target.value)}
-                    id="qty"
-                    placeholder="update product qty"
-                    className="singleProductInput"
-                />
-            </div>
-            <div className='singleProductDetail'>
-                <label className='singleProductLabel'>Updated categoryId:</label>
-                <input
-                    type="number"
-                    defaultValue={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
-                    id="categoryId"
-                    placeholder="update product categoryId"
-                    className="singleProductInput"
-                />
-            </div>
-            <div className='singleProductDetail'>
-                <label className='singleProductLabel'>Updated Product Photo:</label>
-                <input
-                    type="text"
-                    defaultValue={photo}
-                    onChange={(e) => setPhoto(e.target.value)}
-                    id="photo"
-                    placeholder="update photo url here"
-                    className="singleProductInput"
-                />
-            </div>
-            <button className='singleProductBtn' onClick={(e) => updateProduct(e, productId, {title, description, price, qty, categoryId, photo})}>Update Product</button>
-            </form>
+            {selectedProduct ? (
+                <>
+                <h2 className='singleProductTitle'>Update {selectedProduct.title? selectedProduct.title : 'a product'} Here</h2>
+                <form className='singleProductForm'>
+                <div className='singleProductDetail'>
+                    <label className='singleProductLabel'>Updated Title:</label>
+                    <input
+                        type="text"
+                        defaultValue={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        id="title"
+                        placeholder="update product title"
+                        className="singleProductInput"
+                    />
+                </div>
+                <div className='singleProductDetail'>
+                    <label className='singleProductLabel'>Updated description:</label>
+                    <input
+                        type="text"
+                        defaultValue={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        id="description"
+                        placeholder="update product description"
+                        className="singleProductInput"
+                    />
+                </div>
+                <div className='singleProductDetail'>
+                    <label className='singleProductLabel'>Updated price:</label>
+                    <input
+                        type="number"
+                        defaultValue={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        id="price"
+                        placeholder="update product price"
+                        className="singleProductInput"
+                    />
+                </div>
+                <div className='singleProductDetail'>
+                    <label className='singleProductLabel'>Updated qty:</label>
+                    <input
+                        type="number"
+                        defaultValue={qty}
+                        onChange={(e) => setQty(e.target.value)}
+                        id="qty"
+                        placeholder="update product qty"
+                        className="singleProductInput"
+                    />
+                </div>
+                <div className='singleProductDetail'>
+                    <label className='singleProductLabel'>Updated categoryId:</label>
+                    <input
+                        type="number"
+                        defaultValue={categoryId}
+                        onChange={(e) => setCategoryId(e.target.value)}
+                        id="categoryId"
+                        placeholder="update product categoryId"
+                        className="singleProductInput"
+                    />
+                </div>
+                <div className='singleProductDetail'>
+                    <label className='singleProductLabel'>Updated Product Photo:</label>
+                    <input
+                        type="text"
+                        defaultValue={photo}
+                        onChange={(e) => setPhoto(e.target.value)}
+                        id="photo"
+                        placeholder="update photo url here"
+                        className="singleProductInput"
+                    />
+                </div>
+                <button className='singleProductBtn' onClick={(e) => updateProduct(e, productId, {title, description, price, qty, categoryId, photo})}>Update Product</button>
+                </form>
+                </>
+            ) : <h3>Loading Selected Product...</h3>}
         </>
     )
 }

@@ -63,7 +63,7 @@ async function handleDeleteProduct(productId, token){
     }
 }
 
-const getProductById = async (productId, setSelectedProduct, token) => {
+const getProductById = async (productId, token) => {
     try {
         const response = await fetch (`http://localhost:2345/api/products/${productId}`, {
         method: 'GET',
@@ -74,7 +74,7 @@ const getProductById = async (productId, setSelectedProduct, token) => {
         })
         const data = await response.json();
         console.log('data inside getProductById', data);
-        setSelectedProduct(data)
+        return data;
     }
         catch (error) {
         console.log(error)
