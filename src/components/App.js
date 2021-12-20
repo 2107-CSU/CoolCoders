@@ -56,20 +56,20 @@ const App = () => {
     const fetchRecentCart = async () => {
       const id = user.id;
       const userOrders = await getUserOrders(token, id);
-      console.log(userOrders);
       const userCarts = userOrders.filter(
         (order) => order.orderStatus === "cart" && order.products.length > 0
       );
       const sortedCarts = userCarts.sort((a, b) => a.id - b.id);
       const mostRecent = sortedCarts[sortedCarts.length - 1];
-      console.log(mostRecent);
-      setCartObj(mostRecent);
-      if (mostRecent.products) setCartItems(mostRecent.products);
+      if (mostRecent) {
+        setCartObj(mostRecent);
+        if (mostRecent.products) setCartItems(mostRecent.products);
+      }
     };
     if (!cartObj.id && token && user.id) {
       fetchRecentCart();
     }
-  }, [token, user]);
+  }, [user]);
 
   //initialize user object on page load
   //and whenever token state changes
