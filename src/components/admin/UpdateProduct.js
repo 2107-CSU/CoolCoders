@@ -7,22 +7,21 @@ const UpdateProduct = ({ history, token, match }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
-    const [qty, setQty] = useState(0);
+    const [quantity, setQty] = useState(0);
     const [categoryId, setCategoryId] = useState(0);
     const [photo, setPhoto] = useState('');
     const [selectedProduct, setSelectedProduct] = useState({});
 
 
-    async function updateProduct(e, productId, {title, description, price, qty, categoryId, photo}){
+    async function updateProduct(e, productId, {title, description, price, quantity, categoryId, photo}){
         e.preventDefault();
-        await handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token)
+        await handleUpdateProduct(productId, {title, description, price, quantity, categoryId, photo}, token)
         history.push('/updateproduct')
     }
 
     useEffect(() => {
         async function fetchProduct(){
             const data = await getProductById(productId, token);
-            console.log('data returned from getProductById = ', data);
             window.localStorage.setItem('selectedProduct', JSON.stringify(data));
             setSelectedProduct(data)
         }
@@ -31,7 +30,6 @@ const UpdateProduct = ({ history, token, match }) => {
 
     useEffect(() => {
         const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-        console.log('selectedProduct from local storage = ', selectedProduct);
         setSelectedProduct(selectedProduct);
     }, [])
 
@@ -76,7 +74,7 @@ const UpdateProduct = ({ history, token, match }) => {
                     <label className='singleProductLabel'>Updated price:</label>
                     <input
                         type="number"
-                        defaultValue={price}
+                        defaultValue={selectedProduct ? selectedProduct.price : 'loading price'}
                         onChange={(e) => setPrice(e.target.value)}
                         id="price"
                         placeholder="update product price"
@@ -84,13 +82,13 @@ const UpdateProduct = ({ history, token, match }) => {
                     />
                 </div>
                 <div className='singleProductDetail'>
-                    <label className='singleProductLabel'>Updated qty:</label>
+                    <label className='singleProductLabel'>Updated quantity:</label>
                     <input
                         type="number"
-                        defaultValue={qty}
+                        defaultValue={selectedProduct ? selectedProduct.quantity : 'loading quantity'}
                         onChange={(e) => setQty(e.target.value)}
-                        id="qty"
-                        placeholder="update product qty"
+                        id="quantity"
+                        placeholder="update product quantity"
                         className="singleProductInput"
                     />
                 </div>
@@ -98,7 +96,7 @@ const UpdateProduct = ({ history, token, match }) => {
                     <label className='singleProductLabel'>Updated categoryId:</label>
                     <input
                         type="number"
-                        defaultValue={categoryId}
+                        defaultValue={selectedProduct ? selectedProduct.categoryId : 'loading categoryId'}
                         onChange={(e) => setCategoryId(e.target.value)}
                         id="categoryId"
                         placeholder="update product categoryId"
@@ -116,7 +114,7 @@ const UpdateProduct = ({ history, token, match }) => {
                         className="singleProductInput"
                     />
                 </div>
-                <button className='singleProductBtn' onClick={(e) => updateProduct(e, productId, {title, description, price, qty, categoryId, photo})}>Update Product</button>
+                <button className='singleProductBtn' onClick={(e) => updateProduct(e, productId, {title, description, price, quantity, categoryId, photo})}>Update Product</button>
                 </form>
                 </>
             ) : <h3>Loading Selected Product...</h3>}
