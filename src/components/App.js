@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 //import helper functions
@@ -21,9 +21,6 @@ import UpdateProduct from "./admin/UpdateProduct";
 import CreateNewAdmin from "./admin/CreateNewAdmin";
 
 import { getOrder } from "../api/cart";
-
-// create context to store user info for use throughout app - CURRENTLY UNUSED, may not be compatible with this version of React
-// export const UserContext = createContext();
 
 const App = () => {
   const [token, setToken] = useState("");

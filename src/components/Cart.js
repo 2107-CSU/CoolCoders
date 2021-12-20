@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SingleCartItem from "./SingleCartItem";
-import { mockCart } from "../api/mockFEData";
 import BASE_URL from "../api/constant";
 
 import { getOrder, deleteProductOrder } from "../api/cart";
@@ -38,7 +37,7 @@ const Cart = (props) => {
     const items = [];
     for (let i = 0; i < cartItems.length; i++) {
       const currentItem = cartItems[i];
-      items.push({ id: currentItem.productId });
+      items.push({ id: currentItem.productId, quantity: currentItem.quantity });
     }
     fetch(`${BASE_URL}/create-checkout-session`, {
       method: "POST",
