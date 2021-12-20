@@ -1,37 +1,48 @@
 import React, { useEffect, useState } from "react"
-
 import { getSingleProduct } from "../api";
 
-const singleProduct = () => {
+const SingleProduct = () => {
+  const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [productId, setProductId] = useState(null);
+
+//  This useEffect breaks the path into an array and then grabs the last index which is going to be the product id *
+  useEffect(() => {
+    const splitPath = window.location.pathname.split('/');
     
-    const [loading, setLoading] = useState(false);
-    const [product, setProduct] = useState([]);
+    setProductId(splitPath[splitPath.length - 1]);
+  }, []);
 
-    useEffect( () => {
-        const fetchSingleProduct = async () => {
-            setLoading(true);
+//  This useEffect is used when the productId changes and it will make the call to the id and return the single product
 
-            const data = await getSingleProduct();
+  useEffect(() => {
+    const fetchSingleProduct = async (id) => {
+      setLoading(true);
 
-            setLoading(false);
+      const data = await getSingleProduct(id);
 
-            setProduct(data);
-        }
-        fetchSingleProduct();
-    }, []);
+      setLoading(false);
+      setProduct(data);
+    }
 
-    return (
-        <div>
-            <h2>{product.title}</h2>
-            {!loading
-                ?(
-                    <ul>
-                        {product.map(single => {
-                            return <li key={product.id}>{product.title}</li>
-                        })}
-                    </ul>
-                ) : <h3>Loading</h3>
-            }
-        </div>
-    )
-}
+    if (productId) {
+      fetchSingleProduct(productId);
+    }
+  }, [productId]);
+
+  return loading
+    ? <div>Loading</div>
+    : <div style ={{
+        textAlign:"center",
+        margin: "0 auto",
+        border: "1px solid black",
+        marginTop: "100px"}}>
+      <h1>{product.title}</h1>
+      <img src={product.photo} />
+      <p>Description: {product.description}</p>
+      <p>Price: {product.price} Quantity: {product.quantity}</p>
+    </div>
+};
+
+// Have reviews show up in single product view if time permits?
+export default SingleProduct;

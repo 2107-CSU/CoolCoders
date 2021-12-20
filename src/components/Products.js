@@ -86,6 +86,7 @@ const Products = (props) => {
                 key={product.id}
               >
                 <h2 className="p-3">{product.title}</h2>
+                <img src={product.photo} />
                 <p className="mb-3">Description: {product.description}</p>
                 <p className="font-bold mb-3">Price: ${product.price}</p>
                 <p>Quantity: {product.quantity}</p>
