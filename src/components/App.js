@@ -93,52 +93,18 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Header token={token}/>
+      <Header token={token} user={user}/>
       <ProtectedRoute path='/admin' exact token={token} user={user} component={AdminDashboard}/>
-      {/* <ProtectedRoute path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} token={token}/>} /> */}
       <ProtectedRoute path='/createnewproduct' exact token={token} user={user} component={NewProduct} />
-      {/* <ProtectedRoute path='/deleteproduct' exact render={(routeProps) => <DeleteDisplay {...routeProps} token={token}/>} /> */}
       <ProtectedRoute path='/deleteproduct' exact token={token} user={user} component={DeleteDisplay} />
-      {/* <ProtectedRoute path='/updateproduct' exact render={(routeProps) => <UpdateDisplay {...routeProps} token={token}/>} /> */}
       <ProtectedRoute path='/updateproduct' exact token={token} user={user} component={UpdateDisplay} />
-      {/* <ProtectedRoute path='/createadmin' exact render={(routeProps) => <CreateNewAdmin {...routeProps} token={token}/>} /> */}
       <ProtectedRoute path='/createadmin' exact token={token} user={user} component={CreateNewAdmin} />
-      {/* <ProtectedRoute path='/admin/delete/:productId' exact render={(routeProps) => <DeleteProduct {...routeProps} token={token} />} /> */}
       <ProtectedRoute path='/admin/delete/:productId' exact token={token} user={user} component={DeleteProduct} />
-      {/* <ProtectedRoute path='/admin/edit/:productId' exact render={(routeProps) => <UpdateProduct {...routeProps} token={token} />} /> */}
       <ProtectedRoute path='/admin/edit/:productId' exact token={token} user={user} component={UpdateProduct} />
-      {/* <ProtectedRoute path='/admin/users' exact render={(routeProps) => <AllUsers {...routeProps} token={token} />} /> */}
       <ProtectedRoute path='/admin/users' exact token={token} user={user} component={AllUsers} />
-      {/* <ProtectedRoute path='/admin/makeadmin/:userId' exact render={(routeProps) => <MakeAdmin {...routeProps} token={token} />} /> */}
       <ProtectedRoute path='/admin/makeadmin/:userId' exact token={token} user={user} component={MakeAdmin} />
-      {/* <ProtectedRoute path='/admin/deleteuser/:userId' exact render={(routeProps) => <DeleteUser {...routeProps} token={token} />} /> */}
       <ProtectedRoute path='/admin/deleteuser/:userId' exact token={token} user={user} component={DeleteUser} />
-      {/* <Route
-        path="/createnewproduct"
-        exact
-        render={(routeProps) => <NewProduct {...routeProps} token={token} />}
-      />
-      <Route
-        path="/deleteproduct"
-        exact
-        render={(routeProps) => <DeleteDisplay {...routeProps} token={token} />}
-      />
-      <Route
-        path="/updateproduct"
-        exact
-        render={(routeProps) => <UpdateDisplay {...routeProps} token={token} />}
-      /> */}
-{/* 
-      <Route
-        path="/admin/delete/:productId"
-        exact
-        render={(routeProps) => <DeleteProduct {...routeProps} token={token} />}
-      /> */}
-      {/* <Route
-        path="/admin/edit/:productId"
-        exact
-        render={(routeProps) => <UpdateProduct {...routeProps} token={token} />}
-      /> */}
+
       <Route
         path="/login"
         exact
