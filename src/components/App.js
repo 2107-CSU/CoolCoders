@@ -1,6 +1,9 @@
 import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
+//import helper functions
+import { fetchUserObj, getUser } from "../api/users";
+
 import Cart from "./Cart";
 import Products from "./Products";
 import SingleProduct from './SingleProduct';
@@ -8,6 +11,7 @@ import Header from "./Header";
 import Homepage from "./Homepage";
 import Login from "./Login";
 import Logout from "./Logout";
+import MyAccount from "./MyAccount";
 import AdminDashboard from './admin/AdminDashboard'
 import NewProduct from "./admin/NewProduct";
 import DeleteDisplay from "./admin/DeleteDisplay";
@@ -33,6 +37,19 @@ const App = () => {
     }
     if (!storedToken) setToken("");
   }, []);
+
+  //initialize user object on page load
+  //and whenever token state changes
+  useEffect( () => {
+    async function fetchData() {
+      //retrieve user information using token
+      const userInfo = await fetchUserObj(token);
+
+      //setUser
+      setUser(await getUser(userInfo.id));
+    }
+    fetchData();
+  }, [token])
 
 
   return (
@@ -75,6 +92,10 @@ const App = () => {
       <Route path='/products/:id' exact render={() => <SingleProduct />}/>
       <Route path="/cart" exact render={() => <Cart />} />
       <Route path="/" exact render={() => <Homepage />} />
+      <Route
+        exact path = '/myaccount'
+        render = {routeProps => <MyAccount user={user} setUser={setUser} token={token} {...routeProps} />}
+      />
     </BrowserRouter>
   );
 };
