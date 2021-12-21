@@ -26,7 +26,6 @@ function requireAdmin(req, res, next) {
             message: 'You do not have access'
         })
     }
-       console.log('authRole running')
     next();
 }
 

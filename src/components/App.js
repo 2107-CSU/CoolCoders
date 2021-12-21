@@ -21,11 +21,13 @@ import UpdateProduct from "./admin/UpdateProduct";
 import CreateNewAdmin from "./admin/CreateNewAdmin";
 
 import { getOrder } from "../api/cart";
+import AllUsers from "./admin/AllUsers";
+import MakeAdmin from "./admin/MakeAdmin";
+import DeleteUser from "./admin/DeleteUser";
 
 const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const [cartObj, setCartObj] = useState({});
   const [cartItems, setCartItems] = useState([]);
@@ -87,7 +89,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Header token={token} isAdmin={isAdmin} />
+      <Header token={token} />
       <Route path="/admin" exact render={() => <AdminDashboard />} />
       <Route
         path="/createnewproduct"
@@ -122,6 +124,21 @@ const App = () => {
         render={(routeProps) => <UpdateProduct {...routeProps} token={token} />}
       />
       <Route
+        path="/admin/users"
+        exact
+        render={(routeProps) => <AllUsers {...routeProps} token={token} />}
+      />
+      <Route
+        path="/admin/makeadmin/:userId"
+        exact
+        render={(routeProps) => <MakeAdmin {...routeProps} token={token} />}
+      />
+      <Route
+        path="/admin/deleteuser/:userId"
+        exact
+        render={(routeProps) => <DeleteUser {...routeProps} token={token} />}
+      />
+      <Route
         path="/login"
         exact
         render={(routeProps) => (
@@ -130,7 +147,6 @@ const App = () => {
             setToken={setToken}
             token={token}
             setUser={setUser}
-            setIsAdmin={setIsAdmin}
           />
         )}
       />
@@ -147,7 +163,6 @@ const App = () => {
             setToken={setToken}
             setCartObj={setCartObj}
             setUser={setUser}
-            setIsAdmin={setIsAdmin}
             setCartItems={setCartItems}
           />
         )}

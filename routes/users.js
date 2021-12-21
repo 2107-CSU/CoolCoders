@@ -1,8 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { user } = require("pg/lib/defaults");
-const {JWT_SECRET} = process.env
+const { JWT_SECRET } = process.env;
 
 const usersRouter = express.Router();
 const {
@@ -23,7 +22,7 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   const users = await getAllUsers();
 
   res.send({ users });
@@ -50,7 +49,7 @@ usersRouter.post("/login", async (req, res, next) => {
           email,
           id,
           name,
-          active
+          active,
         },
         process.env.JWT_SECRET,
         {
@@ -58,7 +57,7 @@ usersRouter.post("/login", async (req, res, next) => {
         }
       );
       req.user = user;
-      console.log('at the end of login function, req.user = ', req.user)
+      console.log("at the end of login function, req.user = ", req.user);
       res.send({ message: "you are logged in", user, token });
     } else {
       next({
@@ -90,7 +89,7 @@ usersRouter.post("/register", async (req, res, next) => {
       {
         email,
         id: user.id,
-        userStatus
+        userStatus,
       },
       process.env.JWT_SECRET,
       {
@@ -198,44 +197,51 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete("/:userId", requireUser, async (req, res, next) => {
-  const { userId } = req.params;
+usersRouter.delete(
+  "/:userId",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    const { userId } = req.params;
 
-  try {
-    //retrieve user to be deleted
-    const userToDelete = await getUserById(userId);
+    try {
+      //retrieve user to be deleted
+      const userToDelete = await getUserById(userId);
 
-    if (userToDelete) {
-      //check if user making the request is the same as the user to delete or if they are an admin
-      if (req.user.id === userToDelete.id || req.user.userStatus === 'admin') {
-        const response = await deactivateUser(userId);
+      if (userToDelete) {
+        //check if user making the request is the same as the user to delete or if they are an admin
+        if (
+          req.user.id === userToDelete.id ||
+          req.user.userStatus === "admin"
+        ) {
+          const response = await deactivateUser(userId);
 
-        if (response) {
-          res.send({ msg: `user #${userId} has been successfully deactivated` });
-        }
-        else {
-          res.send({
-            msg: `something went wrong trying to delete user #${userId}`,
-          });
+          if (response) {
+            res.send({
+              msg: `user #${userId} has been successfully deactivated`,
+            });
+          } else {
+            res.send({
+              msg: `something went wrong trying to delete user #${userId}`,
+            });
+          }
+        } else {
+          throw new Error("You are not authorized to deactivate this user");
         }
       }
-      else {
-        throw new Error("You are not authorized to deactivate this user");
-      }
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   // Should a user be allowed to change anything other than their name?
 
   const { userId } = req.params;
-  const updateObj = {...req.body};
+  const updateObj = { ...req.body };
 
   try {
-
     const user = await updateUser(userId, updateObj);
     res.send(user);
   } catch (error) {
@@ -250,7 +256,7 @@ usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
 
   //grab the token from the request headers
   //use slice method to remove 'Bearer ' prefix
-  const prefix = 'Bearer '
+  const prefix = "Bearer ";
   let token = req.headers.authorization;
   token = token.slice(prefix.length, token.length);
 
@@ -264,11 +270,27 @@ usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
     delete userObj.exp;
 
     res.send(userObj);
-  }
-  catch (error) {
+  } catch (error) {
     next(error);
   }
+});
+usersRouter.patch(
+  "/admin/:userId",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    // Should a user be allowed to change anything other than their name?
 
-})
+    const { userId } = req.params;
+    const updateObj = { ...req.body };
+
+    try {
+      const user = await updateUser(userId, updateObj);
+      res.send(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = usersRouter;
