@@ -144,10 +144,38 @@ async function updateUser(userId, fields = {}) {
         Object.values(fields)
       );
   
+
     }
     return await getUserById(userId);
   } catch (error) {
     throw error;
+  }
+}
+
+async function upgradeGuest(userId, name, password, userStatus = "user") {
+  try {
+    const SALT_COUNT = 13;
+    const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
+    const user = await getUserById(userId);
+    let email = user.email;
+    email = email.slice(6);
+
+    const {
+      rows: [updated],
+    } = await client.query(
+      `
+    UPDATE users
+    SET email=$1, name=$2, password=$3, "userStatus"=$4, active=true
+    WHERE id=$5
+    RETURNING *;
+  `,
+      [email, name, hashedPassword, userStatus, user.id]
+    );
+    delete updated.password;
+    return updated;
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -159,4 +187,5 @@ module.exports = {
   deactivateUser,
   getAllUsers,
   updateUser,
+  upgradeGuest,
 };

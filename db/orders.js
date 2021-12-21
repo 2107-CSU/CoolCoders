@@ -21,9 +21,9 @@ const client = require("./client");
 //finds matching products and adds them as an array
 //returns a new array of objectes with a 'products []' property
 async function _addProductsToOrder(ordersArray) {
- //retrieve products_orders joining on the products table
-  const {rows: products} = await client.query(`
-    SELECT products.id,
+  //retrieve products_orders joining on the products table
+  const { rows: products } = await client.query(`
+    SELECT products_orders.id,
       products_orders."orderId" AS "orderId",
       products_orders."productId" AS "productId",
       products.title, products.description,
@@ -38,20 +38,23 @@ async function _addProductsToOrder(ordersArray) {
   //map over array of orders
   //for each order check if the orderIds match
   //if they  do then push to order.products[]
-  const ordersWithProducts =
-    ordersArray.map( (currentOrder) => {
-      currentOrder.products = products.filter( (currentProduct) => {
-        return currentOrder.id === currentProduct.orderId;
-      })
+  const ordersWithProducts = ordersArray.map((currentOrder) => {
+    currentOrder.products = products.filter((currentProduct) => {
+      return currentOrder.id === currentProduct.orderId;
+    });
 
-      return currentOrder;
-    })
+    return currentOrder;
+  });
 
-    return ordersWithProducts;
-
+  return ordersWithProducts;
 }
 
-async function createOrder({ userId, totalPrice, orderDate, orderStatus = "cart"}) {
+async function createOrder({
+  userId,
+  totalPrice,
+  orderDate,
+  orderStatus = "cart",
+}) {
   try {
     const {
       rows: [order],
@@ -72,9 +75,7 @@ async function createOrder({ userId, totalPrice, orderDate, orderStatus = "cart"
 
 async function getAllOrders() {
   try {
-    const {
-      rows: allOrders
-    } = await client.query(`
+    const { rows: allOrders } = await client.query(`
             SELECT *
             FROM orders;
         `);
@@ -87,9 +88,7 @@ async function getAllOrders() {
 
 async function getOrderByProductId(productId) {
   try {
-    const {
-      rows: ordersWithProduct,
-    } = await client.query(
+    const { rows: ordersWithProduct } = await client.query(
       `
             SELECT *
             FROM orders AS o
@@ -108,9 +107,7 @@ async function getOrderByProductId(productId) {
 
 async function getOrderByUserId(userId) {
   try {
-    const {
-      rows: ordersByUserId
-    } = await client.query(
+    const { rows: ordersByUserId } = await client.query(
       `
             SELECT *
             FROM orders
@@ -127,57 +124,65 @@ async function getOrderByUserId(userId) {
 
 async function getOrderByOrderId(orderId) {
   try {
-    const {rows: order} = await client.query(`
+    const { rows: order } = await client.query(
+      `
       SELECT * FROM orders
       WHERE id = $1;
-    `, [orderId]);
+    `,
+      [orderId]
+    );
 
     return await _addProductsToOrder(order);
-  }
-  catch (error) {
+  } catch (error) {
     throw error;
   }
 }
 
-async function updateOrder(orderId, fields={}) {
+async function updateOrder(orderId, fields = {}) {
   // map over the object's keys, output ===> columnOne=$1, columnTwo=$2, columnThree=$3
   // then use Object.values(fields) to reference updated values inside the SQL query
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
 
-    try {
-      if (setString.length > 0) {
-        const {rows: [order]} = await client.query(
-          `
+  try {
+    if (setString.length > 0) {
+      const {
+        rows: [order],
+      } = await client.query(
+        `
           UPDATE orders
           SET ${setString}
           WHERE id=${orderId}
           RETURNING *;
          `,
-          Object.values(fields)
-        );
+        Object.values(fields)
+      );
 
-        return order;
-      }
-    } catch (error) {
-      throw error;
+      return order;
     }
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function updateTotalOrderPrice(orderId) {
   try {
-    const {rows: [sum]} = await client.query(`
+    const {
+      rows: [sum],
+    } = await client.query(
+      `
       SELECT SUM ("totalPrice")
       FROM products_orders
       WHERE "orderId" = $1;
-    `, [orderId]);
+    `,
+      [orderId]
+    );
 
     const totalPrice = sum.sum;
 
-    await updateOrder(orderId, {totalPrice});
-  }
-  catch (error) {
+    await updateOrder(orderId, { totalPrice });
+  } catch (error) {
     throw error;
   }
 }
@@ -189,5 +194,5 @@ module.exports = {
   createOrder,
   getOrderByOrderId,
   updateOrder,
-  updateTotalOrderPrice
+  updateTotalOrderPrice,
 };

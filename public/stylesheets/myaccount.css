@@ -1,0 +1,35 @@
+#myaccount-page {
+  height: 100vh;
+  width: 100%;
+  padding: 4rem;
+  overflow-y: scroll;
+}
+
+#edit-account-form {
+  width: 50%;
+}
+
+.margin-right {
+  margin-right: 1rem;
+}
+
+.input-formatting {
+  display: inline-block;
+  width: 75%;
+}
+
+.btn-radius {
+  border-radius: 5px;
+}
+
+.btn-padding {
+  padding: 0.25rem;
+}
+
+#update-btn {
+  margin-right: 1rem;
+}
+
+#btn-link {
+  background: none;
+}

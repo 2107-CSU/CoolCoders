@@ -6,3 +6,7 @@
 @import './stylesheets/singleProduct.css';
 @import './stylesheets/singleProductDelete.css';
 @import './stylesheets/singleUser.css';
+@import "./stylesheets/app.css";
+@import "./stylesheets/cart.css";
+@import "./stylesheets/header.css";
+@import "./stylesheets/myaccount.css";

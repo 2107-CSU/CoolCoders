@@ -37,8 +37,8 @@ const Header = ({ token }) => {
 
         {token ? (
           <Fragment>
-            <Link to="/orders" className="nav-link">
-              My Orders
+            <Link to="/myaccount" className="nav-link">
+              My Account
             </Link>
             <Link to="/logout" className="nav-link">
               Logout
@@ -47,8 +47,7 @@ const Header = ({ token }) => {
         ) : null}
         
       <Link to='/admin' className="nav-link">Admin Dashboard</Link>
-        
-        
+
       </div>
     </header>
   );
