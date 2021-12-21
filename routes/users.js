@@ -3,7 +3,6 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const bcrypt = require("bcrypt");
-
 const usersRouter = express.Router();
 const {
   createUser,
@@ -281,6 +280,7 @@ usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+
 usersRouter.patch(
   "/admin/:userId",
   requireUser,
