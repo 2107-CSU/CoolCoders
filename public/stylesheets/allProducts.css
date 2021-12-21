@@ -1,0 +1,47 @@
+.allProductsTitle{
+    margin-top: 3em;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: maroon;
+}
+
+.productContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.individualProduct {
+    border: 1px solid black;
+    padding: 1em;
+    margin: 1em;
+    width: 30%;
+    background-color: rgba(211, 211, 211, 0.3);
+    border-radius: 0.5em;
+
+}
+.productTitle{
+    font-weight: 900;
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.descTitle {
+    font-weight: 700;
+}
+
+.editProductBtn {
+    color: black;
+    text-decoration: none;
+    border: 1px solid black;
+    padding: 0.5em;
+    background-color: rgba(211, 211, 211, 0.6);
+    text-align: flex-end;
+    border-radius: 0.3em;
+}
+
+.editProductBtn:hover{
+    background-color: white;
+    cursor: pointer;
+}

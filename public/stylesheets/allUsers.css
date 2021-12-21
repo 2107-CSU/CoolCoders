@@ -1,0 +1,58 @@
+.allUsersTitle{
+    margin-top: 3em;
+    text-align: center;
+    text-transform: uppercase;
+    color: maroon;
+    letter-spacing: 0.3em;
+}
+.allUsersContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 95vw;
+    height: 100vh;
+    flex-wrap: wrap;
+    margin: 1em;
+}
+
+.individualUser {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgba(211, 211, 211, 0.3);
+    min-width: 30%;
+    margin: 1em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1em;
+}
+
+.individualUserDetails {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.individualUserDetails > p {
+    padding: 1em;
+}
+
+.individualUserOptions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.individualUserBtn {
+    color: black;
+    border-radius: 0.5em;
+    text-decoration: none;
+    border: 1px solid navy;
+    padding: 0.5em;
+    background-color: rgba(211, 211, 211, 0.6);
+    max-width: 30%;
+    text-align: center;
+}
+
+.individualUserBtn:hover {
+    background-color: white;
+    cursor: pointer;
+}

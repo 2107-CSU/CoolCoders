@@ -51,7 +51,7 @@ productsRouter.get('/:productId', async (req, res, next) => {
 /** for testing purposes, remove requireUser, and requireAdmin
  *  will add these functions again once users table is populated
  */
- productsRouter.post('/', requireUser, requireAdmin, async (req, res, next) => {
+ productsRouter.post('/', requireAdmin, async (req, res, next) => {
     const {title, description, price, quantity, categoryId, photo} = req.body;
 
     try {

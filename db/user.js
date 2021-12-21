@@ -75,23 +75,6 @@ async function getUserById(userId) {
   }
 }
 
-//for internal use only.
-//returns user's password
-async function _getUserById(userId) {
-  try {
-    const {rows: [user]} = await client.query(`
-            SELECT *
-            FROM users
-            WHERE id=$1;
-        `,[userId]);
-    if (user) {
-      return user;
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function getUserByEmail(email) {
   try {
     const {
@@ -160,7 +143,6 @@ async function updateUser(userId, fields = {}) {
       `,
         Object.values(fields)
       );
-
     }
     return await getUserById(userId);
   } catch (error) {
@@ -199,7 +181,6 @@ module.exports = {
   createUser,
   getUser,
   getUserById,
-  _getUserById,
   getUserByEmail,
   deactivateUser,
   getAllUsers,
