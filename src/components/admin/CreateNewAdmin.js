@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom/';
 import { registerUser } from "../../api/users";
 
-const CreateNewAdmin = ({ history }) => {
-
+const CreateNewAdmin = ({ token, user }) => {
+    
     const [adminEmail, setAdminEmail] = useState('')
     const [name, setName] = useState('')
     const [adminPassword, setAdminPassword] = useState('')
     const [adminConfirmedPassword, setAdminConfirmedPassword] = useState('')
+    let history = useHistory();
 
     // const user = await createUser({ email, name, password, userStatus });
     async function handleRegister() {
