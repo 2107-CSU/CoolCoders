@@ -3,7 +3,6 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const {JWT_SECRET} = process.env
 const bcrypt = require("bcrypt");
-
 const usersRouter = express.Router();
 const {
   createUser,
@@ -22,7 +21,7 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   const users = await getAllUsers();
 
   res.send({ users });
@@ -107,7 +106,7 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/:userId", async (req, res, next) => {
+usersRouter.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -118,7 +117,7 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete("/:userId", requireUser, async (req, res, next) => {
+usersRouter.delete("/:userId", requireUser, requireAdmin, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -169,6 +168,7 @@ usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   }
 });
 
+
 //retrieves a user object given a jwt token
 //returns email, user id,
 usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
@@ -196,5 +196,21 @@ usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
   }
 
 })
+
+usersRouter.patch("/admin/:userId", requireUser, requireAdmin, async (req, res, next) => {
+  // Should a user be allowed to change anything other than their name?
+
+  const { userId } = req.params;
+  const updateObj = {...req.body};
+
+  try {
+
+    const user = await updateUser(userId, updateObj);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 module.exports = usersRouter;

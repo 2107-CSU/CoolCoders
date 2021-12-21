@@ -143,7 +143,6 @@ async function updateUser(userId, fields = {}) {
       `,
         Object.values(fields)
       );
-
     }
     return await getUserById(userId);
   } catch (error) {
