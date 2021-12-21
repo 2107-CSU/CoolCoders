@@ -12,6 +12,7 @@ const {
   deactivateUser,
   getAllUsers,
   updateUser,
+  upgradeGuest,
 } = require("../db");
 const { requireUser, requireAdmin } = require("./utils");
 
@@ -105,6 +106,87 @@ usersRouter.post("/register", async (req, res, next) => {
     next(error);
   }
 });
+
+
+usersRouter.patch("/register/guest", requireUser, async (req, res, next) => {
+  const { name, password, userId } = req.body;
+  try {
+    const user = await upgradeGuest(userId, name, password);
+    const token = jwt.sign(
+      {
+        email: user.email,
+        id: user.id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1w",
+      }
+    );
+
+    res.send({
+      message: "thank you for signing up with us",
+      user,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.post("/register/guest", async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const _user = await getUserByEmail(email);
+
+    if (_user) {
+      next({
+        name: "UserExistsError",
+        message: "A user with that email address already exists",
+      });
+    }
+
+    let user = await createUser({
+      email: `guest-${email}`,
+      name: "Guest",
+      password: "guest",
+      userStatus: "guest",
+    });
+
+    const deactivateAccount = await deactivateUser(user.id);
+
+    if (deactivateAccount) {
+      const guest = await getUserById(user.id);
+      user = guest;
+
+      const token = jwt.sign(
+        {
+          email: guest.email,
+          id: guest.id,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1w",
+        }
+      );
+
+      res.send({
+        message: "You may now continue as a guest.",
+        user,
+        token,
+      });
+    } else {
+      next({
+        name: "GuestUserError",
+        message:
+          "There was an error creating a guest account. Please try again.",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 usersRouter.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;

@@ -17,8 +17,12 @@ const Login = ({ match, history, setToken, setUser }) => {
         setToken(user.token);
         localStorage.setItem("token", user.token);
       }
-      if (user.user) setUser(user.user);
+      if (user.user) {
+        setUser(user.user);
+        localStorage.setItem('user', JSON.stringify(user.user));
+      }
       history.push('/products');
+
     } catch (err) {
       console.error(err);
     }
