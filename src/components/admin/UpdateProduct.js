@@ -1,39 +1,42 @@
-import React, { useState } from 'react'
-import { handleUpdateProduct } from './adminUtility';
+import React, { useState, useEffect } from 'react'
+import { handleUpdateProduct, getProductById } from './adminUtility';
 
-const UpdateProduct = ({ history, token }) => {
+const UpdateProduct = ({ history, token, match }) => {
 
-    const [productId, setProductId] = useState(0)
+    const [productId, setProductId] = useState(match.params.productId)
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [qty, setQty] = useState(0);
     const [categoryId, setCategoryId] = useState(0);
     const [photo, setPhoto] = useState('');
+    const [selectedProduct, setSelectedProduct] = useState({});
+
 
     async function updateProduct(e, productId, {title, description, price, qty, categoryId, photo}){
         e.preventDefault();
-        handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token)
-        history.push('/admin')
+        await handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token)
+        history.push('/updateproduct')
     }
+
+    useEffect(() => {
+        const productToUpdate = getProductById(productId, setSelectedProduct);
+    }, [productId])
+
+    useEffect(() => {
+        setTitle(selectedProduct.title)
+        setDescription(selectedProduct.description)
+        setPrice(selectedProduct.price)
+        setQty(selectedProduct.quantity)
+        setCategoryId(selectedProduct.categoryId)
+        setPhoto(selectedProduct.photo)
+    }, [selectedProduct])
 
     return (
         <>
             <h2 className='marginTop'>UPDATE A PRODUCT HERE</h2>
             <form>
-                <div>
-                    <label>Product ID Of Product To Update</label>
-                    <input 
-                    type='text'
-                    value={productId}
-                    onChange={(e) => setProductId(e.target.value)}
-                    id='productId'
-                    autoFocus
-                    className='form-control mb-2'
-                    required
-                    />
-                </div>
-                <div>
+            <div>
                 <label>Updated Title:</label>
                 <input
                     type="text"

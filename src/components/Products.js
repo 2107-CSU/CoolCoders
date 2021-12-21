@@ -6,6 +6,8 @@ import { addItemToCart, createCart, getOrder } from "../api/cart";
 
 import { Link } from "react-router-dom";
 
+import PromptGuest from "./PromptGuest";
+
 /* 
 - Store cartItems in root, pass state down
 - when user clicks "add to cart," product is added to cartItems (passed btw comps)
@@ -17,10 +19,20 @@ import { Link } from "react-router-dom";
 */
 
 const Products = (props) => {
-  const { user, token, cartObj, setCartObj, cartItems, setCartItems } = props;
+  const {
+    user,
+    setUser,
+    setToken,
+    token,
+    cartObj,
+    setCartObj,
+    cartItems,
+    setCartItems,
+  } = props;
 
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const [promptGuest, setPromptGuest] = useState(false);
 
   // fetches products from db upon page load
   useEffect(() => {
@@ -47,7 +59,7 @@ const Products = (props) => {
     if (token && !Object.keys(cartObj).length) {
       initializeCart();
     }
-  }, []);
+  }, [token]);
 
   const handleAddToCart = async (product) => {
     if (cartObj.id) {
@@ -62,6 +74,9 @@ const Products = (props) => {
   return (
     <div>
       <h2>Products</h2>
+      {promptGuest ? (
+        <PromptGuest setUser={setUser} setToken={setToken} />
+      ) : null}
       {!loading ? (
         <ul>
           {products.map((product) => {
@@ -71,11 +86,17 @@ const Products = (props) => {
                 key={product.id}
               >
                 <h2 className="p-3">{product.title}</h2>
+                <img src={product.photo} />
                 <p className="mb-3">Description: {product.description}</p>
                 <p className="font-bold mb-3">Price: ${product.price}</p>
                 <p>Quantity: {product.quantity}</p>
                 <Link to={`/products/${product.id}`}>View</Link>
-                <button type="button" onClick={() => handleAddToCart(product)}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    token ? handleAddToCart(product) : setPromptGuest(true);
+                  }}
+                >
                   Add to cart
                 </button>
               </div>

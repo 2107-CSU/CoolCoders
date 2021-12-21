@@ -48,8 +48,27 @@ async function handleDeleteProduct(productId, token){
     await res.json();
 }
 
+const getProductById = async (productId, setSelectedProduct) => {
+    try {
+        const response = await fetch (`http://localhost:2345/api/products/${productId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        const data = await response.json();
+        console.log('data inside getProductById', data);
+        setSelectedProduct(data)
+    }
+        catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
 module.exports = {
     handleNewProduct,
     handleUpdateProduct,
-    handleDeleteProduct
+    handleDeleteProduct,
+    getProductById
 }

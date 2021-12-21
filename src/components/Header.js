@@ -3,7 +3,7 @@ import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 
-const Header = ({ token }) => {
+const Header = ({ token, isAdmin }) => {
 
   return (
     <header className="navbar navbar-expand-sm navbar-light bg-light fixed-top">
@@ -37,8 +37,8 @@ const Header = ({ token }) => {
 
         {token ? (
           <Fragment>
-            <Link to="/orders" className="nav-link">
-              My Orders
+            <Link to="/myaccount" className="nav-link">
+              My Account
             </Link>
             <Link to="/logout" className="nav-link">
               Logout
@@ -46,8 +46,9 @@ const Header = ({ token }) => {
           </Fragment>
         ) : null}
 
-        <Link to='/admin' className="nav-link">Admin Dashboard</Link>
-        
+      {isAdmin ? (<Link to='/admin' className="nav-link">Admin Dashboard</Link>) : null }
+
+
       </div>
     </header>
   );
