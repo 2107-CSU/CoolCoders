@@ -92,6 +92,34 @@ export async function editUser(token, userId, newEmail, newName, active=true) {
   }
 }
 
+export async function editPassword(token, userId, newPass) {
+  try {
+    const response = await fetch (`${BASE_URL}/users/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(
+        {
+            password: newPass
+
+        })
+    })
+    const data = await response.json();
+
+    //if call was successful...
+    if (data.id) {
+      alert("Password successfully updated!");
+      return data;
+    }
+  }
+  catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
 export async function getUser(userId) {
   try {
     const response = await fetch (`${BASE_URL}/users/${userId}`, {

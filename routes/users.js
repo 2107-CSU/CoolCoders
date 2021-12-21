@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { user } = require("pg/lib/defaults");
 const {JWT_SECRET} = process.env
+const bcrypt = require("bcrypt");
 
 const usersRouter = express.Router();
 const {
@@ -153,6 +153,12 @@ usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
 
   const { userId } = req.params;
   const updateObj = {...req.body};
+
+  // console.log("API EDIT USER: ", updateObj);
+  if (updateObj.password) {
+    //salt and hash the password before calling updateUser
+    updateObj.password = await bcrypt.hash(updateObj.password, 13);
+  }
 
   try {
 
