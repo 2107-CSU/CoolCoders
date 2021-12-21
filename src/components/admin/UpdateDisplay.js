@@ -4,17 +4,11 @@ import { Link } from "react-router-dom";
 
 const UpdateDisplay = () => {
 
-    const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
-          setLoading(true);
-    
           const data = await getProducts();
-    
-          setLoading(false);
-    
           setProducts(data);
         };
         fetchProducts();
@@ -22,24 +16,24 @@ const UpdateDisplay = () => {
 
     return (
         <div>
-        <h2>Products</h2>
-        {!loading ? (
-            <ul>
+        <h2 className='allProductsTitle'>Products</h2>
+        {products.length ? (
+            <div className='productContainer'>
             {products.map((product) => {
                 return (
                 <div
-                    className="border mb-4 rounded overflow-hidden"
+                    className="individualProduct"
                     key={product.id}
                 >
-                    <h2 className="p-3">{product.title}</h2>
-                    <p className="mb-3">Description: {product.description}</p>
-                    <p className="font-bold mb-3">Price: ${product.price}</p>
-                    <p>Quantity: {product.quantity}</p>
-                    <Link to={`admin/edit/${product.id}`}>Edit Product</Link>
+                    <p className="descTitle productTitle">{product.title}</p>
+                    <p className="mb-3"><span className='descTitle'>Description: </span>{product.description}</p>
+                    <p className="font-bold mb-3"><span className='descTitle'>Price:</span> ${product.price}</p>
+                    <p><span className='descTitle'>Quantity:</span>{product.quantity}</p>
+                    <Link to={`admin/edit/${product.id}`} className='singleProductBtn'>Edit {product.title}</Link>
                 </div>
                 );
             })}
-            </ul>
+            </div>
         ) : (
             <h3>Loading</h3>
         )} 

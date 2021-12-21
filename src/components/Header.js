@@ -3,7 +3,7 @@ import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 
-const Header = ({ token, isAdmin }) => {
+const Header = ({ token }) => {
 
   return (
     <header className="navbar navbar-expand-sm navbar-light bg-light fixed-top">
@@ -46,7 +46,7 @@ const Header = ({ token, isAdmin }) => {
           </Fragment>
         ) : null}
         
-      {isAdmin ? (<Link to='/admin' className="nav-link">Admin Dashboard</Link>) : null }
+      <Link to='/admin' className="nav-link">Admin Dashboard</Link>
         
         
       </div>

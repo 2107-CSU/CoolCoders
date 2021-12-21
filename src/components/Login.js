@@ -4,7 +4,7 @@ import BASE_URL from "../api/constant";
 import { loginUser, registerUser } from "../api/users";
 import { UserContext } from "./App";
 
-const Login = ({ match, history, setToken, setUser, setIsAdmin }) => {
+const Login = ({ match, history, setToken, setUser }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -18,9 +18,6 @@ const Login = ({ match, history, setToken, setUser, setIsAdmin }) => {
         localStorage.setItem("token", user.token);
       }
       if (user.user) setUser(user.user);
-      if (user.user.userStatus === 'admin') {
-        setIsAdmin(true);
-      }
       history.push('/products');
     } catch (err) {
       console.error(err);

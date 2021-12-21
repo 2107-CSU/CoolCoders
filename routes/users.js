@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
-
 const usersRouter = express.Router();
 const {
   createUser,
@@ -20,7 +19,7 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   const users = await getAllUsers();
 
   res.send({ users });
@@ -103,7 +102,7 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/:userId", async (req, res, next) => {
+usersRouter.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -114,7 +113,7 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete("/:userId", async (req, res, next) => {
+usersRouter.delete("/:userId", requireUser, requireAdmin, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -132,19 +131,35 @@ usersRouter.delete("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.patch("/:userId", async (req, res, next) => {
+usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   // Should a user be allowed to change anything other than their name?
 
   const { userId } = req.params;
-  const { name } = req.body;
+  const updateObj = {...req.body};
 
   try {
-    const user = await updateUser(userId, name);
-    console.log("the user = ", user);
+
+    const user = await updateUser(userId, updateObj);
     res.send(user);
   } catch (error) {
     next(error);
   }
 });
+
+usersRouter.patch("/admin/:userId", requireUser, requireAdmin, async (req, res, next) => {
+  // Should a user be allowed to change anything other than their name?
+
+  const { userId } = req.params;
+  const updateObj = {...req.body};
+
+  try {
+
+    const user = await updateUser(userId, updateObj);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 module.exports = usersRouter;
