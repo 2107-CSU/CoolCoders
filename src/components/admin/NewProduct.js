@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
 import { handleNewProduct } from './adminUtility';
 
-const NewProduct = ({ token }) => {
+const NewProduct = ({ token, history }) => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -10,7 +9,6 @@ const NewProduct = ({ token }) => {
     const [qty, setQty] = useState(0);
     const [categoryId, setCategoryId] = useState(0);
     const [photo, setPhoto] = useState('');
-    const history = useHistory();
 
     function newProduct(e, token, title, description, price, qty, categoryId, photo){
         e.preventDefault();
