@@ -11,12 +11,14 @@ const ProtectedRoute = ({  user: user, token: token, component: Component, ...re
     return (
     <Route 
       {...rest} 
-      render={(props) => {
+      render={(routeProps) => {
         if (user && user.userStatus === 'admin') {
           console.log('following user allowed access = ', user);
           console.log('user.userStatus === ', user.userStatus)
-          return  <Component token={token}/>
-        } 
+          return  <Component token={token} user={user} {...routeProps}/>
+        } else {
+          return <Redirect to={{ pathname: '/', state: { from: routeProps.location } }} />
+        }
       }
     } />
   )
