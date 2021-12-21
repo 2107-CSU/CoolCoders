@@ -19,6 +19,7 @@ apiRouter.use(async (req, res, next) => {
   const auth = req.header("Authorization");
 
   //check for authorization in the header object
+
   if(!auth) {
       //if there is no authorization move onto the next middleware
       next();

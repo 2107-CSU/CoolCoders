@@ -7,7 +7,7 @@ const AllUsers = ({ token }) => {
     useEffect(() => {
         async function getAllUsers(){
            const data = await fetchAllUsers(token);
-           window.localStorage.setItem('allUsers', JSON.stringify(data.users));
+           localStorage.setItem('allUsers', JSON.stringify(data.users));
            setUsers(data.users);
         }
         getAllUsers();
