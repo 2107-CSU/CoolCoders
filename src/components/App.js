@@ -18,6 +18,7 @@ import CreateNewAdmin from "./admin/CreateNewAdmin";
 import AllUsers from "./admin/AllUsers";
 import MakeAdmin from './admin/MakeAdmin'
 import DeleteUser from './admin/DeleteUser'
+import ProtectedRoute from "./ProtectedRoute";
 // create context to store user info for use throughout app
 export const UserContext = createContext();
 
@@ -38,7 +39,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header token={token}/>
-      <Route path='/admin' exact render={() => <AdminDashboard />} />
+      <ProtectedRoute path='/admin' exact token={token} user={user} component={AdminDashboard}/>
       <Route path='/createnewproduct' exact render={(routeProps) => <NewProduct {...routeProps} token={token}/>} />
       <Route path='/deleteproduct' exact render={(routeProps) => <DeleteDisplay {...routeProps} token={token}/>} />
       <Route path='/updateproduct' exact render={(routeProps) => <UpdateDisplay {...routeProps} token={token}/>} />
@@ -57,7 +58,6 @@ const App = () => {
             setToken={setToken}
             token={token}
             setUser={setUser}
-
           />
         )}
       />
