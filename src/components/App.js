@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 //import helper functions
 import { fetchUserObj, getUser, getUserOrders } from "../api/users";
+import { getOrder } from "../api/cart";
 
 import Cart from "./Cart";
 import Products from "./Products";
@@ -24,6 +25,9 @@ import { getOrder } from "../api/cart";
 import AllUsers from "./admin/AllUsers";
 import MakeAdmin from "./admin/MakeAdmin";
 import DeleteUser from "./admin/DeleteUser";
+import ProtectedRoute from "./ProtectedRoute";
+// create context to store user info for use throughout app
+export const UserContext = createContext();
 
 const App = () => {
   const [token, setToken] = useState("");
@@ -89,55 +93,78 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Header token={token} />
-      <Route path="/admin" exact render={() => <AdminDashboard />} />
-      <Route
+      <Header token={token} user={user} />
+      <ProtectedRoute
+        path="/admin"
+        exact
+        token={token}
+        user={user}
+        component={AdminDashboard}
+      />
+      <ProtectedRoute
         path="/createnewproduct"
         exact
-        render={(routeProps) => <NewProduct {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={NewProduct}
       />
-      <Route
+      <ProtectedRoute
         path="/deleteproduct"
         exact
-        render={(routeProps) => <DeleteDisplay {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={DeleteDisplay}
       />
-      <Route
+      <ProtectedRoute
         path="/updateproduct"
         exact
-        render={(routeProps) => <UpdateDisplay {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={UpdateDisplay}
       />
-      <Route
+      <ProtectedRoute
         path="/createadmin"
         exact
-        render={(routeProps) => (
-          <CreateNewAdmin {...routeProps} token={token} />
-        )}
+        token={token}
+        user={user}
+        component={CreateNewAdmin}
       />
-      <Route
+      <ProtectedRoute
         path="/admin/delete/:productId"
         exact
-        render={(routeProps) => <DeleteProduct {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={DeleteProduct}
       />
-      <Route
+      <ProtectedRoute
         path="/admin/edit/:productId"
         exact
-        render={(routeProps) => <UpdateProduct {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={UpdateProduct}
       />
-      <Route
+      <ProtectedRoute
         path="/admin/users"
         exact
-        render={(routeProps) => <AllUsers {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={AllUsers}
       />
-      <Route
+      <ProtectedRoute
         path="/admin/makeadmin/:userId"
         exact
-        render={(routeProps) => <MakeAdmin {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={MakeAdmin}
       />
-      <Route
+      <ProtectedRoute
         path="/admin/deleteuser/:userId"
         exact
-        render={(routeProps) => <DeleteUser {...routeProps} token={token} />}
+        token={token}
+        user={user}
+        component={DeleteUser}
       />
+
       <Route
         path="/login"
         exact

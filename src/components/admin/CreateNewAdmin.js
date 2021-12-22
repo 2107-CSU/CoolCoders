@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { registerUser } from "../../api/users";
 
-const CreateNewAdmin = ({ history }) => {
-
+const CreateNewAdmin = ({ token, user, history }) => {
+    
     const [adminEmail, setAdminEmail] = useState('')
     const [name, setName] = useState('')
     const [adminPassword, setAdminPassword] = useState('')

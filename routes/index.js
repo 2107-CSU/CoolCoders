@@ -36,8 +36,8 @@ apiRouter.use(async (req, res, next) => {
         //then move to the next middleware
         next();
       }
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 });

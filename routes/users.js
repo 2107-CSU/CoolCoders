@@ -186,7 +186,7 @@ usersRouter.post("/register/guest", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/:userId", async (req, res, next) => {
+usersRouter.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -197,43 +197,34 @@ usersRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-usersRouter.delete(
-  "/:userId",
-  requireUser,
-  requireAdmin,
-  async (req, res, next) => {
-    const { userId } = req.params;
+// usersRouter.delete("/:userId", requireUser, requireAdmin, async (req, res, next) => {
+usersRouter.delete("/:userId", requireUser, async (req, res, next) => {
+  const { userId } = req.params;
 
-    try {
-      //retrieve user to be deleted
-      const userToDelete = await getUserById(userId);
+  try {
+    //retrieve user to be deleted
+    const userToDelete = await getUserById(userId);
 
-      if (userToDelete) {
-        //check if user making the request is the same as the user to delete or if they are an admin
-        if (
-          req.user.id === userToDelete.id ||
-          req.user.userStatus === "admin"
-        ) {
-          const response = await deactivateUser(userId);
+    if (userToDelete) {
+      //check if user making the request is the same as the user to delete or if they are an admin
+      if (req.user.id === userToDelete.id || req.user.userStatus === "admin") {
+        const response = await deactivateUser(userId);
 
-          if (response) {
-            res.send({
-              msg: `user #${userId} has been successfully deactivated`,
-            });
-          } else {
-            res.send({
-              msg: `something went wrong trying to delete user #${userId}`,
-            });
-          }
+        if (response) {
+          res.send({
+            msg: `user #${userId} has been successfully deactivated`,
+          });
         } else {
-          throw new Error("You are not authorized to deactivate this user");
+          res.send({
+            msg: `something went wrong trying to delete user #${userId}`,
+          });
         }
       }
-    } catch (error) {
-      next(error);
     }
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   // Should a user be allowed to change anything other than their name?
@@ -254,6 +245,25 @@ usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+
+usersRouter.patch(
+  "/admin/:userId",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    // Should a user be allowed to change anything other than their name?
+
+    const { userId } = req.params;
+    const updateObj = { ...req.body };
+
+    try {
+      const user = await updateUser(userId, updateObj);
+      res.send(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 //retrieves a user object given a jwt token
 //returns email, user id,

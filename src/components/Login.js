@@ -17,13 +17,13 @@ const Login = ({ match, history, setToken, setUser }) => {
         setToken(user.token);
         localStorage.setItem("token", user.token);
       }
+      // if (user.user) setUser(user.user);
+      // history.push('/products');
       if (user.user) {
         setUser(user.user);
         localStorage.setItem("user", JSON.stringify(user.user));
       }
-      // if (user.user.userStatus === "admin") {
-      //   setIsAdmin(true);
-      // }
+
       history.push("/myaccount");
     } catch (err) {
       console.error(err);

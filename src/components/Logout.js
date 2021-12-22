@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 const Logout = (props) => {
+  // const { setToken } = props;
   const { setToken, setCartObj, setUser, setCartItems } = props;
 
   useEffect(() => {
