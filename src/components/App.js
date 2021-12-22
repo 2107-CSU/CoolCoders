@@ -82,7 +82,7 @@ const App = () => {
       const userInfo = await fetchUserObj(token);
 
       //setUser
-      setUser(await getUser(userInfo.id));
+      setUser(await getUser(userInfo.id, token));
     }
     fetchData();
   }, [token]);

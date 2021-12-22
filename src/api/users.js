@@ -114,18 +114,16 @@ export async function editUser(
 
 export async function editPassword(token, userId, newPass) {
   try {
-    const response = await fetch (`${BASE_URL}/users/${userId}`, {
-      method: 'PATCH',
+    const response = await fetch(`${BASE_URL}/users/${userId}`, {
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(
-        {
-            password: newPass
-
-        })
-    })
+      body: JSON.stringify({
+        password: newPass,
+      }),
+    });
     const data = await response.json();
 
     //if call was successful...
@@ -133,19 +131,19 @@ export async function editPassword(token, userId, newPass) {
       alert("Password successfully updated!");
       return data;
     }
-  }
-  catch (error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }
 
-export async function getUser(userId) {
+export async function getUser(userId, token) {
   try {
     const response = await fetch(`${BASE_URL}/users/${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     const data = await response.json();
