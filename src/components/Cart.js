@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SingleCartItem from "./SingleCartItem";
 import BASE_URL from "../api/constant";
+import UpgradeGuest from "./UpgradeGuest";
 
 import { getOrder, deleteProductOrder } from "../api/cart";
 
@@ -102,6 +103,7 @@ const Cart = (props) => {
           </button>
         </div>
       </div>
+      {user.userStatus === "guest" ? <UpgradeGuest /> : null}
     </div>
   );
 };
