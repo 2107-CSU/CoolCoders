@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { handleNewProduct } from './adminUtility';
 
-const NewProduct = ({ history, token }) => {
+const NewProduct = ({ token, history }) => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');

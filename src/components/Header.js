@@ -1,10 +1,10 @@
 import req from "express/lib/request";
+import { user } from "pg/lib/defaults";
 import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 
-const Header = ({ token }) => {
-
+const Header = ({ token, user }) => {
   return (
     <header className="navbar navbar-expand-sm navbar-light bg-light fixed-top">
       <button
@@ -45,10 +45,12 @@ const Header = ({ token }) => {
             </Link>
           </Fragment>
         ) : null}
-        
-      <Link to='/admin' className="nav-link">Admin Dashboard</Link>
-        
-    
+
+        {user && user.userStatus === "admin" ? (
+          <Link to="/admin" className="nav-link">
+            Admin Dashboard
+          </Link>
+        ) : null}
       </div>
     </header>
   );

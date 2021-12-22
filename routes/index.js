@@ -19,31 +19,25 @@ apiRouter.use(async (req, res, next) => {
   const auth = req.header("Authorization");
 
   //check for authorization in the header object
+  if (!auth) {
+    //if there is no authorization move onto the next middleware
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
 
-  if(!auth) {
-      //if there is no authorization move onto the next middleware
-      next();
-  }
-  else if (auth.startsWith(prefix)) {
-      const token = auth.slice(prefix.length);
+    try {
+      //attempt to verify token and destructure the id from the return data
+      const { id } = jwt.verify(token, JWT_SECRET);
 
-      try {
-          //attempt to verify token and destructure the id from the return data
-          const {id} = jwt.verify(token, JWT_SECRET);
+      if (id) {
+        //if a valid user is returned, add it to the request object
+        req.user = await getUserById(id);
 
-          if (id) {
-              //if a valid user is returned, add it to the request object
-              req.user = await getUserById(id);
-              
-              //then move to the next middleware
-              next();
-          }
+        //then move to the next middleware
+        next();
       }
-      catch (error) {
-          next(error);
-      }
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 });
