@@ -20,14 +20,10 @@ import DeleteProduct from "./admin/DeleteProduct";
 import UpdateDisplay from "./admin/UpdateDisplay";
 import UpdateProduct from "./admin/UpdateProduct";
 import CreateNewAdmin from "./admin/CreateNewAdmin";
-
-import { getOrder } from "../api/cart";
 import AllUsers from "./admin/AllUsers";
 import MakeAdmin from "./admin/MakeAdmin";
 import DeleteUser from "./admin/DeleteUser";
 import ProtectedRoute from "./ProtectedRoute";
-// create context to store user info for use throughout app
-export const UserContext = createContext();
 
 const App = () => {
   const [token, setToken] = useState("");
