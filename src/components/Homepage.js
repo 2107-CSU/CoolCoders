@@ -2,7 +2,7 @@ import React from 'react'
 
 const Homepage = () => {
     return (
-        <div className='marginTop'>
+        <div id="homepage" className='marginTop'>
          Welcome to the homepage 😊
         </div>
     )
