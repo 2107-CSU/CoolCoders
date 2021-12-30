@@ -276,7 +276,7 @@ usersRouter.get("/userinfo/me", requireUser, async (req, res, next) => {
   let token = req.headers.authorization;
   token = token.slice(prefix.length, token.length);
 
-  console.log("TOKEN IS:", token);
+  // console.log("TOKEN IS:", token);
 
   try {
     //verify token and send user obj
