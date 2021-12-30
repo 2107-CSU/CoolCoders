@@ -114,7 +114,7 @@ const MyAccount = ({user, setUser, token, history}) => {
             </div>
             <br />
             <hr id="horizontal-line" />
-            <OrderHistory />
+            {/* <OrderHistory /> */}
         </div>
 
         {/* <!-- Modal --> */}
