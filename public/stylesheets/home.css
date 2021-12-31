@@ -1,12 +1,11 @@
 #homepage {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   padding: 5rem 15rem;
 }
 
 #center-container {
-  border: 2px solid purple;
-  height: 90vh;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -17,9 +16,4 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-#featured-container {
-  border: 2px solid blue;
-  height: 60vh;
 }
