@@ -34,6 +34,7 @@ const Homepage = () => {
     return (
         <div id="homepage">
             <div id="center-container" className='center'>
+                <h1 id="title">R(e)thrift</h1>
                 <div id="banner">
                     <div className="banner-images">
                         <img className='img-width' src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"/>
