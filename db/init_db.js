@@ -128,7 +128,7 @@ async function populateInitialData() {
     await createInitialProducts();
     await createInitialOrders();
     // TODO: seed products_orders table?
-    await createInitialReviews();
+    // await createInitialReviews();
   } catch (error) {
     throw error;
   }
