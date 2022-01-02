@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getUserById } from './adminUtility';
+import { getUserById, deleteSingleUser } from './adminUtility';
 
 const DeleteUser = ({ match, history, token }) => {
 
@@ -27,7 +27,7 @@ const DeleteUser = ({ match, history, token }) => {
 
     function deleteUser(e, userId, token){
         e.preventDefault();
-        // deleteSingleUser(userId, token);
+        deleteSingleUser(userId, token);
         history.push('/admin')
     }
 
