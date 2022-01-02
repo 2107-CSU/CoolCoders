@@ -1,0 +1,30 @@
+.singleUserContainer {
+    width: 95vw;
+    margin-top: 5em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.singleUserDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: 5em auto 0 auto;
+}
+
+.singleUserBtn {
+    padding: 0.5em;
+}
+
+.singleUserLabel {
+    font-weight: 700;
+}
+
+.singleUserBtn:hover{
+    background-color: white;
+}

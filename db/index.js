@@ -1,13 +1,16 @@
-// Connect to DB
-const { Client } = require('pg');
-const DB_NAME = 'capstone-dev'
-const DB_URL = process.env.DATABASE_URL || `postgres://localhost:5432/${ DB_NAME }`;
-const client = new Client(DB_URL);
+const client = require("./client");
 
-// database methods
+const productDbAdapters = require("./products");
+const userDbAdapters = require("./user");
+const ordersDbAdapters = require("./orders");
+const categoriesDbAdapters = require("./categories");
+const productOrderDbAdapters = require("./products_orders");
 
-// export
 module.exports = {
   client,
-  // db methods
-}
+  ...productDbAdapters,
+  ...userDbAdapters,
+  ...ordersDbAdapters,
+  ...categoriesDbAdapters,
+  ...productOrderDbAdapters,
+};
