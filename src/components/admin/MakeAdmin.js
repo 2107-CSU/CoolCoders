@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-const { getUserById, makeAdmin } = require('./adminUtility');
+import {getUserById, makeAdmin } from './adminUtility';
 
 const MakeAdmin = ({ match, history, token }) => {
     const [userId, setUserId] = useState(match.params.userId);

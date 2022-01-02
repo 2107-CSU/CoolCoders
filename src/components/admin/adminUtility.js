@@ -1,4 +1,4 @@
-async function handleNewProduct(token, title, description, price, qty, categoryId, photo){
+export async function handleNewProduct(token, title, description, price, qty, categoryId, photo){
     try {
         const res = await fetch(`http://localhost:2345/api/products`, {
             method: 'POST',
@@ -23,7 +23,7 @@ async function handleNewProduct(token, title, description, price, qty, categoryI
     }
 }
 
-async function handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token){
+export async function handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token){
     try {
         const res = await fetch(`http://localhost:2345/api/products/${productId}`, {
             method: 'PATCH',
@@ -47,7 +47,7 @@ async function handleUpdateProduct(productId, {title, description, price, qty, c
     }
 }
 
-async function handleDeleteProduct(productId, token){
+export async function handleDeleteProduct(productId, token){
     try {
         const res = await fetch(`http://localhost:2345/api/products/${productId}`, {
             method: 'DELETE',
@@ -63,7 +63,7 @@ async function handleDeleteProduct(productId, token){
     }
 }
 
-const getProductById = async (productId, token) => {
+export const getProductById = async (productId, token) => {
     try {
         const response = await fetch (`http://localhost:2345/api/products/${productId}`, {
         method: 'GET',
@@ -82,7 +82,7 @@ const getProductById = async (productId, token) => {
     }
 }
 
-async function getUserById(userId, token){
+export async function getUserById(userId, token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'GET',
@@ -100,7 +100,7 @@ async function getUserById(userId, token){
     }
 }
 
-async function deleteSingleUser(userId, token){
+export async function deleteSingleUser(userId, token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'DELETE',
@@ -117,7 +117,7 @@ async function deleteSingleUser(userId, token){
     }
 }
 
-async function makeAdmin(token, userId,){
+export async function makeAdmin(token, userId,){
     try {
         const response = await fetch(`http://localhost:2345/api/users/admin/${userId}`, {
             method: "PATCH",
@@ -138,7 +138,7 @@ async function makeAdmin(token, userId,){
     }
 }
 
-async function fetchAllUsers(token){
+export async function fetchAllUsers(token){
     try {
         const response = await fetch(`http://localhost:2345/api/users/`, {
             method: "GET",
@@ -155,13 +155,13 @@ async function fetchAllUsers(token){
         throw error;
     }
 }
-module.exports = {
-    handleNewProduct,
-    handleUpdateProduct,
-    handleDeleteProduct,
-    getProductById,
-    getUserById,
-    deleteSingleUser,
-    makeAdmin,
-    fetchAllUsers
-}
+// module.exports = {
+//     handleNewProduct,
+//     handleUpdateProduct,
+//     handleDeleteProduct,
+//     getProductById,
+//     getUserById,
+//     deleteSingleUser,
+//     makeAdmin,
+//     fetchAllUsers
+// }

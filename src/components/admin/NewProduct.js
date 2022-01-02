@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-const { handleNewProduct } = require('./adminUtility');
+import  { handleNewProduct } from './adminUtility';
 
 const NewProduct = ({ token, history }) => {
 
