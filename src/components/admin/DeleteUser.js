@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { getUserById, deleteSingleUser } from './adminUtility';
+// import { getUserById, deleteSingleUser } from './adminUtility';
+import {getUserById, deleteSingleUser} from "./adminUtility";
 
 const DeleteUser = ({ match, history, token }) => {
 
@@ -33,8 +34,8 @@ const DeleteUser = ({ match, history, token }) => {
 
     return (
         <div className='singleUserContainer'>
-            {selectedUser 
-            ? ( 
+            {selectedUser
+            ? (
                 <>
                     <div className='singleUserDetails' key={selectedUser.id}>
                         <h2>Are You Sure You Want to Delete {selectedUser.name}?</h2>
@@ -46,7 +47,7 @@ const DeleteUser = ({ match, history, token }) => {
                     </form>
                 </>
             ) : <p>Loading Selected User</p>}
- 
+
         </div>
     )
 }
