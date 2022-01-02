@@ -1,4 +1,4 @@
-export const handleNewProduct = async (token, title, description, price, qty, categoryId, photo) =>{
+export const handleNewProduct = async (token, title, description, price, qty, categoryId, photo) => {
     try {
         const res = await fetch(`http://localhost:2345/api/products`, {
             method: 'POST',

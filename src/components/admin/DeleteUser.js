@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import { getUserById, deleteSingleUser } from './adminUtility';
 import {getUserById, deleteSingleUser} from "./adminUtility";
 
 const DeleteUser = ({ match, history, token }) => {

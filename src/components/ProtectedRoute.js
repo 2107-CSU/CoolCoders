@@ -9,8 +9,8 @@ const ProtectedRoute = ({  user: user, token: token, component: Component, ...re
     }, []);
 
     return (
-    <Route 
-      {...rest} 
+    <Route
+      {...rest}
       render={(routeProps) => {
         if (user && user.userStatus === 'admin') {
           console.log('following user allowed access = ', user);
