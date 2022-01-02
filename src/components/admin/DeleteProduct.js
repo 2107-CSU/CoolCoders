@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-const { handleDeleteProduct, getProductById } =  require('./adminUtility');
-// import { getProductById } from './adminUtility';
+import { getProductById, handleDeleteProduct } from './adminUtility';
 
 const DeleteProduct = ({ match, history, token }) => {
 
