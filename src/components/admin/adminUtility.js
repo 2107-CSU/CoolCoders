@@ -1,4 +1,4 @@
-export async function handleNewProduct(token, title, description, price, qty, categoryId, photo){
+export const handleNewProduct = async (token, title, description, price, qty, categoryId, photo) =>{
     try {
         const res = await fetch(`http://localhost:2345/api/products`, {
             method: 'POST',
@@ -23,7 +23,7 @@ export async function handleNewProduct(token, title, description, price, qty, ca
     }
 }
 
-export async function handleUpdateProduct(productId, {title, description, price, qty, categoryId, photo}, token){
+export const handleUpdateProduct = async (productId, {title, description, price, qty, categoryId, photo}, token) => {
     try {
         const res = await fetch(`http://localhost:2345/api/products/${productId}`, {
             method: 'PATCH',
@@ -47,7 +47,7 @@ export async function handleUpdateProduct(productId, {title, description, price,
     }
 }
 
-export async function handleDeleteProduct(productId, token){
+export const handleDeleteProduct = async (productId, token) => {
     try {
         const res = await fetch(`http://localhost:2345/api/products/${productId}`, {
             method: 'DELETE',
@@ -82,7 +82,7 @@ export const getProductById = async (productId, token) => {
     }
 }
 
-export async function getUserById(userId, token){
+export const getUserById = async (userId, token) => {
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'GET',
@@ -100,7 +100,7 @@ export async function getUserById(userId, token){
     }
 }
 
-export async function deleteSingleUser(userId, token){
+export const deleteSingleUser = async (userId, token) => {
     try {
         const response = await fetch(`http://localhost:2345/api/users/${userId}`, {
             method: 'DELETE',
@@ -117,7 +117,7 @@ export async function deleteSingleUser(userId, token){
     }
 }
 
-export async function makeAdmin(token, userId,){
+export const makeAdmin = async (token, userId,) => {
     try {
         const response = await fetch(`http://localhost:2345/api/users/admin/${userId}`, {
             method: "PATCH",
@@ -138,7 +138,7 @@ export async function makeAdmin(token, userId,){
     }
 }
 
-export async function fetchAllUsers(token){
+export const fetchAllUsers = async (token) => {
     try {
         const response = await fetch(`http://localhost:2345/api/users/`, {
             method: "GET",
