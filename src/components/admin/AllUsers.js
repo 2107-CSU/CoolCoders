@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchAllUsers } from "./adminUtility";
+const { fetchAllUsers } = require("./adminUtility");
+
 const AllUsers = ({ token }) => {
   const [users, setUsers] = useState([]);
 

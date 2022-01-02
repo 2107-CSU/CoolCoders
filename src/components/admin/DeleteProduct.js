@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { handleDeleteProduct } from './adminUtility';
-import { getProductById } from './adminUtility';
+const { handleDeleteProduct, getProductById } =  require('./adminUtility');
+// import { getProductById } from './adminUtility';
 
 const DeleteProduct = ({ match, history, token }) => {
 
@@ -11,7 +11,7 @@ const DeleteProduct = ({ match, history, token }) => {
         e.preventDefault();
         await handleDeleteProduct(productId, token, setSelectedProduct);
         history.push('/deleteproduct');
-        
+
     }
 
     useEffect(() => {
