@@ -6,7 +6,16 @@ import UpgradeGuest from "./UpgradeGuest";
 import { getOrder, deleteProductOrder } from "../api/cart";
 
 const Cart = (props) => {
-  const { cartItems, setCartItems, cartObj, setCartObj, user, token } = props;
+  const {
+    cartItems,
+    setCartItems,
+    cartObj,
+    setCartObj,
+    user,
+    setUser,
+    token,
+    setToken,
+  } = props;
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
@@ -103,7 +112,14 @@ const Cart = (props) => {
           </button>
         </div>
       </div>
-      {user.userStatus === "guest" ? <UpgradeGuest /> : null}
+      {user.userStatus === "guest" ? (
+        <UpgradeGuest
+          setUser={setUser}
+          setToken={setToken}
+          token={token}
+          user={user}
+        />
+      ) : null}
     </div>
   );
 };

@@ -56,7 +56,7 @@ const Products = (props) => {
       // store cart in local storage (as with token) for retrieval upon next visit
       localStorage.setItem("cart", JSON.stringify(cart));
     };
-    if (token && !Object.keys(cartObj).length) {
+    if (token && !localStorage.getItem("cart")) {
       initializeCart();
     }
   }, [token]);

@@ -212,7 +212,9 @@ const App = () => {
         render={() => (
           <Cart
             user={user}
+            setUser={setUser}
             token={token}
+            setToken={setToken}
             cartObj={cartObj}
             setCartObj={setCartObj}
             cartItems={cartItems}
