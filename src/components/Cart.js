@@ -96,7 +96,7 @@ const Cart = (props) => {
                 {cartItems ? cartItems.length : 0} items
               </div>
             </div>
-            <div className="total-amount">${totalPrice}.00</div>
+            <div className="total-amount">${totalPrice.toFixed(2)}</div>
           </div>
           <button className="button" onClick={handleCheckout}>
             Checkout
