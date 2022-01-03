@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:2345/api";
+// const BASE_URL = "http://localhost:2345/api";
+const BASE_URL = "https://re-thrift.herokuapp.com/api";
 
 export function setHeaders(token) {
   if (token) {
