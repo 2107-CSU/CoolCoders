@@ -124,10 +124,8 @@ ordersRouter.patch("/:orderId/user", requireUser, async (req, res, next) => {
 
   try {
     const [orderToUpdate] = await getOrderByOrderId(orderId);
-    console.log(orderToUpdate);
     const prevUserId = orderToUpdate.userId;
     const prevUser = await getUserById(prevUserId);
-    console.log(prevUser);
     if (prevUser.active === false && orderToUpdate.orderStatus === "cart") {
       const order = await updateOrder(orderId, { userId: userId });
       res.send(order);
