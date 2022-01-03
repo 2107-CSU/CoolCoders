@@ -75,7 +75,11 @@ const Products = (props) => {
     <div>
       <h2>Products</h2>
       {promptGuest ? (
-        <PromptGuest setUser={setUser} setToken={setToken} />
+        <PromptGuest
+          setUser={setUser}
+          setToken={setToken}
+          setPromptGuest={setPromptGuest}
+        />
       ) : null}
       {!loading ? (
         <ul>

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { registerGuest } from "../api/users";
 
 const PromptGuest = (props) => {
-  const { setUser, setToken } = props;
+  const { setUser, setToken, setPromptGuest } = props;
   let history = useHistory();
 
   const [guest, setGuest] = useState(false);
@@ -25,39 +25,63 @@ const PromptGuest = (props) => {
   };
 
   return (
-    <div>
+    <div className="guestPrompt">
       {!guestMsg ? (
         <Fragment>
           <p>Please login or continue as guest</p>
-          <button type="button" onClick={() => history.push("/login")}>
+          <button
+            type="button"
+            className="guestBtn"
+            onClick={() => history.push("/login")}
+          >
             LOGIN
           </button>
-          <button type="button" onClick={() => setGuest(true)}>
+          <button
+            type="button"
+            className="guestBtn"
+            onClick={() => setGuest(true)}
+          >
             CONTINUE AS GUEST
           </button>
           {guest && !guestMsg ? (
             <form
+              className="guestForm"
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmit();
               }}
             >
-              <label>
+              <label for="guest-email">
                 Please enter an email for shipping updates.
-                <input
-                  type="text"
-                  required
-                  placeholder="youremail@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                ></input>
               </label>
-              <button type="submit">SUBMIT</button>
+              <input
+                id="guest-email"
+                name="guest-email"
+                type="text"
+                required
+                placeholder="youremail@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></input>
+              <button type="submit" className="guestBtn">
+                SUBMIT
+              </button>
             </form>
           ) : null}
         </Fragment>
       ) : null}
-      ;{guestMsg ? <p>{guestMsg}</p> : null}
+      {guestMsg ? (
+        <div className="guestMsg">
+          <p>{guestMsg}</p>
+          <button
+            type="button"
+            className="guestBtn"
+            onClick={() => setPromptGuest(false)}
+          >
+            CONTINUE
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
