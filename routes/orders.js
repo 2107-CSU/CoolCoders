@@ -14,6 +14,7 @@ const {
   getOrderByOrderId,
   createOrder,
   updateOrder,
+  getUserById,
 } = require("../db");
 
 /**
@@ -113,6 +114,28 @@ ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
     res.send(order);
   } catch (error) {
     next(error);
+  }
+});
+
+// use this route to update user id of order if user logs in after continuing as guest
+ordersRouter.patch("/:orderId/user", requireUser, async (req, res, next) => {
+  const userId = req.user.id;
+  const orderId = req.params.orderId;
+
+  try {
+    const [orderToUpdate] = await getOrderByOrderId(orderId);
+    console.log(orderToUpdate);
+    const prevUserId = orderToUpdate.userId;
+    const prevUser = await getUserById(prevUserId);
+    console.log(prevUser);
+    if (prevUser.active === false && orderToUpdate.orderStatus === "cart") {
+      const order = await updateOrder(orderId, { userId: userId });
+      res.send(order);
+    } else {
+      throw new Error("This order cannot be updated.");
+    }
+  } catch (err) {
+    next(err);
   }
 });
 

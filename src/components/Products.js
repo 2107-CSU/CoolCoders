@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import { getProducts } from "../api";
-import { addItemToCart, createCart, getOrder } from "../api/cart";
+import {
+  addItemToCart,
+  createCart,
+  getOrder,
+  updateOrderUser,
+} from "../api/cart";
 // import { getSingleProduct } from "../api";
 
 import { Link } from "react-router-dom";
@@ -60,6 +65,16 @@ const Products = (props) => {
       initializeCart();
     }
   }, [token]);
+
+  useEffect(() => {
+    const transferCart = async () => {
+      if (cartObj.userId !== user.id) {
+        const order = await updateOrderUser(token, cartObj.id);
+        setCartObj(order);
+      }
+    };
+    if (localStorage.getItem("cart")) transferCart();
+  }, [user, token]);
 
   const handleAddToCart = async (product) => {
     if (cartObj.id) {

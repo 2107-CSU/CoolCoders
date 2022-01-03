@@ -51,7 +51,7 @@ const PromptGuest = (props) => {
                 handleSubmit();
               }}
             >
-              <label for="guest-email">
+              <label htmlFor="guest-email">
                 Please enter an email for shipping updates.
               </label>
               <input
