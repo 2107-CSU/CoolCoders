@@ -69,7 +69,7 @@ const App = () => {
         if (mostRecent.products) setCartItems(mostRecent.products);
       }
     };
-    if (!cartObj.id && token && user.id) {
+    if (token && user.id && user.userStatus !== "guest") {
       fetchRecentCart();
     }
   }, [user]);

@@ -1,7 +1,14 @@
 import React from "react";
 
 const UpgradeGuest = () => {
-  return <h1>Hello World</h1>;
+  return (
+    <div>
+      <form>
+        <input type="text"></input>
+        <input type="text"></input>
+      </form>
+    </div>
+  );
 };
 
 export default UpgradeGuest;
