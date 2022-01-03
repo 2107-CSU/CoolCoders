@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { handleDeleteProduct } from './adminUtility';
-import { getProductById } from './adminUtility';
+import { getProductById, handleDeleteProduct } from './adminUtility';
 
 const DeleteProduct = ({ match, history, token }) => {
 
@@ -11,7 +10,7 @@ const DeleteProduct = ({ match, history, token }) => {
         e.preventDefault();
         await handleDeleteProduct(productId, token, setSelectedProduct);
         history.push('/deleteproduct');
-        
+
     }
 
     useEffect(() => {

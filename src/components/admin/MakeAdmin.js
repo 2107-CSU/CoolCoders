@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getUserById, makeAdmin } from './adminUtility'
+import {getUserById, makeAdmin } from './adminUtility';
 
 const MakeAdmin = ({ match, history, token }) => {
     const [userId, setUserId] = useState(match.params.userId);
@@ -33,8 +33,8 @@ const MakeAdmin = ({ match, history, token }) => {
 
     return (
         <div className='singleUserContainer'>
-            {selectedUser 
-            ? ( 
+            {selectedUser
+            ? (
                 <>
                     <div className='singleUserDetails' key={selectedUser.id}>
                         <h2>Make {selectedUser.name} an admin here</h2>
@@ -45,8 +45,8 @@ const MakeAdmin = ({ match, history, token }) => {
                     <button className='singleUserBtn' onClick={(e) => upgradeUser(e, token, userId)}>Make {selectedUser.name} an Admin</button>
                 </form>
                </>
-            
-                
+
+
             ) : <p className='marginTop'>Loading Selected User</p>}
         </div>
     )
