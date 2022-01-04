@@ -34,13 +34,13 @@ useEffect(() => {
             <nav ref={dropdownRef} className={`menu ${isActive ? 'active' : 'inactive'}`}>
                 <ul>
                     <li><Link to="/products" className="nav-link" >All Products </Link></li>
-                    <li><a href='/shirts'>Shirts</a></li>
-                    <li><a href='/athleticwear'>Athletic Wear</a></li>
-                    <li><a href='/shoes'>Shoes</a></li>
-                    <li><a href='/accessories'>Accessories</a></li>
-                    <li><a href='/kids'>Kids</a></li>
-                    <li><a href='/misc'>Misc</a></li>
-                    <li><a href='/homeandbeauty'>Home and Beauty</a></li>
+                    <li><a href='products/shirts'>Shirts</a></li>
+                    <li><a href='products/athleticwear'>Athletic Wear</a></li>
+                    <li><a href='products/shoes'>Shoes</a></li>
+                    <li><a href='products/accessories'>Accessories</a></li>
+                    <li><a href='products/kids'>Kids</a></li>
+                    <li><a href='products/misc'>Misc</a></li>
+                    <li><a href='products/homeandbeauty'>Home and Beauty</a></li>
                 </ul>
             </nav>
         </div>
