@@ -110,6 +110,24 @@ export async function getOrder(token, orderId) {
   }
 }
 
+export async function updateOrderUser(token, orderId) {
+  try {
+    const headers = setHeaders(token);
+    const response = await axios.patch(
+      `${BASE_URL}/orders/${orderId}/user`,
+      {
+        body: null,
+      },
+      {
+        headers: headers,
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export async function fetchSingleProduct(token, productId) {
   try {
     const headers = setHeaders(token);

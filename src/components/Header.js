@@ -28,14 +28,14 @@ const Header = ({ token, user }) => {
         <Link to="/cart" className="nav-link">
           Cart
         </Link>
-        {!token ? (
+        {!token || user.userStatus === "guest" ? (
           <Link to="/login" className="nav-link">
             {" "}
             Login{" "}
           </Link>
         ) : null}
 
-        {token ? (
+        {token && user.userStatus !== "guest" ? (
           <Fragment>
             <Link to="/myaccount" className="nav-link">
               My Account

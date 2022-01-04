@@ -69,7 +69,7 @@ const App = () => {
         if (mostRecent.products) setCartItems(mostRecent.products);
       }
     };
-    if (!cartObj.id && token && user.id) {
+    if (token && user.id && user.userStatus !== "guest") {
       fetchRecentCart();
     }
   }, [user]);
@@ -212,7 +212,9 @@ const App = () => {
         render={() => (
           <Cart
             user={user}
+            setUser={setUser}
             token={token}
+            setToken={setToken}
             cartObj={cartObj}
             setCartObj={setCartObj}
             cartItems={cartItems}
