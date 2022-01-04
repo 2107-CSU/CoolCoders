@@ -73,7 +73,7 @@ const Products = (props) => {
 
   return (
     <div>
-      <h2>Products</h2>
+      <h2 className="allProductsTitle">Products</h2>
       {promptGuest ? (
         <PromptGuest setUser={setUser} setToken={setToken} />
       ) : null}
@@ -85,13 +85,14 @@ const Products = (props) => {
                 className="border mb-4 rounded overflow-hidden"
                 key={product.id}
               >
-                <h2 className="p-3">{product.title}</h2>
-                <img src={product.photo} />
-                <p className="mb-3">Description: {product.description}</p>
-                <p className="font-bold mb-3">Price: ${product.price}</p>
-                <p>Quantity: {product.quantity}</p>
-                <Link to={`/products/${product.id}`}>View</Link>
+                <h2 className="productTitle">{product.title}</h2>
+                <img className="center" src={product.photo} />
+                <p className="descTitle">Description: {product.description}</p>
+                <p className="descTitle">Price: ${product.price}</p>
+                <p className="descTitle">Quantity: {product.quantity}</p>
+                <button className="viewButton" type="button"> <Link to={`/products/${product.id}`}>View</Link> </button>
                 <button
+                  className="addButton"
                   type="button"
                   onClick={() => {
                     token ? handleAddToCart(product) : setPromptGuest(true);

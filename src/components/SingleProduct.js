@@ -53,15 +53,15 @@ const SingleProduct = (props) => {
         marginTop: "100px",
       }}
     >
-      <h1>{product.title}</h1>
+      <h1 className="productTitle">{product.title}</h1>
       <img src={product.photo} />
-      <p>Description: {product.description}</p>
-      <p>
+      <p className="descTitle">Description: {product.description}</p>
+      <p className="descTitle">
         Price: {product.price} Quantity: {product.quantity}
       </p>
       {/* FOR NOW: can only add to cart from single item page if logged in */}
       {token ? (
-        <button type="button" onClick={() => handleAddToCart(product)}>
+        <button className="addButton" type="button" onClick={() => handleAddToCart(product)}>
           ADD TO CART
         </button>
       ) : null}
