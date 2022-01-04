@@ -8,4 +8,5 @@
 @import "./stylesheets/singleUser.css";
 @import "./stylesheets/myaccount.css";
 @import "./stylesheets/home.css";
-@import "./stylesheets/sidebar.css";
+@import "./stylesheets/guestPrompt.css";
+@import "./stylesheets/dropdown.css";

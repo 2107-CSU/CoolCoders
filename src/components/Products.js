@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import { getProducts } from "../api";
-import { addItemToCart, createCart, getOrder } from "../api/cart";
+import {
+  addItemToCart,
+  createCart,
+  getOrder,
+  updateOrderUser,
+} from "../api/cart";
 // import { getSingleProduct } from "../api";
 
 import { Link } from "react-router-dom";
@@ -56,10 +61,20 @@ const Products = (props) => {
       // store cart in local storage (as with token) for retrieval upon next visit
       localStorage.setItem("cart", JSON.stringify(cart));
     };
-    if (token && !Object.keys(cartObj).length) {
+    if (token && !localStorage.getItem("cart")) {
       initializeCart();
     }
   }, [token]);
+
+  useEffect(() => {
+    const transferCart = async () => {
+      if (cartObj.userId !== user.id) {
+        const order = await updateOrderUser(token, cartObj.id);
+        setCartObj(order);
+      }
+    };
+    if (localStorage.getItem("cart")) transferCart();
+  }, [user, token]);
 
   const handleAddToCart = async (product) => {
     if (cartObj.id) {
@@ -75,7 +90,11 @@ const Products = (props) => {
     <div>
       <h2 className="allProductsTitle">Products</h2>
       {promptGuest ? (
-        <PromptGuest setUser={setUser} setToken={setToken} />
+        <PromptGuest
+          setUser={setUser}
+          setToken={setToken}
+          setPromptGuest={setPromptGuest}
+        />
       ) : null}
       {!loading ? (
         <ul>

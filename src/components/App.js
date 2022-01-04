@@ -24,6 +24,7 @@ import AllUsers from "./admin/AllUsers";
 import MakeAdmin from "./admin/MakeAdmin";
 import DeleteUser from "./admin/DeleteUser";
 import ProtectedRoute from "./ProtectedRoute";
+import Dropdown from "./Dropdown";
 
 const App = () => {
   const [token, setToken] = useState("");
@@ -69,7 +70,7 @@ const App = () => {
         if (mostRecent.products) setCartItems(mostRecent.products);
       }
     };
-    if (!cartObj.id && token && user.id) {
+    if (token && user.id && user.userStatus !== "guest") {
       fetchRecentCart();
     }
   }, [user]);
@@ -206,13 +207,16 @@ const App = () => {
           />
         )}
       />
+      <Dropdown />
       <Route
         path="/cart"
         exact
         render={() => (
           <Cart
             user={user}
+            setUser={setUser}
             token={token}
+            setToken={setToken}
             cartObj={cartObj}
             setCartObj={setCartObj}
             cartItems={cartItems}

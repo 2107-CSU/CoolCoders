@@ -78,7 +78,7 @@ const SingleCartItem = ({
         </div>
       </div>
       <div className="prices">
-        <div className="amount">${item.productPrice * item.quantity}.00</div>
+        <div className="amount">${item.productPrice * item.quantity}</div>
         <div className="save">
           <u>Save for later</u>
         </div>

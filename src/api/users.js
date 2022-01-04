@@ -59,6 +59,26 @@ export async function registerGuest(email) {
   }
 }
 
+export async function upgradeGuest(token, name, password, userId) {
+  try {
+    const headers = setHeaders(token);
+    const user = await axios.patch(
+      `${BASE_URL}/users/register/guest`,
+      {
+        name: name,
+        password: password,
+        userId: userId,
+      },
+      {
+        headers: headers,
+      }
+    );
+    return user.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export async function fetchUserObj(token) {
   if (!token) return {};
 
