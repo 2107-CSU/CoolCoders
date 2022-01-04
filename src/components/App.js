@@ -207,7 +207,6 @@ const App = () => {
           />
         )}
       />
-      <Dropdown />
       <Route
         path="/cart"
         exact
