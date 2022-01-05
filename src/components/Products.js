@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import { getProducts } from "../api";
-import { addItemToCart, createCart, getOrder } from "../api/cart";
+import {
+  addItemToCart,
+  createCart,
+  getOrder,
+  updateOrderUser,
+} from "../api/cart";
 // import { getSingleProduct } from "../api";
 
 import { Link } from "react-router-dom";
@@ -56,10 +61,20 @@ const Products = (props) => {
       // store cart in local storage (as with token) for retrieval upon next visit
       localStorage.setItem("cart", JSON.stringify(cart));
     };
-    if (token && !Object.keys(cartObj).length) {
+    if (token && !localStorage.getItem("cart")) {
       initializeCart();
     }
   }, [token]);
+
+  useEffect(() => {
+    const transferCart = async () => {
+      if (cartObj.userId !== user.id) {
+        const order = await updateOrderUser(token, cartObj.id);
+        setCartObj(order);
+      }
+    };
+    if (localStorage.getItem("cart")) transferCart();
+  }, [user, token]);
 
   const handleAddToCart = async (product) => {
     if (cartObj.id) {
@@ -73,9 +88,13 @@ const Products = (props) => {
 
   return (
     <div>
-      <h2>Products</h2>
+      <h2 className="allProductsTitle">Products</h2>
       {promptGuest ? (
-        <PromptGuest setUser={setUser} setToken={setToken} />
+        <PromptGuest
+          setUser={setUser}
+          setToken={setToken}
+          setPromptGuest={setPromptGuest}
+        />
       ) : null}
       {!loading ? (
         <ul>
@@ -85,13 +104,14 @@ const Products = (props) => {
                 className="border mb-4 rounded overflow-hidden"
                 key={product.id}
               >
-                <h2 className="p-3">{product.title}</h2>
-                <img src={product.photo} />
-                <p className="mb-3">Description: {product.description}</p>
-                <p className="font-bold mb-3">Price: ${product.price}</p>
-                <p>Quantity: {product.quantity}</p>
-                <Link to={`/products/${product.id}`}>View</Link>
+                <h2 className="productTitle">{product.title}</h2>
+                <img className="center" src={product.photo} />
+                <p className="descTitle">Description: {product.description}</p>
+                <p className="descTitle">Price: ${product.price}</p>
+                <p className="descTitle">Quantity: {product.quantity}</p>
+                <button className="viewButton" type="button"> <Link to={`/products/${product.id}`}>View</Link> </button>
                 <button
+                  className="addButton"
                   type="button"
                   onClick={() => {
                     token ? handleAddToCart(product) : setPromptGuest(true);

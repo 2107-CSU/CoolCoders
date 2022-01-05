@@ -3,6 +3,7 @@ import { user } from "pg/lib/defaults";
 import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
+import Dropdown from "./Dropdown";
 
 const Header = ({ token, user }) => {
   return (
@@ -22,20 +23,19 @@ const Header = ({ token, user }) => {
         <Link to="/" className="nav-link">
           Home
         </Link>
-        <Link to="/products" className="nav-link">
-          Products
-        </Link>
+        
+        <Dropdown />
         <Link to="/cart" className="nav-link">
           Cart
         </Link>
-        {!token ? (
+        {!token || user.userStatus === "guest" ? (
           <Link to="/login" className="nav-link">
             {" "}
             Login{" "}
           </Link>
         ) : null}
 
-        {token ? (
+        {token && user.userStatus !== "guest" ? (
           <Fragment>
             <Link to="/myaccount" className="nav-link">
               My Account

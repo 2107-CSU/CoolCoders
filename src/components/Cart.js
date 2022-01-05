@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import SingleCartItem from "./SingleCartItem";
 import BASE_URL from "../api/constant";
+import UpgradeGuest from "./UpgradeGuest";
 
 import { getOrder, deleteProductOrder } from "../api/cart";
 
 const Cart = (props) => {
-  const { cartItems, setCartItems, cartObj, setCartObj, user, token } = props;
+  const {
+    cartItems,
+    setCartItems,
+    cartObj,
+    setCartObj,
+    user,
+    setUser,
+    token,
+    setToken,
+  } = props;
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
@@ -95,13 +105,21 @@ const Cart = (props) => {
                 {cartItems ? cartItems.length : 0} items
               </div>
             </div>
-            <div className="total-amount">${totalPrice}.00</div>
+            <div className="total-amount">${totalPrice.toFixed(2)}</div>
           </div>
           <button className="button" onClick={handleCheckout}>
             Checkout
           </button>
         </div>
       </div>
+      {user.userStatus === "guest" ? (
+        <UpgradeGuest
+          setUser={setUser}
+          setToken={setToken}
+          token={token}
+          user={user}
+        />
+      ) : null}
     </div>
   );
 };
