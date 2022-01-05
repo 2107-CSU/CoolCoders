@@ -73,8 +73,8 @@ apiRouter.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items: line_items,
-      success_url: `http://localhost:3000/products`,
-      cancel_url: `http://localhost:3000/cart`,
+      success_url: `https://re-thrift.herokuapp.com/products`,
+      cancel_url: `https://re-thrift.herokuapp.com/cart`,
     });
     res.send({ url: session.url });
   } catch (error) {
