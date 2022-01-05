@@ -24,6 +24,7 @@ import AllUsers from "./admin/AllUsers";
 import MakeAdmin from "./admin/MakeAdmin";
 import DeleteUser from "./admin/DeleteUser";
 import ProtectedRoute from "./ProtectedRoute";
+import Dropdown from "./Dropdown";
 
 const App = () => {
   const [token, setToken] = useState("");

@@ -3,6 +3,7 @@ import { user } from "pg/lib/defaults";
 import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
+import Dropdown from "./Dropdown";
 
 const Header = ({ token, user }) => {
   return (
@@ -22,9 +23,8 @@ const Header = ({ token, user }) => {
         <Link to="/" className="nav-link">
           Home
         </Link>
-        <Link to="/products" className="nav-link">
-          Products
-        </Link>
+        
+        <Dropdown />
         <Link to="/cart" className="nav-link">
           Cart
         </Link>
