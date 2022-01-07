@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {Toast, ToastContainer} from 'react-bootstrap';
 
 import { getProducts } from "../api";
 import {
@@ -13,7 +14,7 @@ import { Link } from "react-router-dom";
 
 import PromptGuest from "./PromptGuest";
 
-/* 
+/*
 - Store cartItems in root, pass state down
 - when user clicks "add to cart," product is added to cartItems (passed btw comps)
 - If user is not logged in, prompt to continue as guest or create an account
@@ -38,6 +39,8 @@ const Products = (props) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [promptGuest, setPromptGuest] = useState(false);
+  //state for toast notification
+  const [show, setShow] = useState(false);
 
   // fetches products from db upon page load
   useEffect(() => {
@@ -83,6 +86,9 @@ const Products = (props) => {
       const updatedCart = await getOrder(token, cartObj.id);
       setCartObj(updatedCart);
       setCartItems(updatedCart.products);
+
+      //change state to show toast notification
+      setShow(true);
     }
   };
 
@@ -111,6 +117,7 @@ const Products = (props) => {
                 <p className="descTitle">Quantity: {product.quantity}</p>
                 <button className="viewButton" type="button"> <Link to={`/products/${product.id}`}>View</Link> </button>
                 <button
+                  id = "liveToastBtn"
                   className="addButton"
                   type="button"
                   onClick={() => {
@@ -119,6 +126,16 @@ const Products = (props) => {
                 >
                   Add to cart
                 </button>
+
+                {/* Toast notification container   */}
+                <div className="container position-fixed bottom-0 end-0 p-3">
+                  <ToastContainer className="p-3" position="bottom-end">
+                    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide bg="success">
+                      <Toast.Body className="text-white">Item added to cart</Toast.Body>
+                    </Toast>
+                  </ToastContainer>
+                </div>
+
               </div>
             );
           })}

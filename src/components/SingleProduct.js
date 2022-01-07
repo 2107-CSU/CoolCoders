@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getSingleProduct } from "../api";
 import { addItemToCart, getOrder } from "../api/cart";
+import {Toast, ToastContainer} from 'react-bootstrap';
 
 const SingleProduct = (props) => {
   const { token, cartObj, setCartObj, cartItems, setCartItems } = props;
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
   const [productId, setProductId] = useState(null);
+  //state for toast notification
+  const [show, setShow] = useState(false);
 
   //  This useEffect breaks the path into an array and then grabs the last index which is going to be the product id *
   useEffect(() => {
@@ -39,6 +42,9 @@ const SingleProduct = (props) => {
       const updatedCart = await getOrder(token, cartObj.id);
       setCartObj(updatedCart);
       setCartItems(updatedCart.products);
+
+      //change state to show toast notification
+      setShow(true);
     }
   };
 
@@ -65,6 +71,16 @@ const SingleProduct = (props) => {
           ADD TO CART
         </button>
       ) : null}
+
+      {/* Toast notification container   */}
+      <div className="container position-fixed bottom-0 end-0 p-3">
+        <ToastContainer className="p-3" position="bottom-end">
+          <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide bg="success">
+            <Toast.Body className="text-white">Item added to cart</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      </div>
+
     </div>
   );
 };
