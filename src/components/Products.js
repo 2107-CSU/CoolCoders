@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Toast, Button} from 'react-bootstrap';
+import {Toast, Button, ToastContainer} from 'react-bootstrap';
 
 import { getProducts } from "../api";
 import {
@@ -128,10 +128,12 @@ const Products = (props) => {
                 </button>
 
                 {/* Toast notification container   */}
-                <div className="container">
-                    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
-                      <Toast.Body>Item added to cart</Toast.Body>
+                <div className="container position-fixed bottom-0 end-0 p-3">
+                  <ToastContainer className="p-3" position="bottom-end">
+                    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide bg="success">
+                      <Toast.Body className="text-white">Item added to cart</Toast.Body>
                     </Toast>
+                  </ToastContainer>
                 </div>
 
               </div>
