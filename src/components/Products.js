@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Toast, Button, ToastContainer} from 'react-bootstrap';
+import {Toast, ToastContainer} from 'react-bootstrap';
 
 import { getProducts } from "../api";
 import {
